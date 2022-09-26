@@ -1,2 +1,4 @@
 /src/main/resources/data.sql filter=lfs diff=lfs merge=lfs -text
 /src/main/resources/sqls-insert.sql filter=lfs diff=lfs merge=lfs -text
+/target/classes/data.sql filter=lfs diff=lfs merge=lfs -text
+/target/classes/sqls-insert.sql filter=lfs diff=lfs merge=lfs -text
