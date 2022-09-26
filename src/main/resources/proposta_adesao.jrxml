@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="proposta_adesao" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="04669473-a0a5-4b9a-a874-6f1597a47b48">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="nomeLoja" class="java.lang.String"/>
+	<parameter name="nomeCliente" class="java.lang.String"/>
+	<parameter name="naturalDe" class="java.lang.String"/>
+	<parameter name="dataCadastro" class="java.lang.String"/>
+	<parameter name="logo" class="java.lang.Object"/>
+	<parameter name="pai" class="java.lang.String"/>
+	<parameter name="cidade" class="java.lang.String"/>
+	<parameter name="mae" class="java.lang.String"/>
+	<parameter name="dataNascimento" class="java.lang.String"/>
+	<parameter name="tempoResidenciaAno" class="java.lang.String"/>
+	<parameter name="identidade" class="java.lang.String"/>
+	<parameter name="email" class="java.lang.String"/>
+	<parameter name="endereco" class="java.lang.String"/>
+	<parameter name="sexo" class="java.lang.String"/>
+	<parameter name="tempoEmpresa" class="java.lang.String"/>
+	<parameter name="empresa" class="java.lang.String"/>
+	<parameter name="telefone" class="java.lang.String"/>
+	<parameter name="profissao" class="java.lang.String"/>
+	<parameter name="renda" class="java.math.BigDecimal"/>
+	<parameter name="bairro" class="java.lang.String"/>
+	<parameter name="uf" class="java.lang.String"/>
+	<parameter name="tipoResidencia" class="java.lang.String"/>
+	<parameter name="cpf" class="java.lang.String"/>
+	<parameter name="estadoCivil" class="java.lang.String"/>
+	<parameter name="dependentes" class="java.lang.Integer"/>
+	<parameter name="celular" class="java.lang.String"/>
+	<parameter name="cep" class="java.lang.String"/>
+	<parameter name="cidadeEmpresa" class="java.lang.String"/>
+	<parameter name="telefoneComercial" class="java.lang.String"/>
+	<parameter name="ramal" class="java.lang.String"/>
+	<parameter name="nomeRef1" class="java.lang.String"/>
+	<parameter name="nomeRef2" class="java.lang.String"/>
+	<parameter name="nomeRef3" class="java.lang.String"/>
+	<parameter name="nomeRef4" class="java.lang.String"/>
+	<parameter name="relacaoRef1" class="java.lang.String"/>
+	<parameter name="relacaoRef2" class="java.lang.String"/>
+	<parameter name="relacaoRef3" class="java.lang.String"/>
+	<parameter name="relacaoRef4" class="java.lang.String"/>
+	<parameter name="telefoneRef1" class="java.lang.String"/>
+	<parameter name="telefoneRef2" class="java.lang.String"/>
+	<parameter name="telefoneRef3" class="java.lang.String"/>
+	<parameter name="telefoneRef4" class="java.lang.String"/>
+	<parameter name="dataAtual" class="java.lang.String"/>
+	<parameter name="vencimentoFatura" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="40" splitType="Stretch">
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement positionType="Float" x="5" y="4" width="70" height="25" uuid="f337a74b-c949-4aa6-bc5a-74050748c955"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="100" y="4" width="260" height="30" uuid="f68f5d8a-5111-464c-b5cf-bf8810e02547"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomeLoja}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="380" y="4" width="164" height="30" uuid="f4369e03-0bac-4d3d-b8b9-9fb3033d5c52"/>
+				<textElement textAlignment="Right" markup="styled">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Proposta de Adesão]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="171" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="20" width="555" height="148" uuid="777ea250-4163-4dc3-aa45-34404c11ff84"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="5" y="22" width="226" height="18" uuid="1f879a93-68cc-4a81-abca-b0e69796a613"/>
+				<textFieldExpression><![CDATA["NOME: "+$P{nomeCliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="5" y="40" width="226" height="18" uuid="c2a76c28-3e8c-486e-ae9c-5aa6078c79ac"/>
+				<textFieldExpression><![CDATA["NATURAL DE: "+($P{naturalDe} != null ? $P{naturalDe} : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="350" y="0" width="205" height="20" uuid="45c6822a-99e6-43c8-9595-4f00489e57e7"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["DATA DE CADASTRO: "+$P{dataCadastro}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="140" height="18" uuid="255889e7-b750-4967-8e90-d32dc1b33680"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="SansSerif" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[DADOS PESSOAIS]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="5" y="58" width="226" height="18" uuid="fa1633ba-8a9c-41d3-9579-3403f48f0a5e"/>
+				<textFieldExpression><![CDATA["PAI: "+($P{pai} != null ? $P{pai} : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="5" y="76" width="226" height="18" uuid="b2205ce9-6121-44f0-878b-f2bd503553d5"/>
+				<textFieldExpression><![CDATA["EMAIL: "+ ($P{email} != null ? $P{email} : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="5" y="94" width="226" height="18" uuid="5d7161b7-6e97-4645-95f1-68c2f2ebbc9c"/>
+				<textFieldExpression><![CDATA["RENDA MENSAL: " + ($P{renda} != null ? $P{renda} : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="5" y="112" width="226" height="18" uuid="8e7cb5bd-da63-4eed-8887-fd93733142f6"/>
+				<textFieldExpression><![CDATA["ENDEREÇO: "+ ($P{endereco} != null ? $P{endereco} : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="5" y="130" width="226" height="18" uuid="ac7cc519-0446-4338-a91e-a049503f3395"/>
+				<textFieldExpression><![CDATA["CIDADE: "+ ($P{cidade} != null ? $P{cidade} : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="5" y="148" width="226" height="18" uuid="91c509ca-455b-461b-8e0e-d7d60af718b8"/>
+				<textFieldExpression><![CDATA["TEMPO RESIDÊNCIA: " + ($P{tempoResidenciaAno} != null ? $P{tempoResidenciaAno} : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="231" y="22" width="200" height="18" uuid="a8df3a4d-3cf6-4b9f-adc7-09b52b8bbf8c"/>
+				<textFieldExpression><![CDATA["RG CLIENTE: "+ ($P{identidade} != null ? $P{identidade} : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="431" y="22" width="122" height="18" uuid="5c137c68-73e6-48f5-ae6d-42baaee680d8"/>
+				<textFieldExpression><![CDATA["CPF: "+($P{cpf} != null ? $P{cpf} : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="231" y="40" width="200" height="18" uuid="ef24dfc3-cd81-4cee-89fd-7f6a5e419f5f"/>
+				<textFieldExpression><![CDATA["NASC: "+($P{dataNascimento} != null ? $P{dataNascimento} : "") +"  SEXO: "+($P{sexo} != null ? $P{sexo} : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="231" y="58" width="200" height="18" uuid="e4dcc97e-7f5a-4f9a-84e5-a65ec999e36d"/>
+				<textFieldExpression><![CDATA["MÃE: "+($P{mae} != null ? $P{mae} : "")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement x="231" y="76" width="200" height="18" uuid="7b3d3154-eade-4413-a343-6b83982851f4"/>
+				<textFieldExpression><![CDATA["TELEFONE: "+ ($P{telefone} != null ? $P{telefone} : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="231" y="94" width="200" height="18" uuid="227d5526-61b9-49e2-872d-81ba92f35ede"/>
+				<textFieldExpression><![CDATA["PROFISSÃO: "+ ($P{profissao} != null ? $P{profissao} : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="231" y="112" width="200" height="18" uuid="c5ca42e5-0870-4d96-9fc4-693f09a8b300"/>
+				<textFieldExpression><![CDATA["BAIRRO: "+($P{bairro} != null ? $P{bairro} : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="231" y="130" width="200" height="18" uuid="1fa6aa0c-bdaa-446f-93a2-0f0100a207ec"/>
+				<textFieldExpression><![CDATA["UF: "+($P{uf} != null ? $P{uf} : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="231" y="148" width="200" height="18" uuid="eb6cb6d4-c3c6-4d88-bb2f-22d2acfff11c"/>
+				<textFieldExpression><![CDATA["TIPO DE RESIDÊNCIA: "+ ($P{tipoResidencia} != null ? $P{tipoResidencia} : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="431" y="40" width="122" height="18" uuid="184ebfe0-b551-44ea-9b84-216f7af7ee65"/>
+				<textFieldExpression><![CDATA["E.CIVIL: "+($P{estadoCivil} != null ? $P{estadoCivil} : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="431" y="58" width="122" height="18" uuid="cc75a081-a5d7-448e-87b0-7953f927a708"/>
+				<textFieldExpression><![CDATA["DEPENDENTES: "+($P{dependentes} != null ? $P{dependentes} : "")]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="431" y="76" width="122" height="18" uuid="90c6a1e7-51d6-4501-a15a-edd18e3261aa"/>
+				<textFieldExpression><![CDATA["CELULAR: "+($P{celular} != null ? $P{celular} : "")]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="431" y="99" width="122" height="18" uuid="413c4af6-fd91-44cc-b302-1e2188beafa8"/>
+				<textFieldExpression><![CDATA["CEP: "+($P{cep} != null ? $P{cep} : "")]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="62">
+			<rectangle>
+				<reportElement x="0" y="23" width="555" height="39" uuid="93c6c207-7291-4303-8d26-b8a20312f584"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="4" width="140" height="18" uuid="226fa3dd-3ad8-4aa2-a35e-7f921bab465c"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DADOS PROFISSIONAIS]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="3" y="26" width="226" height="18" uuid="43ed0365-aae8-468d-a796-94114bc27bff"/>
+				<textFieldExpression><![CDATA["EMPRESA: "+($P{empresa} != null ? $P{empresa} : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3" y="44" width="226" height="18" uuid="43db70a1-1a55-4eda-8bcb-031c42b11924"/>
+				<textFieldExpression><![CDATA["TEMPO DE EMPRESA: "+ ($P{tempoEmpresa} != null ? $P{tempoEmpresa} : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="229" y="26" width="300" height="18" uuid="a6cb5225-76e7-427c-a229-6db963e25a88"/>
+				<textFieldExpression><![CDATA["CARGO: "+($P{profissao} != null ? $P{profissao} : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="229" y="44" width="200" height="18" uuid="1aeee04c-8cd6-44c0-8aaa-89d1a111b953"/>
+				<textFieldExpression><![CDATA["TELEFONE: "+ ($P{telefoneComercial} != null ? $P{telefoneComercial} : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="429" y="44" width="122" height="18" uuid="8e3252c6-aa98-4d2b-b7df-1bc5a497618e"/>
+				<textFieldExpression><![CDATA["RAMAL: "+($P{ramal} != null ? $P{ramal} : "")]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="101">
+			<printWhenExpression><![CDATA[!$P{nomeRef1}.isEmpty()]]></printWhenExpression>
+			<rectangle>
+				<reportElement x="0" y="20" width="555" height="76" uuid="fb75ded6-cc53-485c-abe6-74942dbbb916"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="2" width="140" height="18" uuid="bb5136ec-f46a-4686-aacb-1a122f39b371"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[REFERÊNCIAS PESSOAIS]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="3" y="24" width="226" height="18" isRemoveLineWhenBlank="true" uuid="2d803a66-4b5e-4e69-95d1-8161d5cdc2b0"/>
+				<textFieldExpression><![CDATA[$P{nomeRef1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="3" y="42" width="226" height="18" isRemoveLineWhenBlank="true" uuid="6e173a3c-80d1-4d8c-ab0f-90d6312cedc5"/>
+				<textFieldExpression><![CDATA[$P{nomeRef2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="3" y="60" width="226" height="18" isRemoveLineWhenBlank="true" uuid="a593d728-aca4-4aa3-903d-f5f6e6d5ec3c"/>
+				<textFieldExpression><![CDATA[$P{nomeRef3}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="3" y="78" width="226" height="18" isRemoveLineWhenBlank="true" uuid="52158f10-0cb1-4f35-9f9f-fce51dd630b3"/>
+				<textFieldExpression><![CDATA[$P{nomeRef4}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="229" y="24" width="200" height="18" isRemoveLineWhenBlank="true" uuid="f198ebfd-407b-4b33-a4f3-b7c3b26d9d56"/>
+				<textFieldExpression><![CDATA[$P{telefoneRef1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="229" y="42" width="200" height="18" isRemoveLineWhenBlank="true" uuid="807d7c3d-6c04-4929-9bce-3f4d2a482033"/>
+				<textFieldExpression><![CDATA[$P{telefoneRef2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="229" y="60" width="200" height="18" isRemoveLineWhenBlank="true" uuid="a57c298b-e991-4ddd-add8-53da8d808a0e"/>
+				<textFieldExpression><![CDATA[$P{telefoneRef3}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="229" y="78" width="200" height="18" isRemoveLineWhenBlank="true" uuid="4d4cdcd6-b892-4f3a-981f-4df00698934f"/>
+				<textFieldExpression><![CDATA[$P{telefoneRef4}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="429" y="24" width="122" height="18" isRemoveLineWhenBlank="true" uuid="263107e5-8324-46b0-a049-b1702d050034"/>
+				<textFieldExpression><![CDATA[$P{relacaoRef1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="429" y="42" width="122" height="18" isRemoveLineWhenBlank="true" uuid="66363943-8bb3-4244-9027-9b2f9d3c681e"/>
+				<textFieldExpression><![CDATA[$P{relacaoRef2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="429" y="60" width="122" height="18" isRemoveLineWhenBlank="true" uuid="5c29cd42-4266-4bd6-8af4-56939ba8f4d3"/>
+				<textFieldExpression><![CDATA[$P{relacaoRef3}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="429" y="78" width="122" height="18" isRemoveLineWhenBlank="true" uuid="a5bd0805-ca47-43e1-b9a4-95bc0d299fc2"/>
+				<textFieldExpression><![CDATA[$P{relacaoRef4}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="289">
+			<rectangle>
+				<reportElement x="0" y="20" width="555" height="269" uuid="5fde503c-464d-4cab-aa72-46ca8e5bf228"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="3" y="23" width="548" height="244" uuid="c8cedf51-d806-4987-94fb-c3e9cdc7ac1f"/>
+				<textElement textAlignment="Justified">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Ao assinar esta proposta, ou ao usar o meu CARTÃO, declaro-me vinculado ao CONTRATO DE RELAÇÃO JURÍDICA COM OS PRODUTOS E SERVIÇOS DO GRUPO PRÁTICO, registrado no Cartório de Ofício de Registro de Títulos e Documentos da cidade de Florianópolis, registro 339800, livro B 918, folha 205. Este contrato passa a ter validade na data de aprovação desta proposta ou por outra forma prevista em contrato. Autorizo, outrossim, a emissão do CARTÃO em meu nome e de um cartão adicional em nome da(s) pessoa(s) indicada(s), me responsabilizando pelos pagamentos correspondentes aos créditos concedidos. Declaro que as informações contidas são corretas e verdadeiras, autorizando a empresa PRÁTICO ADMINISTRADORA DE CARTÕES E MEIOS DE PAGAMENTOS LTDA e PRÁTICO ADMINISTRADORA DE CREDIÁRIO LTDA, ou a qualquer outra empresa do Grupo, ou que venha a suceder estas, a inserir meu nome em órgãos de proteção ao crédito, caso me encontre inadimplente com os créditos concedidos.
+Por fim, ( ) RATIFICO ( ) NÃO RATIFICO, nos termos do art. 4, § 2° da Lei 9.307/96, toda a cláusula n°10 do CONTRATO DE RELAÇÃO JURÍDICA COM OS PRODUTOS E SERVIÇOS DO GRUPO PRÁTICO, pois, em caso de haver qualquer disputa, controvérsia, violação ou reclamação deste contrato, desejo que seja dada solução jurídica no prazo máximo de 6 (seis) meses.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="2" y="268" width="550" height="20" uuid="63520393-ea52-426f-89e4-e0609f66227e"/>
+				<textFieldExpression><![CDATA["LOCAL:				DATA: "+$P{dataAtual} 	+"	ASSINATURA:"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="2" width="140" height="18" uuid="62385d2b-2bda-434a-b2c6-8ba3293729ce"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[AUTORIZAÇÃO]]></text>
+			</staticText>
+		</band>
+		<band height="99">
+			<rectangle>
+				<reportElement x="-2" y="20" width="555" height="79" uuid="7249bfb2-a6f1-495b-b51e-7f9bd0360349"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="-2" y="2" width="140" height="18" uuid="b1b0458d-a9f5-4d5d-9ba5-6fa0285b6a5e"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[USO EXCLUSIVO DA LOJA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="1" y="20" width="226" height="18" uuid="88ee33da-6631-4fc8-a789-f573409f2663"/>
+				<textFieldExpression><![CDATA["VENCIMENTO FATURA: " + ($P{vencimentoFatura} != null ? $P{vencimentoFatura} : "")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="38" width="160" height="16" uuid="e057ccf4-2a70-4587-aa0f-0d43c450594d"/>
+				<text><![CDATA[FUNCIONÁRIO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="54" width="160" height="16" uuid="64987196-9afe-4a1d-b170-7b6216210c32"/>
+				<text><![CDATA[Nº DA LOJA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="70" width="160" height="16" uuid="b15ae0be-a243-459d-b64a-501df9d873da"/>
+				<text><![CDATA[OBS:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="228" y="20" width="226" height="18" uuid="727ad46d-f481-4256-9558-a6ae36865a4f"/>
+				<textFieldExpression><![CDATA["LIMITE CRÉDITO: "]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="228" y="38" width="160" height="16" uuid="9763c8c7-1b1f-4824-a55a-187c0b4531a8"/>
+				<text><![CDATA[MATRÍCULA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="228" y="54" width="160" height="16" uuid="6cce379f-1d2e-4178-81e7-0bb839819565"/>
+				<text><![CDATA[NOME DO GERENTE:]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>
