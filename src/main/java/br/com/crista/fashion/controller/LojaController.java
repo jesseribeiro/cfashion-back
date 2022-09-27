@@ -3,7 +3,6 @@ package br.com.crista.fashion.controller;
 import br.com.crista.fashion.bean.LojaBean;
 import br.com.crista.fashion.dto.LojaDTO;
 import br.com.crista.fashion.dto.PaginationFilterDTO;
-import br.com.crista.fashion.dto.VenderDTO;
 import br.com.crista.fashion.service.LojaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ import java.util.List;
 public class LojaController {
 
     @Autowired
-    private LojaService lojaService;
+    LojaService lojaService;
 
     @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR', 'COMERCIAL', 'NEGOCIADOR')")
     @PostMapping
@@ -72,10 +71,5 @@ public class LojaController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-    }
-
-    @GetMapping(path = "/{id}/dadosvenda/{planoId}")
-    public VenderDTO getDadosVenda(@PathVariable("id") Long id, @PathVariable("planoId") Long planoId) {
-        return lojaService.getDadosVenda(id, planoId);
     }
 }

@@ -29,6 +29,4 @@ public class CalcularVendaDTO {
 
     @JsonDeserialize(converter = MoneyDeserializerJson.class)
     private BigDecimal vlEntrada;
-
-    private ParcelaCompraDTO parcelaSelecionada; // essa é a parcela escolhida pelo cliente após simulação.
 }

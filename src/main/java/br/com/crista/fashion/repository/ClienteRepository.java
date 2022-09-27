@@ -2,13 +2,6 @@ package br.com.crista.fashion.repository;
 
 import br.com.crista.fashion.bean.ClienteBean;
 import br.com.crista.fashion.dto.ClienteDTO;
-import br.com.crista.fashion.dto.ClienteLojaDTO;
-import br.com.crista.fashion.dto.PagamentoDTO;
-import br.com.crista.fashion.dto.ParcelaClienteDTO;
-import br.com.crista.fashion.enumeration.EnumStatusParcela;
-import br.com.crista.fashion.enumeration.TipoFormaPagamento;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -27,6 +20,7 @@ public interface  ClienteRepository extends CrudRepository<ClienteBean, Long>, G
     @Query(value = "Select count(1) from Cliente x where x.data_cadastro <:data", nativeQuery = true)
     BigInteger qtdClientesData(@Param("data") Calendar data);
 
+    /*
     String filterPagination = " From ClienteLoja as cl JOIN cl.cliente as x JOIN cl.loja as l "
             + WHERE_EXCLUIDO
             + " and (:lojaId is null or l.id = :lojaId ) "
@@ -45,6 +39,8 @@ public interface  ClienteRepository extends CrudRepository<ClienteBean, Long>, G
                                     @Param("telefone") String telefone,
                                     @Param("identidade") String identidade,
                                     Pageable paging);
+
+     */
 
     Optional<ClienteBean> findByNome(String nome);
 
@@ -90,45 +86,10 @@ public interface  ClienteRepository extends CrudRepository<ClienteBean, Long>, G
             "\tc.limite_compartilhado ", nativeQuery = true)
     BigDecimal findLimiteCompartilhadoDisponivel(@Param("clienteId") Long clienteId);
 
-    @Query( " Select le.limite - COALESCE((Select sum(p.valor) FROM Carne cc " +
-                " join cc.venda v " +
-                " join cc.parcelas p" +
-                " WHERE v.cliente.id =:clienteId " +
-                " and v.loja.id =:lojaId " +
-                " and v.limiteExclusivo is not null " +
-                " and p.status = 'NAO_PAGA'), 0) " +
-            " FROM LimiteExclusivo le WHERE le.cliente.id =:clienteId and le.loja.id =:lojaId ")
-    BigDecimal findLimiteExclusivoDisponivel(@Param("clienteId") Long clienteId, @Param("lojaId") Long lojaId);
 
-    @Query( " Select COALESCE(le.limite, 0) FROM LimiteExclusivo le WHERE le.cliente.id =:clienteId and le.loja.id =:lojaId ")
-    BigDecimal findLimiteExclusivoCliente(@Param("clienteId") Long clienteId, @Param("lojaId") Long lojaId);
-
-
-    String filterDatasPagto = " and (x.dataPagto >= :dataInicial and x.dataPagto <= :dataFinal)";
-    String filterPagto = " From Pagamento as x " +
-            " JOIN x.parcela as p " +
-            " JOIN p.carne as cc " +
-            " JOIN cc.venda as v " +
-            " JOIN v.cliente as c " +
-            " WHERE c.id = :clienteId " +
-            " and (:lojaId is null or v.loja.id = :lojaId) ";
-    @Query(value = "SELECT new br.com.crista.fashion.dto.PagamentoDTO(x) " + filterPagto + filterDatasPagto,
-            countQuery = "Select count(*) " + filterPagto + filterDatasPagto)
-    Page<PagamentoDTO> paginationPagamentos(@Param("clienteId") Long clienteId,
-                                            @Param("lojaId") Long lojaId,
-                                            @Param("dataInicial") Calendar dataInicial,
-                                            @Param("dataFinal") Calendar dataFinal,
-                                            Pageable paging);
-
-    @Query(value = "SELECT new br.com.crista.fashion.dto.PagamentoDTO(x) " + filterPagto ,
-            countQuery = "Select count(*) " + filterPagto)
-    Page<PagamentoDTO> paginationPagamentosSemDatas(@Param("clienteId") Long clienteId,
-                                                           @Param("lojaId") Long lojaId,
-                                                           Pageable paging);
-
+    /*
     String filterDatasVencimento = " and (p.dataVencimento >= :dataInicial and p.dataVencimento <= :dataFinal)";
     String filterParcelas = " From Parcela p " +
-            " LEFT JOIN p.pagamento pa " +
             " JOIN p.carne as cc " +
             " JOIN cc.venda as v " +
             " JOIN v.loja as l " +
@@ -147,6 +108,8 @@ public interface  ClienteRepository extends CrudRepository<ClienteBean, Long>, G
                                                @Param("formaPagamento") TipoFormaPagamento formaPagamento,
                                                Pageable paging);
 
+
+
     @Query(value = "SELECT new br.com.crista.fashion.dto.ParcelaClienteDTO(p) " + filterParcelas ,
             countQuery = "Select count(*) " + filterParcelas)
     Page<ParcelaClienteDTO> paginationParcelasSemDatas(@Param("clienteId") Long clienteId,
@@ -154,9 +117,7 @@ public interface  ClienteRepository extends CrudRepository<ClienteBean, Long>, G
                                                        @Param("status") EnumStatusParcela status,
                                                        @Param("formaPagamento") TipoFormaPagamento formaPagamento,
                                                        Pageable paging);
-
-    @Query("SELECT count(1) FROM Pagamento p JOIN p.parcela pa JOIN pa.carne ca JOIN ca.venda v WHERE v.cliente.id =:clienteId ")
-    Integer getQtdPagamentos(@Param("clienteId") Long clienteId);
+    */
 
     @Query(value = "SELECT x FROM Cliente x WHERE x.cpf =:cpf ")
     ClienteBean getClienteByCpf(@Param("cpf") String cpf);

@@ -1,6 +1,7 @@
 package br.com.crista.fashion.bean;
 
-import br.com.crista.fashion.enumeration.EnumStatusVenda;
+import br.com.crista.fashion.enumeration.EnumBanco;
+import br.com.crista.fashion.enumeration.EnumTipoPagamento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,15 +19,15 @@ import java.util.Calendar;
 public class VendaBean extends GenericBean {
 
     private BigDecimal valorProduto;
+    private BigDecimal valorTotal;
+    private Integer qtdParcela;
+    private BigDecimal frete;
+    private BigDecimal descontos;
+    private BigDecimal comissao;
 
     @Column(name = "data_venda")
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar dataVenda;
-
-    // esse é a data utilizada para calcular as datas de repasse das parcelas
-    @Column(name = "data_corte")
-    @Temporal(TemporalType.DATE)
-    private Calendar dataCorte;
 
     @JsonIgnore
     @JoinColumn(name = "cliente_id")
@@ -39,23 +40,17 @@ public class VendaBean extends GenericBean {
     private LojaBean loja;
 
     @JsonIgnore
-    @JoinColumn(name = "vendedor_id")
-    @ManyToOne
-    private UsuarioBean vendedor;
-
-    @JsonIgnore
     @NotAudited
     @JoinColumn(name = "produto_id")
     @ManyToOne
     private ProdutoBean produto;
 
-    @JsonIgnore
-    @JoinColumn(name = "limite_exclusivo_id")
-    @ManyToOne
-    private LimiteExclusivoBean limiteExclusivo;
-
     @Enumerated(EnumType.STRING)
-    private EnumStatusVenda status;
+    private EnumTipoPagamento tipo;
 
-    private Long sequencialCarneAlgorix;
+    @Enumerated(value = EnumType.STRING)
+    private EnumBanco banco;
+
+    @Column(name = "status", columnDefinition = "boolean DEFAULT false")
+    private Boolean status;
 }
