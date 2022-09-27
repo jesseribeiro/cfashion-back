@@ -15,48 +15,40 @@ import java.util.Calendar;
 @Setter
 @Entity(name = "Parcela")
 public class ParcelaBean extends GenericBean {
-    private BigDecimal valor;
-
-    /*
-        Esse é o valor que a Pratico irá repassar para o lojista, ou seja, o valor sem juros e taxas ...
-        Ex.:
-        loja vende um produto de R$ 300,00 em 6x, com uma taxa de 10 + 5% juros ao mês
-        o valor da parcela será R$ 61,50 +- fiz de cabeça, enfim o valor com juros ... é da Prático,
-        o valor repasse é q o lojista irá receber nos repasses parcelados ou adiantado
-        o valor repasse será: R$ 50,00 por parcela
-     */
-    private BigDecimal valorRepasse;
-
-    // A entrada vai ser registrada como parcela ZERO para ser associada a pagamento, nesse caso já entra paga
+    private BigDecimal valorParcela;
     private Integer numero;
 
     @Column(name = "data_vencimento")
     @Temporal(TemporalType.DATE)
     private Calendar dataVencimento;
 
-    @Enumerated(EnumType.STRING)
-    private EnumStatusParcela status;
-
     @JsonIgnore
-    @JoinColumn(name = "carne_id")
+    @JoinColumn(name = "venda_id")
     @ManyToOne
-    private CarneBean carne;
+    private VendaBean venda;
 
     private BigDecimal vlTarifa;
 
-    private BigDecimal vlJuros;
-
     @Column(name = "vl_parcela_sem_juros")
-    private BigDecimal vlParcelaSemTaxaJuros;
+    private BigDecimal vlParcelaSemJuros;
 
-    @OneToOne(mappedBy = "parcela", fetch = FetchType.LAZY)
-    private PagamentoBean pagamento;
+    @Column(name = "flg_pago", columnDefinition = "boolean DEFAULT false")
+    private Boolean flgPago;
 
-    @Column(name = "data_para_repasse")
+    @Column(name = "data_pagamento")
     @Temporal(TemporalType.DATE)
-    private Calendar dataParaRepasse;
+    private Calendar dataPagto;
 
-    private Long acordoIdAlgorix;
+    @JsonIgnore
+    @JoinColumn(name = "loja_id")
+    @ManyToOne
+    private LojaBean loja;
 
-    private Long sequencialCarneAlgorix;
+    @JsonIgnore
+    @JoinColumn(name = "cliente_id")
+    @ManyToOne
+    private ClienteBean cliente;
+
+    @Enumerated(EnumType.STRING)
+    private EnumStatusParcela status;
 }

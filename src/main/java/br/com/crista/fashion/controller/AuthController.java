@@ -1,12 +1,10 @@
 package br.com.crista.fashion.controller;
 
 import br.com.crista.fashion.dto.AuthDTO;
-import br.com.crista.fashion.enumeration.TipoFormaPagamento;
+import br.com.crista.fashion.dto.UsuarioDTO;
 import br.com.crista.fashion.message.JwtResponse;
 import br.com.crista.fashion.security.jwt.JwtProvider;
 import br.com.crista.fashion.service.LojaService;
-import br.com.crista.fashion.dto.UsuarioDTO;
-import br.com.crista.fashion.enumeration.EnumRole;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +15,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -69,19 +66,7 @@ public class AuthController extends GenericController {
     public ResponseEntity getDadosUsuario(@PathVariable("username") String username) {
         try {
             UsuarioDTO usuario = new UsuarioDTO(getCurrentUser());
-            if (usuario.getRoleAtiva().equalsIgnoreCase(EnumRole.CREDIARISTA.name()) ||
-                    usuario.getRoleAtiva().equalsIgnoreCase(EnumRole.PROPRIETARIO.name())){
-                try {
-                    List<String> listaFormasPagamento = lojaService.getListaFormasPagamento(usuario.getLojaId());
-
-                    if (listaFormasPagamento.size() == 1 && listaFormasPagamento.get(0).equals(TipoFormaPagamento.BOLETO.name())) {
-                        usuario.setSomenteBoleto(true);
-                    }
-                }
-                catch (Exception e){
-                    log.error("Usuário sem loja", e);
-                }
-            }
+            usuario.setSomenteBoleto(true);
             return ResponseEntity.ok(usuario);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
