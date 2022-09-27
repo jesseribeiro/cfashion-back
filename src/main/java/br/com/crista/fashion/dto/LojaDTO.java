@@ -40,4 +40,8 @@ public class LojaDTO extends GenericDTO<LojaBean> {
         bean.setWhatsapp(whatsapp);
         return bean;
     }
+
+    public String getNomeFantasia(){
+        return nomeFantasia == null ? "" : nomeFantasia;
+    }
 }

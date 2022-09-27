@@ -43,7 +43,7 @@ public class LojaService extends GenericService<LojaBean, LojaRepository> {
         Pageable paging = PageRequest.of(paginationFilter.getPageNo(), paginationFilter.getPageSize(), Sort.by(paginationFilter.getSortBy()));
         LojaDTO filtros = paginationFilter.getFiltros();
 
-        Page<LojaDTO> lojas = getRepository().pagination(filtros.getId(), paging);
+        Page<LojaDTO> lojas = getRepository().pagination(filtros.getId(), filtros.getNomeFantasia(), paging);
         if(lojas.hasContent()) {
             return lojas;
         } else {
