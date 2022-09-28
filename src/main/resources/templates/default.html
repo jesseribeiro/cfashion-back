@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Prático Crediário</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <style type="text/css">
+        /* CLIENT-SPECIFIC STYLES */
+        #outlook a{padding:0;} /* Force Outlook to provide a "view in browser" message */
+        .ReadMsgBody{width:100%;} .ExternalClass{width:100%;} /* Force Hotmail to display emails at full width */
+        .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;} /* Force Hotmail to display normal line spacing */
+        body, table, td, a{-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;} /* Prevent WebKit and Windows mobile changing default text sizes*/
+        table, td{mso-table-lspace:0pt; mso-table-rspace:0pt;} /* Remove spacing between tables in Outlook 2007 and up */
+        img{-ms-interpolation-mode:bicubic;} /* Allow smoother rendering of resized image in Internet Explorer */
+        /* RESET STYLES */
+        body{margin:0; padding:0;}
+        img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none;}
+        table{border-collapse:collapse !important;}
+        body{height:100% !important; margin:0; padding:0; width:100% !important;}
+        /* iOS BLUE LINKS */
+        .appleBody a {color:#68440a; text-decoration: none;}
+        .appleFooter a {color:#999999; text-decoration: none;}
+        /* MOBILE STYLES */
+        @media screen and (max-width: 480px) {
+            .wrapper_shrink {
+                width:100% !important;
+                padding-left: 5px !important;
+                padding-right: 5px !important;
+            }
+            .table_shrink {
+                width:95% !important;
+            }
+            .hero {
+                width: 100% !important;
+            }
+            .left_table, .right_table {
+                 width:100% !important;
+            }
+            .td{
+                padding-right: 10px !important;
+            }
+            .footer{
+                padding-left: 0px !important;
+                padding-right: 0px !important;
+            }
+            #footer_logo{
+                padding-right: 0px !important;
+            }
+        }
+    </style>
+    <meta charset="UTF-8" />
+</head>
+<body>
+<table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" class="table_shrink" align="center">
+    <tr>
+        <td>
+            <table width="520px" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" align="center" class="table_shrink">
+                <tr>
+                    <td valign="top">
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" class="table_shrink">
+                            <tr>
+                                <td valign="top">
+                                    <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" class="table_shrink">
+                                        <tr>
+                                            <td class="esd-container-frame" width="560" valign="top" align="center">
+                                                <table width="100%" cellspacing="0" cellpadding="20">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td align="center" class="esd-block-image" style="font-size: 0px;">
+                                                            <a target="_blank">
+                                                                <img class="adapt-img"
+                                                                     src="https://frwllv.stripocdn.email/content/guids/CABINET_4e01cdca3bb194f85ff55c8d188d921d/images/76951582058510009.jpeg"
+                                                                     alt style="display: block;" width="284">
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>
+                                        <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" class="table_shrink">
+                                            <tr>
+                                                <td valign="top" style="padding-top: 0px; font-family:Helvetica neue, Helvetica, Arial, Verdana, sans-serif; color: #205081; font-size: 20px; line-height: 32px; text-align:left; font-weight:bold;" align="left">
+                                                    <span th:text="${titulo}"></span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top" align="left">
+                                    <div></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top" align="left">
+                                    <div>
+                                        <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" class="table_shrink">
+                                            <tr valign="top">
+                                                <td valign="top" style="padding-top: 20px; font-family: Helvetica, Helvetica neue, Arial, Verdana, sans-serif; color: #333333; font-size: 14px; line-height: 24px; text-align:left; font-weight:none;" align="left">
+                                                    <span>Olá <span th:text="${nome}"></span>,</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top" align="left">
+                                    <div>
+                            <tr>
+                                <td valign="top" style="padding-top: 10px; font-family: Helvetica, Helvetica neue, Arial, Verdana, sans-serif; color: #333333; font-size: 14px; line-height: 20px; text-align:left; font-weight:none;" align="left">
+                                    <p th:utext="${mensagem}">
+                                    </p>
+                                </td>
+                            </tr>
+                            </div>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td valign="top" align="left">
+                                    <div>
+                            <tr>
+                                <td valign="top" style="padding-top: 10px; font-family: Helvetica, Helvetica neue, Arial, Verdana, sans-serif; color: #333333; font-size: 14px; line-height: 20px; text-align:left; font-weight:none;" align="left">
+                                    Para acessar a Prático Crediário, clique no botão abaixo:
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td valign="top" align="left">
+                                    <table border="0" cellspacing="0" cellpadding="0" align="left">
+                                        <tr>
+                                            <td align="center" style="padding-bottom: 20px; padding-top:20px;">
+                                                <a target="_blank" style="font-size: 16px; font-family: Helvetica, Helvetica neue, Arial, Verdana, sans-serif; font-weight: none; color: #ffffff; text-decoration: none; background-color: #3572b0; border-top: 11px solid #3572b0; border-bottom: 11px solid #3572b0; border-left: 20px solid #3572b0; border-right: 20px solid #3572b0; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; display: inline-block;"
+                                                   class="mobile-button"
+                                                   alias="button"
+                                                   th:href="${link}">Acessar Prático
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            </div>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td valign="top" align="left">
+                                    <div>
+                            <tr>
+                                <td valign="top" style="padding-top: 10px; font-family: Helvetica, Helvetica neue, Arial, Verdana, sans-serif; color: #333333; font-size: 14px; line-height: 20px; text-align:left; font-weight:none;" align="left">
+                                    <span>Este e-mail contém informações particulares da sua conta na Prático Crediário - não o encaminhe.</span><br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top" style="padding-top: 10px; font-family: Helvetica, Helvetica neue, Arial, Verdana, sans-serif; color: #333333; font-size: 14px; line-height: 20px; text-align:left; font-weight:none;" align="left">
+                                    <p>Dúvidas, segue  nosssos contatos:</p>
+                                    <ul>
+                                        <li>suporte@crediariopratico.com.br</li>
+                                        <li>(48) 3025-3530 (capitais e regiões metropolitanas)</li>
+                                        <li>0800 887 1505 (demais localidades)</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            </div>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td valign="top" align="left">
+                                    <div>
+                                        <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" class="table_shrink" align="center">
+                                            <tr valign="top">
+                                                <td valign="top" style="padding-top: 10px; font-family: Helvetica, Helvetica neue, Arial, Verdana, sans-serif; color: #333333; font-size: 14px; line-height: 24px; text-align:left; font-weight:none;" align="left">
+                                                    <span>Obrigada,</span><br />
+                                                    <span>A equipe da Prático Crediário</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <table cellpadding="0" cellspacing="0" width="100%" class="table_shrink">
+                            <tbody>
+                            <tr>
+                                <td align="center" class="esd-block-text">
+                                    <p>http://www.crediariopratico.com.br</p>
+                                    <p>Rua João Grumiche, 428 Kobrasol - São José/SC</p>
+                                    <p><br></p>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

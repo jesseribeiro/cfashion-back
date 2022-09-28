@@ -11,6 +11,7 @@ br\com\crista\fashion\utils\MathUtils.class
 br\com\betha\e_nota_contribuinte_ws\ConsultarSituacaoLoteRps.class
 org\w3\_2000\_09\xmldsig_\Signature.class
 br\com\crista\fashion\bean\UsuarioBean.class
+br\com\crista\fashion\controller\ProdutoController.class
 br\com\crista\fashion\enumeration\EnumSaldoDevedor.class
 br\com\betha\e_nota_contribuinte_ws\TcCpfCnpj.class
 br\com\crista\fashion\enumeration\EnumStatusCliente.class
@@ -125,6 +126,7 @@ br\com\crista\fashion\repository\CidadeRepository.class
 br\com\crista\fashion\repository\impl\VendaRepositoryImpl.class
 br\com\crista\fashion\dto\AuthDTO$AuthDTOBuilder.class
 br\com\crista\fashion\service\ParcelaService.class
+br\com\crista\fashion\enumeration\EnumTamanho.class
 br\com\crista\fashion\dto\NovoLimiteClienteDTO.class
 br\com\betha\e_nota_contribuinte_ws\TcDadosServico.class
 br\com\crista\fashion\utils\TratadorCertificado.class
@@ -142,6 +144,7 @@ br\com\crista\fashion\report\RelatorioBaseCarnePDF.class
 br\com\crista\fashion\dto\LabelDescricaoDTO.class
 br\com\crista\fashion\dto\ParcelaClienteDTO.class
 br\com\crista\fashion\bean\GenericBean.class
+br\com\crista\fashion\enumeration\EnumCategoria.class
 br\com\betha\e_nota_contribuinte_ws\TcCondicoesPagamentos.class
 br\com\betha\e_nota_contribuinte_ws\TcIdentificacaoIntermediarioServico.class
 br\com\crista\fashion\json\MoneyDeserializerJson.class
@@ -162,6 +165,7 @@ br\com\crista\fashion\controller\AutorizacaoController.class
 br\com\betha\e_nota_contribuinte_ws\TcIdentificacaoRps.class
 br\com\crista\fashion\controller\TiposController.class
 br\com\crista\fashion\utils\SQLUtils.class
+br\com\crista\fashion\dto\ProdutoDTO.class
 br\com\crista\fashion\repository\EstadoRepository.class
 br\com\betha\e_nota_contribuinte_ws\TcListaMensagemRetorno.class
 br\com\crista\fashion\report\RelatorioBasePDF.class
@@ -180,6 +184,7 @@ br\com\betha\e_nota_contribuinte_ws\TcInfRps.class
 br\com\crista\fashion\enumeration\EnumPeriodoRelatorio.class
 br\com\crista\fashion\repository\ParcelaRepository.class
 br\com\crista\fashion\enumeration\EnumTipoPagamento.class
+br\com\crista\fashion\dto\ProdutoDTO$ProdutoDTOBuilder.class
 br\com\crista\fashion\enumeration\EnumTipoNotificacao.class
 br\com\crista\fashion\json\ResponseMessageDTO.class
 br\com\crista\fashion\utils\GeraCpfCnpj.class
@@ -196,6 +201,7 @@ br\com\crista\fashion\enumeration\TipoCarne.class
 br\com\crista\fashion\enumeration\EnumConcessaoCredito.class
 br\com\crista\fashion\message\JwtResponse$JwtResponseBuilder.class
 br\com\crista\fashion\enumeration\EnumStatusRenegociacao.class
+br\com\crista\fashion\service\ProdutoService.class
 br\com\crista\fashion\json\UsuarioJson$UsuarioJsonBuilder.class
 br\com\crista\fashion\enumeration\EnumEstadoCivil.class
 br\com\betha\e_nota_contribuinte_ws\TcMensagemRetorno.class
