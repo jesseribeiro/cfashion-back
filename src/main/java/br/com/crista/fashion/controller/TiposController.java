@@ -159,4 +159,14 @@ public class TiposController {
     public List<LabelDescricaoDTO> getAllRecusaVenda(){
         return EnumRecusaVenda.getLabels();
     }
+
+    @GetMapping( path = "/categorias")
+    public List<LabelDescricaoDTO> getAllCategorias(){
+        return EnumCategoria.getLabels();
+    }
+
+    @GetMapping( path = "/tamanhos")
+    public List<LabelDescricaoDTO> getAllTamanho(){
+        return EnumTamanho.getLabels();
+    }
 }

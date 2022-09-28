@@ -1,12 +1,10 @@
 package br.com.crista.fashion.service;
 
 import br.com.crista.fashion.bean.LojaBean;
-import br.com.crista.fashion.config.CentralConfig;
 import br.com.crista.fashion.dto.LojaDTO;
 import br.com.crista.fashion.dto.PaginationFilterDTO;
 import br.com.crista.fashion.repository.LojaRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,12 +16,6 @@ import java.util.List;
 @Slf4j
 @Service
 public class LojaService extends GenericService<LojaBean, LojaRepository> {
-
-    @Autowired
-    private CentralConfig centralConfig;
-
-    @Autowired
-    private CidadeService cidadeService;
 
     public List<LojaBean> findAll(){
         return convertIterableToList(getRepository().findAll());
@@ -44,7 +36,7 @@ public class LojaService extends GenericService<LojaBean, LojaRepository> {
         LojaDTO filtros = paginationFilter.getFiltros();
 
         Page<LojaDTO> lojas = getRepository().pagination(filtros.getId(), filtros.getNomeFantasia(), paging);
-        if(lojas.hasContent()) {
+        if (lojas.hasContent()) {
             return lojas;
         } else {
             return Page.empty();

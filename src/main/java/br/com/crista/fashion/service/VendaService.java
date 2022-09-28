@@ -116,7 +116,6 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
 
         ClienteBean cliente = clienteService.getById(dto.getClienteId());
         LojaBean loja = lojaService.getLojaById(dto.getLojaId());
-        ProdutoBean produtoBean = findOrCreateProduto(dto.getNomeProduto());
 
         // Persistir a Venda
         VendaBean venda = new VendaBean();
@@ -124,7 +123,6 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
         venda.setLoja(loja);
         venda.setValorProduto(dto.getVlProduto());
         venda.setDataVenda(Calendar.getInstance());
-        venda.setProduto(produtoBean);
         save(venda);
 
         Integer diasPrimeiroVencimento;
@@ -167,17 +165,6 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
                 parcelaService.update(parcela);
             }
         }
-    }
-
-    public ProdutoBean findOrCreateProduto(String nome) {
-
-        ProdutoBean produtoBean = produtoRepository.findByNome(nome);
-        if(produtoBean == null) {
-            produtoBean = new ProdutoBean();
-            produtoBean.setNome(nome);
-            produtoRepository.save(produtoBean);
-        }
-        return produtoBean;
     }
 
     public void pagarParcela(ParcelaBean parcelaBean, LojaBean loja, BigDecimal valorPago, BigDecimal multa,

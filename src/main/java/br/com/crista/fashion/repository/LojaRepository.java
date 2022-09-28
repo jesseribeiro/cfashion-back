@@ -15,7 +15,7 @@ public interface LojaRepository extends CrudRepository<LojaBean, Long>, GenericR
             + " and (:nomeFantasia is null or LOWER(x.nomeFantasia) LIKE LOWER(CONCAT('%',:nomeFantasia,'%'))) ";
 
     @Query(value = "SELECT new br.com.crista.fashion.dto.LojaDTO(x) FROM Loja x "
-            + FilterPagination + " order by x.id desc ",
+            + FilterPagination + " order by x.nomeFantasia asc ",
             countQuery = "Select count(x) From Loja x " + FilterPagination)
     Page<LojaDTO> pagination(@Param("id") Long id,
                              @Param("nomeFantasia") String nomeFantasia,

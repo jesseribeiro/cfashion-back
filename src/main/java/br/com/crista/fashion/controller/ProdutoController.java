@@ -1,9 +1,9 @@
 package br.com.crista.fashion.controller;
 
-import br.com.crista.fashion.bean.LojaBean;
-import br.com.crista.fashion.dto.LojaDTO;
+import br.com.crista.fashion.bean.ProdutoBean;
 import br.com.crista.fashion.dto.PaginationFilterDTO;
-import br.com.crista.fashion.service.LojaService;
+import br.com.crista.fashion.dto.ProdutoDTO;
+import br.com.crista.fashion.service.ProdutoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,16 +20,16 @@ import java.util.List;
 @Slf4j
 @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR', 'COMERCIAL', 'NEGOCIADOR', 'PROPRIETARIO', 'CREDIARISTA')")
 @RestController
-@RequestMapping(path = "/v1/loja", produces = MediaType.APPLICATION_JSON_VALUE)
-public class LojaController {
+@RequestMapping(path = "/v1/produto", produces = MediaType.APPLICATION_JSON_VALUE)
+public class ProdutoController {
 
     @Autowired
-    LojaService lojaService;
+    ProdutoService produtoService;
 
     @PostMapping
-    public ResponseEntity create(@RequestBody @Valid @NotNull LojaDTO lojaDTO) {
+    public ResponseEntity create(@RequestBody @Valid @NotNull ProdutoDTO produtoDTO) {
         try {
-            return ResponseEntity.ok(lojaService.salvar(lojaDTO));
+            return ResponseEntity.ok(produtoService.salvar(produtoDTO));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -37,24 +37,24 @@ public class LojaController {
 
     @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity findAll() {
-        List<LojaBean> lojas = lojaService.findAll();
-        return new ResponseEntity<>(lojas, HttpStatus.OK);
+        List<ProdutoBean> produtos = produtoService.findAll();
+        return new ResponseEntity<>(produtos, HttpStatus.OK);
     }
 
     @PostMapping(path = "/pagination")
-    public Page<LojaDTO> pagination(@RequestBody PaginationFilterDTO<LojaDTO> paginationFilter) {
-        return lojaService.pagination(paginationFilter);
+    public Page<ProdutoDTO> pagination(@RequestBody PaginationFilterDTO<ProdutoDTO> paginationFilter) {
+        return produtoService.pagination(paginationFilter);
     }
 
     @GetMapping(path = "/{id}")
-    public LojaDTO getById(@PathVariable("id") Long id) {
-        return lojaService.getByIdDTO(id);
+    public ProdutoDTO getById(@PathVariable("id") Long id) {
+        return produtoService.getByIdDTO(id);
     }
 
     @PostMapping(path = "/{id}")
-    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody @Valid @NotNull LojaDTO dto) {
+    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody @Valid @NotNull ProdutoDTO dto) {
         try {
-            return ResponseEntity.ok(lojaService.update(id, dto));
+            return ResponseEntity.ok(produtoService.update(id, dto));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -63,7 +63,7 @@ public class LojaController {
     @DeleteMapping(path = "/{id}")
     public ResponseEntity delete(@PathVariable("id") Long id) {
         try {
-            lojaService.delete(id);
+            produtoService.delete(id);
             return ResponseEntity.ok("Loja excluída com sucesso!");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

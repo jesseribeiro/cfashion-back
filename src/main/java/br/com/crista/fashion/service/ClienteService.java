@@ -4,14 +4,20 @@ import br.com.crista.fashion.bean.ClienteBean;
 import br.com.crista.fashion.bean.VendaBean;
 import br.com.crista.fashion.config.CentralConfig;
 import br.com.crista.fashion.dto.ClienteDTO;
+import br.com.crista.fashion.dto.PaginationFilterDTO;
 import br.com.crista.fashion.repository.ClienteRepository;
 import br.com.crista.fashion.repository.ParcelaRepository;
 import br.com.crista.fashion.repository.UsuarioRepository;
 import br.com.crista.fashion.repository.impl.ClienteRepositoryImpl;
 import br.com.crista.fashion.utils.Constants;
 import br.com.crista.fashion.utils.DateUtils;
+import br.com.crista.fashion.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -71,30 +77,21 @@ public class ClienteService extends GenericService<ClienteBean, ClienteRepositor
         cliente.getEndereco().setCidadeNome(cidadeService.getCidadeNomeByCidadeIbge(cliente.getEndereco().getCidadeIbge()));
     }
 
-    /*
-    // TODO pegar os filtros de redeid, empresaid, lojaid baseado na role do usuario logado.
-    public Page<ClienteLojaDTO> pagination(PaginationFilterDTO<ClienteDTO> paginationFilter) {
-        Pageable paging = PageRequest.of(paginationFilter.getPageNo(), paginationFilter.getPageSize(), Sort.by("x."+paginationFilter.getSortBy()));
+    public Page<ClienteDTO> pagination(PaginationFilterDTO<ClienteDTO> paginationFilter) {
+        Pageable paging = PageRequest.of(paginationFilter.getPageNo(), paginationFilter.getPageSize(), Sort.by(paginationFilter.getSortBy()));
         ClienteDTO filtros = paginationFilter.getFiltros();
-        Long redeId = selecionouTodas(filtros.getRedeId());
-        Long empresaId= selecionouTodas(filtros.getEmpresaId());
-        Long lojaId = selecionouTodas(filtros.getLojaId());
+
         String cpf = filtros.getCpf() == null ? "" : filtros.getCpf();
-        Page<ClienteLojaDTO> clientes = getRepository().pagination(
-                lojaId,
+        Page<ClienteDTO> clientes = getRepository().pagination(
                 filtros.getNome(),
                 StringUtils.desformataCpfCnpj(cpf),
-                DateUtils.getDiaMesAno(filtros.getDataNascimento()),
-                filtros.getTelResidencial(),
-                filtros.getIdentidade(),
                 paging);
-        if(clientes.hasContent()) {
+        if (clientes.hasContent()) {
             return clientes;
         } else {
             return Page.empty();
         }
     }
-    */
 
     private Long selecionouTodas(Long selectedId) {
         return (selectedId != null && selectedId.intValue() != Constants.SELECT_TODAS.intValue()) ? selectedId : null;
@@ -113,12 +110,6 @@ public class ClienteService extends GenericService<ClienteBean, ClienteRepositor
     }
 
     public ClienteDTO update(Long id, ClienteDTO dto) {
-        String digito = dto.getCelular().substring(5, 6);
-
-        if (!digito.equalsIgnoreCase("9") && !digito.equalsIgnoreCase("8")
-                && !digito.equalsIgnoreCase("7")) {
-            throw new RuntimeException("Telefone celular inválido");
-        }
         ClienteBean cliente = getRepository().findById(id).get();
         cliente = dto.converter(cliente);
         preencheCidadeEndereco(cliente);
@@ -236,5 +227,16 @@ public class ClienteService extends GenericService<ClienteBean, ClienteRepositor
         Calendar dataFinal = DateUtils.getDiaMesAno(ano+"-"+12+"-"+31);
 
         return false;
+    }
+
+    public ClienteDTO consultaCPF(ClienteDTO dto) {
+        ClienteBean clienteBase = getRepository().findByCpf(StringUtils.desformataCpfCnpj(dto.getCpf())).orElse(null);
+
+        if (clienteBase == null) {
+            return dto;
+        } else {
+            ClienteDTO clienteDTO = new ClienteDTO(clienteBase);
+            return clienteDTO;
+        }
     }
 }

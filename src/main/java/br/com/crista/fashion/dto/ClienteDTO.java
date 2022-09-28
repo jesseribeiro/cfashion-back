@@ -2,9 +2,11 @@ package br.com.crista.fashion.dto;
 
 import br.com.crista.fashion.bean.ClienteBean;
 import br.com.crista.fashion.bean.EnderecoBean;
-import br.com.crista.fashion.utils.DateUtils;
+import br.com.crista.fashion.enumeration.EnumSexo;
 import br.com.crista.fashion.utils.StringUtils;
 import lombok.*;
+
+import java.util.Calendar;
 
 @Getter
 @Setter
@@ -17,7 +19,8 @@ public class ClienteDTO extends GenericDTO<ClienteBean> {
     private String dataInicial;
     private String dataFinal;
 
-    private String dataCadastro;
+    private Calendar dataCadastro;
+    private Calendar dataNascimento;
     private String nome;
     private String cpf;
     private String sexo;
@@ -28,12 +31,13 @@ public class ClienteDTO extends GenericDTO<ClienteBean> {
     public ClienteDTO(ClienteBean bean) {
         super(bean);
         nome = bean.getNome();
-        cpf = bean.getCpf();
-        sexo = bean.getSexo();
+        cpf = StringUtils.inserirMascaraCpfCnpj(bean.getCpf());
+        sexo = EnumSexo.valueOf(bean.getSexo()).getLabel();
         celular = bean.getCelular();
         email = bean.getEmail();
+        dataCadastro = bean.getDataCadastro();
+        dataNascimento = bean.getDataNascimento();
         endereco = bean.getEndereco();
-        dataCadastro = DateUtils.getDiaMesAno(bean.getDataCadastro());
     }
 
     @Override
@@ -44,7 +48,7 @@ public class ClienteDTO extends GenericDTO<ClienteBean> {
         bean.setSexo(sexo);
         bean.setCelular(celular);
         bean.setEmail(email);
-        bean.setEndereco(endereco);
+        bean.setEndereco(bean.getEndereco());
         return bean;
     }
 }

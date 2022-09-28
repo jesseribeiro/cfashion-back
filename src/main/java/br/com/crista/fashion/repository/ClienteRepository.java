@@ -1,7 +1,10 @@
 package br.com.crista.fashion.repository;
 
 import br.com.crista.fashion.bean.ClienteBean;
+import br.com.crista.fashion.bean.LojaBean;
 import br.com.crista.fashion.dto.ClienteDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -20,27 +23,19 @@ public interface  ClienteRepository extends CrudRepository<ClienteBean, Long>, G
     @Query(value = "Select count(1) from Cliente x where x.data_cadastro <:data", nativeQuery = true)
     BigInteger qtdClientesData(@Param("data") Calendar data);
 
-    /*
-    String filterPagination = " From ClienteLoja as cl JOIN cl.cliente as x JOIN cl.loja as l "
-            + WHERE_EXCLUIDO
-            + " and (:lojaId is null or l.id = :lojaId ) "
-            + " and (:nome is null or LOWER(x.nome) LIKE LOWER(CONCAT('%',:nome, '%'))) "
-            + " and (:cpf is null or x.cpf LIKE CONCAT('%',:cpf, '%')) "
-            + " and (:dataNascimento is null or x.dataNascimento =:dataNascimento) "
-            + " and (:telefone is null or ((x.telResidencial LIKE CONCAT('%',:telefone, '%')) or (x.celular LIKE CONCAT('%',:telefone, '%')) or (x.telComercial LIKE CONCAT('%',:telefone, '%')))) "
-            + " and (:identidade is null or x.identidade = :identidade) ";
+    String filterPagination = WHERE_EXCLUIDO
+            + " and (:nome is null or LOWER(x.nome) LIKE LOWER(CONCAT('%',:nome,'%'))) "
+            + " and (:cpf is null or x.cpf LIKE CONCAT('%',:cpf, '%')) ";
 
-    @Query(value = "SELECT new br.com.crista.fashion.dto.ClienteLojaDTO(cl) " + filterPagination,
-            countQuery = "Select count(x) " + filterPagination)
-    Page<ClienteLojaDTO> pagination(@Param("lojaId") Long lojaId,
-                                    @Param("nome") String nome,
-                                    @Param("cpf") String cpf,
-                                    @Param("dataNascimento") Calendar dataNascimento,
-                                    @Param("telefone") String telefone,
-                                    @Param("identidade") String identidade,
-                                    Pageable paging);
+    @Query(value = "SELECT new br.com.crista.fashion.dto.ClienteDTO(x) FROM Cliente x "
+            + filterPagination + " order by x.nome asc ",
+            countQuery = "Select count(x) From Cliente x " + filterPagination)
+    Page<ClienteDTO> pagination(@Param("nome") String nome,
+                                @Param("cpf") String cpf,
+                                Pageable paging);
 
-     */
+    @Query(value = "SELECT x FROM Loja x WHERE x.nomeFantasia =:nomeLoja ")
+    LojaBean findLojaByNomeFantasia(@Param("nomeLoja") String nomeLoja);
 
     Optional<ClienteBean> findByNome(String nome);
 
