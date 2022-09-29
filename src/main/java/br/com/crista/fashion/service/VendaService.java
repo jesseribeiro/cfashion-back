@@ -8,7 +8,6 @@ import br.com.crista.fashion.dto.CalcularVendaDTO;
 import br.com.crista.fashion.dto.PaginationFilterDTO;
 import br.com.crista.fashion.dto.VendaDTO;
 import br.com.crista.fashion.enumeration.*;
-import br.com.crista.fashion.repository.CidadeRepository;
 import br.com.crista.fashion.repository.LojaRepository;
 import br.com.crista.fashion.repository.ProdutoRepository;
 import br.com.crista.fashion.repository.VendaRepository;
@@ -48,9 +47,6 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
 
     @Autowired
     private LojaRepository lojaRepository;
-
-    @Autowired
-    private CidadeRepository cidadeRepository;
 
     @Autowired
     private ParcelaService parcelaService;

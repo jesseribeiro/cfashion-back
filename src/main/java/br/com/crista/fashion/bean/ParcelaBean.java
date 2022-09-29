@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -32,9 +33,6 @@ public class ParcelaBean extends GenericBean {
     @Column(name = "vl_parcela_sem_juros")
     private BigDecimal vlParcelaSemJuros;
 
-    @Column(name = "flg_pago", columnDefinition = "boolean DEFAULT false")
-    private Boolean flgPago;
-
     @Column(name = "data_pagamento")
     @Temporal(TemporalType.DATE)
     private Calendar dataPagto;
@@ -51,4 +49,10 @@ public class ParcelaBean extends GenericBean {
 
     @Enumerated(EnumType.STRING)
     private EnumStatus status;
+
+    @JsonIgnore
+    @NotAudited
+    @JoinColumn(name = "produto_id")
+    @ManyToOne
+    private ProdutoBean produto;
 }

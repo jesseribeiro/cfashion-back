@@ -1,8 +1,6 @@
 package br.com.crista.fashion;
 
-import br.com.crista.fashion.service.CidadeService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,9 +26,6 @@ import java.io.IOException;
 @EnableFeignClients
 @EnableScheduling
 public class EmpresaApplication implements CommandLineRunner {
-
-	@Autowired
-    CidadeService cidadeService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(EmpresaApplication.class, args);

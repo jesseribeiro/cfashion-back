@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class CEPService extends GenericService<CepBean, CepRepository> {
 
     @Autowired
-    private ViaCEPClient viaCEPClient;
+    ViaCEPClient viaCEPClient;
 
     public ResponseEntity salvar(CepBean cep) {
         CepBean cepBean = getRepository().findByCep(cep.getCep());

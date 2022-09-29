@@ -2,7 +2,6 @@ package br.com.crista.fashion.dto;
 
 import br.com.crista.fashion.bean.ClienteBean;
 import br.com.crista.fashion.bean.EnderecoBean;
-import br.com.crista.fashion.enumeration.EnumSexo;
 import br.com.crista.fashion.utils.StringUtils;
 import lombok.*;
 
@@ -32,7 +31,7 @@ public class ClienteDTO extends GenericDTO<ClienteBean> {
         super(bean);
         nome = bean.getNome();
         cpf = StringUtils.inserirMascaraCpfCnpj(bean.getCpf());
-        sexo = EnumSexo.valueOf(bean.getSexo()).getLabel();
+        sexo = bean.getSexo();
         celular = bean.getCelular();
         email = bean.getEmail();
         dataCadastro = bean.getDataCadastro();

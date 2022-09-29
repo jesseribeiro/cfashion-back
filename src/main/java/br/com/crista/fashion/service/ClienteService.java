@@ -1,16 +1,12 @@
 package br.com.crista.fashion.service;
 
 import br.com.crista.fashion.bean.ClienteBean;
-import br.com.crista.fashion.bean.VendaBean;
 import br.com.crista.fashion.config.CentralConfig;
 import br.com.crista.fashion.dto.ClienteDTO;
 import br.com.crista.fashion.dto.PaginationFilterDTO;
 import br.com.crista.fashion.repository.ClienteRepository;
 import br.com.crista.fashion.repository.ParcelaRepository;
 import br.com.crista.fashion.repository.UsuarioRepository;
-import br.com.crista.fashion.repository.impl.ClienteRepositoryImpl;
-import br.com.crista.fashion.utils.Constants;
-import br.com.crista.fashion.utils.DateUtils;
 import br.com.crista.fashion.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +17,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 @Slf4j
@@ -33,19 +27,16 @@ public class ClienteService extends GenericService<ClienteBean, ClienteRepositor
     private LojaService lojaService;
 
     @Autowired
-    private CidadeService cidadeService;
-
-    @Autowired
     private CentralConfig centralConfig;
-
-    @Autowired
-    private ClienteRepositoryImpl clienteRepository;
 
     @Autowired
     private CEPService cepService;
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    CidadeService cidadeService;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -55,8 +46,6 @@ public class ClienteService extends GenericService<ClienteBean, ClienteRepositor
 
     @Autowired
     private ParcelaRepository parcelaRepository;
-
-    private List<String> validExtensions = Arrays.asList("jpeg", "jpg", "png");
 
     public ClienteDTO salvar(ClienteDTO dto) {
 
@@ -88,10 +77,6 @@ public class ClienteService extends GenericService<ClienteBean, ClienteRepositor
         } else {
             return Page.empty();
         }
-    }
-
-    private Long selecionouTodas(Long selectedId) {
-        return (selectedId != null && selectedId.intValue() != Constants.SELECT_TODAS.intValue()) ? selectedId : null;
     }
 
     public List<ClienteDTO> findAllDTO() {
@@ -198,32 +183,6 @@ public class ClienteService extends GenericService<ClienteBean, ClienteRepositor
 
     public ClienteBean findByCpf(String cpf) {
         return getRepository().findByCpf(cpf).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
-    }
-
-    public Integer getMaiorAtrasNosUltimosNPagementos(Long clienteId, Integer ultimosPagamentos) {
-        return clienteRepository.getMaiorAtrasNosUltimosNPagementos(clienteId, ultimosPagamentos);
-    }
-
-    public VendaBean getUltimaCompra(Long clienteId) {
-        return clienteRepository.getUltimaCompra(clienteId);
-    }
-
-    public boolean existClienteCpf(String cpf) {
-        return getRepository().existClienteCpf(cpf);
-    }
-
-    public ClienteBean getClienteByCpf(String cpf) {
-        return getRepository().getClienteByCpf(cpf);
-    }
-
-    public boolean verificaCliente(Long clienteId, Long lojaId) {
-
-        Integer ano = Integer.parseInt(DateUtils.getDiaMesAno(Calendar.getInstance()).substring(0,4));
-        ano--;
-        Calendar dataInicial = DateUtils.getDiaMesAno(ano+"-"+01+"-"+01);
-        Calendar dataFinal = DateUtils.getDiaMesAno(ano+"-"+12+"-"+31);
-
-        return false;
     }
 
     public ClienteDTO consultaCPF(ClienteDTO dto) {

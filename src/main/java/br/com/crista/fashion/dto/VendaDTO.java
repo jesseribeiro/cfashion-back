@@ -17,7 +17,6 @@ import java.util.List;
 @Builder
 public class VendaDTO extends GenericDTO<VendaBean> {
 
-    // filtros
     private String dataInicial;
     private String dataFinal;
 
@@ -25,9 +24,6 @@ public class VendaDTO extends GenericDTO<VendaBean> {
     private BigDecimal vlParcela;
     @JsonDeserialize(converter = MoneyDeserializerJson.class)
     private BigDecimal vlProduto;
-
-    private Integer qtdParcela;
-
     @JsonDeserialize(converter = MoneyDeserializerJson.class)
     private BigDecimal frete;
     @JsonDeserialize(converter = MoneyDeserializerJson.class)
@@ -36,8 +32,6 @@ public class VendaDTO extends GenericDTO<VendaBean> {
     private BigDecimal comissao;
 
     private Calendar dataVenda;
-
-    private List<ParcelaClienteDTO> parcelas;
     private String cpf;
     private Long clienteId;
     private Long marcaId;
@@ -47,22 +41,23 @@ public class VendaDTO extends GenericDTO<VendaBean> {
     private String status;
     private String tipo;
     private BigDecimal valorParcela;
+    private Integer qtdParcela;
+    private List<ParcelaDTO> parcelas;
 
     public VendaDTO(VendaBean bean) {
         super(bean);
         clienteId = bean.getCliente().getId();
+        cpf = StringUtils.inserirMascaraCpfCnpj(bean.getCliente().getCpf());
         marcaId = bean.getLoja().getId();
         marca = bean.getLoja().getNomeFantasia();
-        dataVenda = bean.getDataVenda();
-
-        qtdParcela = bean.getQtdParcela();
-        vlProduto = bean.getValorProduto();
         nomeProduto = bean.getProduto().getNome();
         produtoId = bean.getProduto().getId();
+        dataVenda = bean.getDataVenda();
+        qtdParcela = bean.getQtdParcela();
+        vlProduto = bean.getValorProduto();
         frete = bean.getFrete();
         descontos = bean.getDescontos();
         comissao = bean.getComissao();
-        cpf = StringUtils.inserirMascaraCpfCnpj(bean.getCliente().getCpf());
 
         if (bean.getTipo() != null) {
             tipo = bean.getTipo().getLabel();
