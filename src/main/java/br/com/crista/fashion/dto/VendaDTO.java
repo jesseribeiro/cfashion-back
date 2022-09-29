@@ -2,6 +2,7 @@ package br.com.crista.fashion.dto;
 
 import br.com.crista.fashion.bean.VendaBean;
 import br.com.crista.fashion.json.MoneyDeserializerJson;
+import br.com.crista.fashion.utils.StringUtils;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
 
@@ -24,6 +25,7 @@ public class VendaDTO extends GenericDTO<VendaBean> {
     private BigDecimal vlParcela;
     @JsonDeserialize(converter = MoneyDeserializerJson.class)
     private BigDecimal vlProduto;
+
     private Integer qtdParcela;
 
     @JsonDeserialize(converter = MoneyDeserializerJson.class)
@@ -60,9 +62,9 @@ public class VendaDTO extends GenericDTO<VendaBean> {
         frete = bean.getFrete();
         descontos = bean.getDescontos();
         comissao = bean.getComissao();
-        cpf = bean.getCliente().getCpf();
+        cpf = StringUtils.inserirMascaraCpfCnpj(bean.getCliente().getCpf());
 
-        if (bean.getStatus() != null) {
+        if (bean.getTipo() != null) {
             tipo = bean.getTipo().getLabel();
         }
 

@@ -55,7 +55,12 @@ public class ProdutoService extends GenericService<ProdutoBean, ProdutoRepositor
             tamanho = EnumTamanho.valueOf(filtros.getTamanho());
         }
 
-        Page<ProdutoDTO> lojas = getRepository().pagination(filtros.getId(), categoria, tamanho, paging);
+        if (filtros.getMarcaId() != null) {
+            LojaBean marca = lojaService.getById(filtros.getMarcaId());
+            marcaId = marca.getId();
+        }
+
+        Page<ProdutoDTO> lojas = getRepository().pagination(filtros.getId(), marcaId, categoria, tamanho, paging);
         if (lojas.hasContent()) {
             return lojas;
         } else {
