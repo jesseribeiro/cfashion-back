@@ -105,9 +105,9 @@ public class TiposController {
         return EnumSituacaoConta.getLabels();
     }
 
-    @GetMapping( path = "/status-parcela")
-    public List<LabelDescricaoDTO> getAllStatusParcela(){
-        return EnumStatusParcela.getLabels();
+    @GetMapping( path = "/status")
+    public List<LabelDescricaoDTO> getAllStatus(){
+        return EnumStatus.getLabels();
     }
 
     @GetMapping( path = "/status-venda")

@@ -1,9 +1,12 @@
 package br.com.crista.fashion.bean;
 
 import br.com.crista.fashion.enumeration.EnumBanco;
+import br.com.crista.fashion.enumeration.EnumStatus;
 import br.com.crista.fashion.enumeration.EnumTipoPagamento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
@@ -15,6 +18,8 @@ import java.util.Calendar;
 @Audited
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity( name = "Venda")
 public class VendaBean extends GenericBean {
 
@@ -51,6 +56,6 @@ public class VendaBean extends GenericBean {
     @Enumerated(value = EnumType.STRING)
     private EnumBanco banco;
 
-    @Column(name = "status", columnDefinition = "boolean DEFAULT false")
-    private Boolean status;
+    @Enumerated(EnumType.STRING)
+    private EnumStatus status;
 }

@@ -9,13 +9,11 @@ import java.util.stream.Collectors;
 
 @Getter
 public enum EnumTipoPagamento {
-    ADMINISTRADORA("Administradora"),
     CARTAO_CREDITO("Cartão de Crédito"),
-    TED("Ted"),
     PIX("Pix"),
-    LOJA("Loja"),
-    BANCO("Banco"),
-    TODOS("Todos");
+    LOJA("Magalu"),
+    BANCO("Americanas"),
+    TODOS("Mercado Livre");
 
     private String label;
 

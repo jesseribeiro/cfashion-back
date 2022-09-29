@@ -1,5 +1,6 @@
 package br.com.crista.fashion.service;
 
+import br.com.crista.fashion.bean.LojaBean;
 import br.com.crista.fashion.bean.ProdutoBean;
 import br.com.crista.fashion.dto.PaginationFilterDTO;
 import br.com.crista.fashion.dto.ProdutoDTO;
@@ -7,6 +8,7 @@ import br.com.crista.fashion.enumeration.EnumCategoria;
 import br.com.crista.fashion.enumeration.EnumTamanho;
 import br.com.crista.fashion.repository.ProdutoRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +21,9 @@ import java.util.List;
 @Service
 public class ProdutoService extends GenericService<ProdutoBean, ProdutoRepository> {
 
+    @Autowired
+    LojaService lojaService;
+
     public List<ProdutoBean> findAll(){
         return convertIterableToList(getRepository().findAll());
     }
@@ -26,6 +31,9 @@ public class ProdutoService extends GenericService<ProdutoBean, ProdutoRepositor
     public ProdutoDTO salvar(ProdutoDTO produtoDTO) {
         ProdutoBean produto = new ProdutoBean();
         produto = produtoDTO.converter(produto);
+
+        LojaBean lojaBean = lojaService.getById(produtoDTO.getMarcaId());
+        produto.setMarca(lojaBean);
         save(produto);
 
         ProdutoDTO dto = new ProdutoDTO(produto);
@@ -36,6 +44,7 @@ public class ProdutoService extends GenericService<ProdutoBean, ProdutoRepositor
         Pageable paging = PageRequest.of(paginationFilter.getPageNo(), paginationFilter.getPageSize(), Sort.by(paginationFilter.getSortBy()));
         ProdutoDTO filtros = paginationFilter.getFiltros();
 
+        Long marcaId = null;
         EnumCategoria categoria = null;
         if (filtros.getCategoria() != null) {
             categoria = EnumCategoria.valueOf(filtros.getCategoria());
@@ -71,6 +80,10 @@ public class ProdutoService extends GenericService<ProdutoBean, ProdutoRepositor
         produto.setQtd(dto.getQtd());
         produto.setValorProduto(dto.getValorProduto());
         produto.setValorCompra(dto.getValorCompra());
+
+        LojaBean lojaBean = lojaService.getById(dto.getMarcaId());
+        produto.setMarca(lojaBean);
+        save(produto);
         update(produto);
 
         ProdutoDTO produtoDTO = new ProdutoDTO(produto);

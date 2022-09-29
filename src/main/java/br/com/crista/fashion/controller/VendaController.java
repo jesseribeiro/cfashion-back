@@ -1,8 +1,6 @@
 package br.com.crista.fashion.controller;
 
-import br.com.crista.fashion.dto.AutorizacaoDTO;
-import br.com.crista.fashion.dto.CalcularVendaDTO;
-import br.com.crista.fashion.dto.PaginationFilterDTO;
+import br.com.crista.fashion.dto.*;
 import br.com.crista.fashion.service.VendaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +19,12 @@ import java.io.IOException;
 public class VendaController {
 
     @Autowired
-    private VendaService vendaService;
+    VendaService vendaService;
+
+    @PostMapping(path = "/pagination")
+    public Page<VendaDTO> pagination(@RequestBody PaginationFilterDTO<VendaDTO> paginationFilter) {
+        return vendaService.pagination(paginationFilter);
+    }
 
     /*
     @PostMapping(path = "/calcular")
@@ -50,16 +53,6 @@ public class VendaController {
         try {
             vendaService.cancelarVenda(vendaId);
             return ResponseEntity.ok("Venda cancelada com sucesso!");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-    @PostMapping(path = "/autorizacoes")
-    public ResponseEntity paginationAutorizacoes(@RequestBody PaginationFilterDTO<AutorizacaoDTO> paginationFilter) {
-        try {
-            Page<AutorizacaoDTO> result = vendaService.paginationAutorizacoes(paginationFilter);
-            return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

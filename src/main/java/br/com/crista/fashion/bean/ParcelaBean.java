@@ -1,6 +1,6 @@
 package br.com.crista.fashion.bean;
 
-import br.com.crista.fashion.enumeration.EnumStatusParcela;
+import br.com.crista.fashion.enumeration.EnumStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -50,5 +50,5 @@ public class ParcelaBean extends GenericBean {
     private ClienteBean cliente;
 
     @Enumerated(EnumType.STRING)
-    private EnumStatusParcela status;
+    private EnumStatus status;
 }

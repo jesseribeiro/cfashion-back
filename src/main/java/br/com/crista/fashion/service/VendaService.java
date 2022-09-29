@@ -1,7 +1,9 @@
 package br.com.crista.fashion.service;
 
-import br.com.crista.fashion.bean.*;
-import br.com.crista.fashion.dto.AutorizacaoDTO;
+import br.com.crista.fashion.bean.ClienteBean;
+import br.com.crista.fashion.bean.LojaBean;
+import br.com.crista.fashion.bean.ParcelaBean;
+import br.com.crista.fashion.bean.VendaBean;
 import br.com.crista.fashion.dto.CalcularVendaDTO;
 import br.com.crista.fashion.dto.PaginationFilterDTO;
 import br.com.crista.fashion.dto.VendaDTO;
@@ -33,10 +35,13 @@ import java.util.List;
 public class VendaService extends GenericService<VendaBean, VendaRepository> {
 
     @Autowired
-    private ClienteService clienteService;
+    ClienteService clienteService;
 
     @Autowired
-    private LojaService lojaService;
+    LojaService lojaService;
+
+    @Autowired
+    VendaRepositoryImpl vendaRepository;
 
     @Autowired
     private ProdutoRepository produtoRepository;
@@ -53,11 +58,47 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
     @Autowired
     private UsuarioService usuarioService;
 
-    @Autowired
-    private AutorizacaoService autorizacaoService;
+    public Page<VendaDTO> pagination(PaginationFilterDTO<VendaDTO> paginationFilter) {
+        Pageable paging = PageRequest.of(paginationFilter.getPageNo(), paginationFilter.getPageSize(), Sort.by(paginationFilter.getSortBy()));
+        VendaDTO filtros = paginationFilter.getFiltros();
 
-    @Autowired
-    private VendaRepositoryImpl vendaRepositoryImpl;
+        Long clienteId = null;
+        Long marcaId = null;
+        EnumStatus status = filtros.getStatus() != null ? EnumStatus.valueOf(filtros.getStatus()) : null;
+
+        if (filtros.getCpf() != null && !filtros.getCpf().isEmpty()) {
+            ClienteBean cliente = clienteService.findByCpf(StringUtils.desformataCpfCnpj(filtros.getCpf()));
+            clienteId = cliente.getId();
+        }
+
+        if (filtros.getMarcaId() != null) {
+            LojaBean marca = lojaService.getById(filtros.getMarcaId());
+            marcaId = marca.getId();
+        }
+
+        Calendar dataInicial = null;
+        Calendar dataFinal = null;
+        if (filtros.getDataInicial() != null && !filtros.getDataInicial().isEmpty()) {
+            dataInicial = DateUtils.getDiaMesAno(filtros.getDataInicial());
+        }
+        if (filtros.getDataFinal() != null && !filtros.getDataFinal().isEmpty()) {
+            dataFinal = DateUtils.getDiaMesAno(filtros.getDataFinal());
+        }
+
+        Page<VendaDTO> vendas = vendaRepository.pagination(
+                clienteId,
+                marcaId,
+                status,
+                dataInicial,
+                dataFinal,
+                paging);
+
+        if (vendas.hasContent()) {
+            return vendas;
+        } else {
+            return Page.empty();
+        }
+    }
 
     /*
     public List<ParcelaCompraDTO> calcularVenda(CalcularVendaDTO dto) {
@@ -120,7 +161,6 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
         // Persistir a Venda
         VendaBean venda = new VendaBean();
         venda.setCliente(cliente);
-        venda.setLoja(loja);
         venda.setValorProduto(dto.getVlProduto());
         venda.setDataVenda(Calendar.getInstance());
         save(venda);
@@ -146,7 +186,7 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
     @Transactional
     public void cancelarVenda(Long vendaId) {
 
-       if (getUsuarioLogado().getRoleAtiva() == EnumRole.CREDIARISTA || getUsuarioLogado().getRoleAtiva() == EnumRole.SUPERVISOR ||
+        if (getUsuarioLogado().getRoleAtiva() == EnumRole.CREDIARISTA || getUsuarioLogado().getRoleAtiva() == EnumRole.SUPERVISOR ||
                 getUsuarioLogado().getRoleAtiva() == EnumRole.ADMIN || getUsuarioLogado().getRoleAtiva() == EnumRole.SUPERVISOR) {
 
             VendaBean venda = getById(vendaId);
@@ -170,42 +210,5 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
     public void pagarParcela(ParcelaBean parcelaBean, LojaBean loja, BigDecimal valorPago, BigDecimal multa,
                              BigDecimal jurosMora, BigDecimal desconto, TipoFormaPagamento tipoFormaPagamento, EnumTipoPagamento tipoPagamento, EnumBanco banco) {
         parcelaService.pagarParcela(parcelaBean, loja, valorPago, multa, jurosMora, desconto, tipoFormaPagamento, tipoPagamento, banco, Calendar.getInstance());
-    }
-
-    public Page<AutorizacaoDTO> paginationAutorizacoes(PaginationFilterDTO<AutorizacaoDTO> paginationFilter) {
-        Pageable paging = PageRequest.of(paginationFilter.getPageNo(), paginationFilter.getPageSize(), Sort.by(paginationFilter.getSortBy()));
-        AutorizacaoDTO filtros = paginationFilter.getFiltros();
-
-        EnumStatusVenda enumStatusVenda = filtros.getSituacao() != null ? EnumStatusVenda.valueOf(filtros.getSituacao()) : null;
-        Long clienteId = null;
-        if(filtros.getCpf() != null && !filtros.getCpf().isEmpty()) {
-            ClienteBean cliente = clienteService.findByCpf(StringUtils.desformataCpfCnpj(filtros.getCpf()));
-            clienteId = cliente.getId();
-        }
-        Page<AutorizacaoDTO> autorizacoes;
-        Calendar dataInicial = null;
-        Calendar dataFinal = null;
-        if(filtros.getDataInicial() != null && !filtros.getDataInicial().isEmpty()) {
-            dataInicial = DateUtils.getDiaMesAno(filtros.getDataInicial());
-        }
-        if(filtros.getDataFinal() != null && !filtros.getDataFinal().isEmpty()) {
-            dataFinal = DateUtils.getDiaMesAno(filtros.getDataFinal());
-        }
-
-        autorizacoes = vendaRepositoryImpl.paginationAutorizacoes(
-                filtros.getRedeId(),
-                filtros.getEmpresaId(),
-                filtros.getLojaId(),
-                clienteId,
-                dataInicial,
-                dataFinal,
-                enumStatusVenda,
-                paging);
-
-        if(autorizacoes.hasContent()) {
-            return autorizacoes;
-        } else {
-            return Page.empty();
-        }
     }
 }

@@ -17,17 +17,19 @@ import java.util.Calendar;
 @Builder
 public class ProdutoDTO extends GenericDTO<ProdutoBean> {
 
-    // filtros
     private String dataInicial;
     private String dataFinal;
 
     private Calendar dataCadastro;
+    private Calendar dataSaida;
     private String nome;
     private String tamanho;
     private String categoria;
     private String cor;
     private String codigo;
     private Integer qtd;
+    private Long marcaId;
+    private String marca;
 
     @JsonDeserialize(converter = MoneyDeserializerJson.class)
     private BigDecimal valorProduto;
@@ -38,10 +40,13 @@ public class ProdutoDTO extends GenericDTO<ProdutoBean> {
     public ProdutoDTO(ProdutoBean bean) {
         super(bean);
         dataCadastro = bean.getDataCadastro();
+        dataSaida = bean.getDataSaida();
         nome = bean.getNome();
+
         if (bean.getTamanho() != null) {
             tamanho = (bean.getTamanho()).getLabel();
         }
+
         if (bean.getCategoria() != null) {
             categoria = bean.getCategoria().toString();
         }
@@ -50,6 +55,11 @@ public class ProdutoDTO extends GenericDTO<ProdutoBean> {
         qtd = bean.getQtd();
         valorProduto = bean.getValorProduto();
         valorCompra = bean.getValorCompra();
+
+        if (bean.getMarca() != null) {
+            marcaId = bean.getMarca().getId();
+            marca = bean.getMarca().getNomeFantasia();
+        }
     }
 
     @Override

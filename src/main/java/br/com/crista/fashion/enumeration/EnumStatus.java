@@ -8,15 +8,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public enum EnumStatusParcela {
+public enum EnumStatus {
     PAGA("Pago"),
     NAO_PAGA("Em Aberto"),
-    CANCELADA("Cancelado"),
-    RENEGOCIADA("Renegociada");
+    CANCELADA("Cancelado");
 
     private String label;
 
-    EnumStatusParcela(String label){
+    EnumStatus(String label){
         this.label = label;
     }
 
@@ -24,9 +23,9 @@ public enum EnumStatusParcela {
         return Arrays.stream(values()).map(status -> new LabelDescricaoDTO(status.name(), status.getLabel())).collect(Collectors.toList());
     }
 
-    public static EnumStatusParcela getValueOf(final String value) {
+    public static EnumStatus getValueOf(final String value) {
         if(value != null) {
-            for(EnumStatusParcela e : EnumStatusParcela.values()) {
+            for(EnumStatus e : EnumStatus.values()) {
                 if(e.getLabel().equals(value)) {
                     return e;
                 }
@@ -36,21 +35,5 @@ public enum EnumStatusParcela {
             }
         }
         return null;
-    }
-
-    public static EnumStatusParcela converStatusAlgorixToTrulogic(String statusAlgorix) {
-        if("P".equals(statusAlgorix)) {
-            return PAGA;
-        }
-        if("C".equals(statusAlgorix)) {
-            return CANCELADA;
-        }
-        if("R".equals(statusAlgorix)) {
-            return RENEGOCIADA;
-        }
-        if("A".equals(statusAlgorix)) {
-            return NAO_PAGA;
-        }
-        return NAO_PAGA;
     }
 }

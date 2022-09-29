@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 
 @Getter
 public enum EnumStatusVenda {
-    AUTORIZADA("Autorizada"),
-    RECUSADA("Recusada"),
-    CANCELADA("Cancelada");
+    PAGA("Pago"),
+    NAO_PAGA("Em Aberto"),
+    CANCELADA("Cancelado");
 
     private String label;
 

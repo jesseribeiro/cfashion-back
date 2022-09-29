@@ -39,9 +39,6 @@ public class ClienteService extends GenericService<ClienteBean, ClienteRepositor
     private CentralConfig centralConfig;
 
     @Autowired
-    private AutorizacaoService autorizacaoService;
-
-    @Autowired
     private ClienteRepositoryImpl clienteRepository;
 
     @Autowired

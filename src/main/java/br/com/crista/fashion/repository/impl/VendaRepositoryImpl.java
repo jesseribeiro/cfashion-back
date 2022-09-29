@@ -1,7 +1,7 @@
 package br.com.crista.fashion.repository.impl;
 
-import br.com.crista.fashion.dto.AutorizacaoDTO;
-import br.com.crista.fashion.enumeration.EnumStatusVenda;
+import br.com.crista.fashion.dto.VendaDTO;
+import br.com.crista.fashion.enumeration.EnumStatus;
 import br.com.crista.fashion.utils.DateUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -14,70 +14,57 @@ import javax.persistence.Query;
 import java.util.Calendar;
 import java.util.List;
 
-@Repository("VendaRepositoryImpl")
+@Repository("vendaRepositoryImpl")
 public class VendaRepositoryImpl {
 
     @PersistenceContext
     EntityManager entityManager;
 
-    public Page<AutorizacaoDTO> paginationAutorizacoes(Long redeId, Long empresaId, Long lojaId, Long clienteId,
-                                                       Calendar dataInicial, Calendar dataFinal, EnumStatusVenda enumStatusVenda,
-                                                       Pageable paging) {
-        String filtros = " From Carne as cc " +
-                " JOIN cc.venda as v " +
-                " JOIN v.loja as l " +
-                " JOIN v.cliente as c " +
+    public Page<VendaDTO> pagination(Long clienteId, Long lojaId,
+                                     EnumStatus status, Calendar dataInicial,
+                                     Calendar dataFinal, Pageable paging) {
+        String filtros = " From Venda as x " +
+                " JOIN x.loja as l " +
+                " JOIN x.cliente as c " +
                 " WHERE 1 = 1 ";
-        if (redeId != null) {
-            filtros += " and l.empresa.rede.id = :redeId ";
-        }
-        if (empresaId != null) {
-            filtros += " and l.empresa.id = :empresaId ";
-        }
         if (lojaId != null) {
             filtros += " and l.id = :lojaId ";
         }
         if (clienteId != null) {
             filtros += " and c.id = :clienteId ";
         }
-        if (enumStatusVenda != null) {
-            filtros += " and v.status = :situacao ";
+        if (status != null) {
+            filtros += " and x.status = :status ";
         }
         if (dataInicial != null) {
-            filtros += " and cc.dataCompra >=:dataInicial";
+            filtros += " and x.dataVenda >=:dataInicial";
         }
         if (dataFinal != null) {
-            filtros += " and cc.dataCompra <=:dataFinal";
+            filtros += " and x.dataVenda <=:dataFinal";
         }
 
-        Query queryTotal = entityManager.createQuery("Select count(1) " + filtros);
-        addParamQuery(redeId, empresaId, lojaId, clienteId, dataInicial, dataFinal, enumStatusVenda, queryTotal);
+        Query queryTotal = entityManager.createQuery("Select count(1) " + "" + filtros);
+        addParamQuery(clienteId, lojaId, status, dataInicial, dataFinal, queryTotal);
         long countResult = (long) queryTotal.getSingleResult();
 
-        Query query = entityManager.createQuery("SELECT new br.com.crista.fashion.dto.AutorizacaoDTO(cc) "+filtros);
-        addParamQuery(redeId, empresaId, lojaId, clienteId, dataInicial, dataFinal, enumStatusVenda, query);
+        Query query = entityManager.createQuery("SELECT new br.com.crista.fashion.dto.VendaDTO(x) " + "" + filtros + " order by x.dataVenda desc");
+        addParamQuery(clienteId, lojaId, status, dataInicial, dataFinal, query);
         query.setFirstResult((paging.getPageNumber()) * paging.getPageSize());
         query.setMaxResults(paging.getPageSize());
-        List<AutorizacaoDTO> autorizacoes = query.getResultList();
 
-        return new PageImpl<>(autorizacoes, paging, countResult);
+        List<VendaDTO> vendas = query.getResultList();
+        return new PageImpl<>(vendas, paging, countResult);
     }
 
-    private void addParamQuery(Long redeId, Long empresaId, Long lojaId, Long clienteId, Calendar dataInicial, Calendar dataFinal, EnumStatusVenda enumStatusVenda, Query query) {
-        if (redeId != null) {
-            query.setParameter("redeId", redeId);
-        }
-        if (empresaId != null) {
-            query.setParameter("empresaId", empresaId);
-        }
+    private void addParamQuery( Long clienteId, Long lojaId, EnumStatus status, Calendar dataInicial, Calendar dataFinal, Query query) {
         if (lojaId != null) {
             query.setParameter("lojaId", lojaId);
         }
         if (clienteId != null) {
             query.setParameter("clienteId", clienteId);
         }
-        if (enumStatusVenda != null) {
-            query.setParameter("situacao", enumStatusVenda);
+        if (status != null) {
+            query.setParameter("status", status);
         }
         if (dataInicial != null) {
             dataInicial = DateUtils.zeraHorario(dataInicial);

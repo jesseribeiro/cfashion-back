@@ -1,7 +1,7 @@
 package br.com.crista.fashion.dto;
 
 import br.com.crista.fashion.bean.ParcelaBean;
-import br.com.crista.fashion.enumeration.EnumStatusParcela;
+import br.com.crista.fashion.enumeration.EnumStatus;
 import br.com.crista.fashion.utils.DateUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,7 +25,7 @@ public class ParcelaClienteDTO extends GenericDTO<ParcelaBean> {
     private String dataPagamento;
     private Long vendaId;
     private Long clienteId;
-    private EnumStatusParcela status;
+    private EnumStatus status;
 
     public ParcelaClienteDTO(ParcelaBean parcela) {
         super(parcela);

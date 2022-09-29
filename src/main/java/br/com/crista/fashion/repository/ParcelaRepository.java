@@ -1,7 +1,7 @@
 package br.com.crista.fashion.repository;
 
 import br.com.crista.fashion.bean.ParcelaBean;
-import br.com.crista.fashion.enumeration.EnumStatusParcela;
+import br.com.crista.fashion.enumeration.EnumStatus;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -24,7 +24,7 @@ public interface ParcelaRepository extends CrudRepository<ParcelaBean, Long>, Ge
 
     @Modifying
     @Query(value = "update parcela set status=:status where id in (:ids)", nativeQuery = true)
-    void updateStatusParcelasByIds(@Param("status") EnumStatusParcela status, @Param("ids") List<Long> parcelasIds);
+    void updateStatusParcelasByIds(@Param("status") EnumStatus status, @Param("ids") List<Long> parcelasIds);
 
     /*
     @Query(value = " Select case when (count(p) > 0) then true else false end " +
