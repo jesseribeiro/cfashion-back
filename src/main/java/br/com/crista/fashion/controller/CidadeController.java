@@ -19,7 +19,7 @@ import java.util.List;
 public class CidadeController {
 
     @Autowired
-    private CidadeService cidadeService;
+    CidadeService cidadeService;
 
     @GetMapping(path = "/{id}")
     public CidadeBean findById(@PathVariable("id") Long id){

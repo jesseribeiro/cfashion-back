@@ -24,7 +24,7 @@ import javax.validation.constraints.NotNull;
 public class UsuarioController {
 
     @Autowired
-    private UsuarioService usuarioService;
+    UsuarioService usuarioService;
 
     @PostMapping
     public ResponseEntity create(@RequestBody @Valid @NotNull UsuarioDTO usuarioDTO) {

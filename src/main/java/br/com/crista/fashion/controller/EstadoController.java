@@ -18,7 +18,7 @@ import java.util.List;
 public class EstadoController {
 
     @Autowired
-    private EstadoService estadoService;
+    EstadoService estadoService;
 
     @GetMapping
     public List<EstadoBean> findAll(){

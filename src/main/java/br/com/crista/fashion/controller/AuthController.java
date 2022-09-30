@@ -4,7 +4,6 @@ import br.com.crista.fashion.dto.AuthDTO;
 import br.com.crista.fashion.dto.UsuarioDTO;
 import br.com.crista.fashion.message.JwtResponse;
 import br.com.crista.fashion.security.jwt.JwtProvider;
-import br.com.crista.fashion.service.LojaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +23,6 @@ public class AuthController extends GenericController {
 
     @Autowired
     AuthenticationManager authenticationManager;
-
-    @Autowired
-    LojaService lojaService;
 
     @Autowired
     JwtProvider jwtProvider;

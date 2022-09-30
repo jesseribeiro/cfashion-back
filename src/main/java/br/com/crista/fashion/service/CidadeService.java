@@ -15,7 +15,7 @@ import java.util.List;
 public class CidadeService extends GenericService<CidadeBean, CidadeRepository> {
 
     @Autowired
-    private CidadeRepository cidadeRepository;
+    CidadeRepository cidadeRepository;
 
     public List<CidadeBean> findAll() {
         return convertIterableToList(getRepository().findAll());

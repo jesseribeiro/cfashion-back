@@ -5,7 +5,6 @@ import br.com.crista.fashion.dto.NovaSenhaDTO;
 import br.com.crista.fashion.dto.PaginationFilterDTO;
 import br.com.crista.fashion.dto.UsuarioDTO;
 import br.com.crista.fashion.enumeration.EnumRole;
-import br.com.crista.fashion.repository.LojaRepository;
 import br.com.crista.fashion.repository.UsuarioRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +28,7 @@ import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
 public class UsuarioService extends GenericService<UsuarioBean, UsuarioRepository> {
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private LojaRepository lojaRepository;
+    PasswordEncoder passwordEncoder;
 
     public ResponseEntity salvar(UsuarioDTO usuarioDTO){
         if(getRepository().existsByLogin(usuarioDTO.getLogin())) {

@@ -8,8 +8,6 @@ import br.com.crista.fashion.dto.CalcularVendaDTO;
 import br.com.crista.fashion.dto.PaginationFilterDTO;
 import br.com.crista.fashion.dto.VendaDTO;
 import br.com.crista.fashion.enumeration.*;
-import br.com.crista.fashion.repository.LojaRepository;
-import br.com.crista.fashion.repository.ProdutoRepository;
 import br.com.crista.fashion.repository.VendaRepository;
 import br.com.crista.fashion.repository.impl.VendaRepositoryImpl;
 import br.com.crista.fashion.utils.DateUtils;
@@ -43,16 +41,7 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
     VendaRepositoryImpl vendaRepository;
 
     @Autowired
-    private ProdutoRepository produtoRepository;
-
-    @Autowired
-    private LojaRepository lojaRepository;
-
-    @Autowired
-    private ParcelaService parcelaService;
-
-    @Autowired
-    private UsuarioService usuarioService;
+    ParcelaService parcelaService;
 
     public Page<VendaDTO> pagination(PaginationFilterDTO<VendaDTO> paginationFilter) {
         Pageable paging = PageRequest.of(paginationFilter.getPageNo(), paginationFilter.getPageSize(), Sort.by(paginationFilter.getSortBy()));

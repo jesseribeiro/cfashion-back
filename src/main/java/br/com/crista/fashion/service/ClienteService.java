@@ -1,12 +1,9 @@
 package br.com.crista.fashion.service;
 
 import br.com.crista.fashion.bean.ClienteBean;
-import br.com.crista.fashion.config.CentralConfig;
 import br.com.crista.fashion.dto.ClienteDTO;
 import br.com.crista.fashion.dto.PaginationFilterDTO;
 import br.com.crista.fashion.repository.ClienteRepository;
-import br.com.crista.fashion.repository.ParcelaRepository;
-import br.com.crista.fashion.repository.UsuarioRepository;
 import br.com.crista.fashion.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,28 +21,7 @@ import java.util.List;
 public class ClienteService extends GenericService<ClienteBean, ClienteRepository> {
 
     @Autowired
-    private LojaService lojaService;
-
-    @Autowired
-    private CentralConfig centralConfig;
-
-    @Autowired
-    private CEPService cepService;
-
-    @Autowired
-    private UsuarioService usuarioService;
-
-    @Autowired
     CidadeService cidadeService;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private ParcelaService parcelaService;
-
-    @Autowired
-    private ParcelaRepository parcelaRepository;
 
     public ClienteDTO salvar(ClienteDTO dto) {
 
@@ -103,7 +79,9 @@ public class ClienteService extends GenericService<ClienteBean, ClienteRepositor
     }
 
     public ResponseEntity delete(Long id) {
-        return null;
+        ClienteBean cliente = getRepository().findById(id).get();
+        delete(cliente);
+        return ResponseEntity.ok("Sucesso");
     }
 
 /*

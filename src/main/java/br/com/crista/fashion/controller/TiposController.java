@@ -13,17 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-/**
- * Controller que deverá ser utilizado para centralizar todos os tipos do sistema, geralmente
- * listas fixas, enums, ai fazer um GET para cada tipo
- */
 @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR', 'COMERCIAL', 'NEGOCIADOR', 'PROPRIETARIO', 'CREDIARISTA')")
 @RestController
 @RequestMapping(path = "/v1/tipos", produces = MediaType.APPLICATION_JSON_VALUE)
 public class TiposController {
 
     @Autowired
-    private TiposRepository tiposRepository;
+    TiposRepository tiposRepository;
 
     @GetMapping( path = "/tipos-conta-banco")
     public List<LabelDescricaoDTO> getAllTipoContaBanco(){

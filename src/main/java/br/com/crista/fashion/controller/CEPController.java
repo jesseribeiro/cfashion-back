@@ -18,7 +18,7 @@ import javax.validation.Valid;
 public class CEPController {
 
     @Autowired
-    private CEPService cepService;
+    CEPService cepService;
 
     @PostMapping
     public ResponseEntity create(@RequestBody @Valid @NotNull CepBean cep) {

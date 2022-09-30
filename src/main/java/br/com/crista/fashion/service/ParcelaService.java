@@ -34,10 +34,10 @@ public class ParcelaService extends GenericService<ParcelaBean, ParcelaRepositor
     ParcelaRepositoryImpl parcelaRepository;
 
     @Autowired
-    private LojaService lojaService;
+    LojaService lojaService;
 
     @Autowired
-    private ClienteService clienteService;
+    ClienteService clienteService;
 
     public Page<ParcelaDTO> pagination(PaginationFilterDTO<ParcelaDTO> paginationFilter) {
         Pageable paging = PageRequest.of(paginationFilter.getPageNo(), paginationFilter.getPageSize(), Sort.by(paginationFilter.getSortBy()));
