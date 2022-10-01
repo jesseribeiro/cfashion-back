@@ -1,13 +1,12 @@
 package br.com.crista.fashion.service;
 
-import br.com.crista.fashion.bean.ClienteBean;
-import br.com.crista.fashion.bean.LojaBean;
-import br.com.crista.fashion.bean.ParcelaBean;
-import br.com.crista.fashion.bean.VendaBean;
+import br.com.crista.fashion.bean.*;
 import br.com.crista.fashion.dto.CalcularVendaDTO;
 import br.com.crista.fashion.dto.PaginationFilterDTO;
 import br.com.crista.fashion.dto.VendaDTO;
-import br.com.crista.fashion.enumeration.*;
+import br.com.crista.fashion.enumeration.EnumRole;
+import br.com.crista.fashion.enumeration.EnumStatus;
+import br.com.crista.fashion.enumeration.EnumTipoPagamento;
 import br.com.crista.fashion.repository.VendaRepository;
 import br.com.crista.fashion.repository.impl.VendaRepositoryImpl;
 import br.com.crista.fashion.utils.DateUtils;
@@ -18,13 +17,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -36,6 +34,9 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
 
     @Autowired
     LojaService lojaService;
+
+    @Autowired
+    ProdutoService produtoService;
 
     @Autowired
     VendaRepositoryImpl vendaRepository;
@@ -61,21 +62,12 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
             marcaId = marca.getId();
         }
 
-        Calendar dataInicial = null;
-        Calendar dataFinal = null;
-        if (filtros.getDataInicial() != null && !filtros.getDataInicial().isEmpty()) {
-            dataInicial = DateUtils.getDiaMesAno(filtros.getDataInicial());
-        }
-        if (filtros.getDataFinal() != null && !filtros.getDataFinal().isEmpty()) {
-            dataFinal = DateUtils.getDiaMesAno(filtros.getDataFinal());
-        }
-
         Page<VendaDTO> vendas = vendaRepository.pagination(
                 clienteId,
                 marcaId,
                 status,
-                dataInicial,
-                dataFinal,
+                filtros.getDataInicial(),
+                filtros.getDataFinal(),
                 paging);
 
         if (vendas.hasContent()) {
@@ -85,89 +77,74 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
         }
     }
 
-    /*
-    public List<ParcelaCompraDTO> calcularVenda(CalcularVendaDTO dto) {
-        // O que quer dizer primeira compra?
-        // R: É primeira compra na rede Pratico o
-        // vefiricar se é a primeira compra para utilizar os limites pré aprovados inicial
-        // R: Sim, mas isso vai ter q vir la da regra financeira dos campos de concessao de credito
-        /**
-         * limite této para compras
-         *
-         * Limite compartilhado por todas as lojas único
-         * Limite exclusivo para uma loja especifica (N)
-         *
-         * O cliente poderá ter dois tipos de limite:
-         *  - Limite Compartilhado
-         *  - Limite Exclusivo ( serão limites exclusivos por lojas)
-         */
-/*
-        Boolean permitir = false;
-        if (dto.getFlagAutorizacao()) {
-            permitir = true;
-        }
-
-        ClienteBean cliente = clienteService.getById(dto.getClienteId());
-        LojaBean loja = lojaService.getLojaById(dto.getLojaId());
-
-        BigDecimal peEntrada = null;
-
-        BigDecimal valorEntrada = BigDecimal.ZERO; // scoreClienteService.calculaValorEntrada(dto.getVlProduto(), regraGrupoLimiteCreditoDTO);
-        if(peEntrada != null && peEntrada.compareTo(BigDecimal.ZERO) > 0) {
-            valorEntrada = MathUtils.percentage(dto.getVlProduto(), peEntrada);
-        }
-
-        if (getUsuarioLogado().getRoleAtiva() != EnumRole.ADMIN) {
-            if (dto.getVlEntrada() != null && dto.getVlEntrada().compareTo(BigDecimal.ZERO) > 0) {
-                if (valorEntrada.compareTo(dto.getVlEntrada()) == 1) {
-                    dto.setVlEntrada(valorEntrada);
-                    if (!permitir) {
-                        throw new OperacaoNaoPermitidaException("Valor de entrada não pode ser menor do que R$ " + valorEntrada);
-                    }
-                } else if (dto.getVlEntrada().compareTo(valorEntrada) == 1) {
-                    valorEntrada = dto.getVlEntrada();
-                }
-            }
-        } else if (dto.getVlEntrada() != null) {
-            valorEntrada = dto.getVlEntrada();
-        }
-
-        BigDecimal tarifaParcela = null;
-        return null;
-    }
-    */
-
     @Transactional
-    public VendaDTO vender(CalcularVendaDTO dto) throws IOException {
+    public ResponseEntity vender(CalcularVendaDTO dto) {
 
         ClienteBean cliente = clienteService.getById(dto.getClienteId());
-        LojaBean loja = lojaService.getLojaById(dto.getLojaId());
+        LojaBean marca = lojaService.getLojaById(dto.getMarcaId());
+        ProdutoBean produto = produtoService.getById(dto.getMarcaId());
 
-        // Persistir a Venda
         VendaBean venda = new VendaBean();
         venda.setCliente(cliente);
-        venda.setValorProduto(dto.getVlProduto());
+        venda.setProduto(produto);
+        venda.setLoja(marca);
+
+        venda.setDataVenda(dto.getDataVenda());
+        venda.setStatus(EnumStatus.NAO_PAGA);
+        venda.setTipo(EnumTipoPagamento.valueOf(dto.getTipo()));
+
+        venda.setValorProduto(dto.getValorProduto());
+        // calcular valorTotal
+        venda.setFrete(dto.getFrete());
+        venda.setComissao(dto.getComissao());
+        venda.setDescontos(dto.getDesconto());
+        venda.setQtdParcela(dto.getQtdParcela());
+
         venda.setDataVenda(Calendar.getInstance());
         save(venda);
 
-        Integer diasPrimeiroVencimento;
-        if (dto.getDiasPrimeiraParcela() != null) {
-            diasPrimeiroVencimento = dto.getDiasPrimeiraParcela();
-        } else {
-            diasPrimeiroVencimento = null;
+        Calendar dataVencimento = dto.getDataVenda();
+
+        for (int x = 1; x <= dto.getQtdParcela(); x++) {
+
+            ParcelaBean parcela = new ParcelaBean();
+            parcela.setCliente(cliente);
+            parcela.setProduto(produto);
+            parcela.setLoja(marca);
+
+            parcela.setValorParcela(dto.getValorParcela());
+            parcela.setNumero(x);
+            parcela.setStatus(EnumStatus.NAO_PAGA);
+
+            if (venda.getTipo() == EnumTipoPagamento.CARTAO_CREDITO) {
+                parcela.setDataVencimento(DateUtils.proximoMes(dataVencimento, x));
+            } else {
+                dataVencimento.add(Calendar.DATE, 1);
+                Integer dia = Integer.parseInt(DateUtils.getDia(dataVencimento));
+                if (venda.getTipo() == EnumTipoPagamento.MAGALU) {
+                    while (dia != 2) {
+                        dataVencimento.add(Calendar.DATE, 1);
+                        dia = Integer.parseInt(DateUtils.getDia(dataVencimento));
+                    }
+                } else if (venda.getTipo() == EnumTipoPagamento.AMERICANAS || venda.getTipo() == EnumTipoPagamento.MERCADO_LIVRE) {
+                    while (dia != 14) {
+                        dataVencimento.add(Calendar.DATE, 1);
+                        dia = Integer.parseInt(DateUtils.getDia(dataVencimento));
+                    }
+                }
+                parcela.setDataVencimento(dataVencimento);
+            }
+            log.info(DateUtils.getDiaMesAnoPortugues(parcela.getDataVencimento()));
+
+            parcela.setVenda(venda);
+            parcelaService.save(parcela);
         }
-        Integer somaDiasParcelas = diasPrimeiroVencimento;
-        Integer diasParaRepasse = null;
-        boolean flgPrimeiraParcela = true;
-        String dataVencimentoMsg = DateUtils.getDiaMesAnoPortugues(DateUtils.geraDataVencimento(somaDiasParcelas));
 
-        Date dataParcela = DateUtils.convertStringInDate(dataVencimentoMsg);
-        Integer mesParcela = 1;
+        produtoService.atualizaProduto(dto.getProdutoId());
 
-        return null;
+        return ResponseEntity.ok().body("Sucesso");
     }
 
-    //
     @Transactional
     public void cancelarVenda(Long vendaId) {
 
@@ -193,7 +170,8 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
     }
 
     public void pagarParcela(ParcelaBean parcelaBean, LojaBean loja, BigDecimal valorPago, BigDecimal multa,
-                             BigDecimal jurosMora, BigDecimal desconto, TipoFormaPagamento tipoFormaPagamento, EnumTipoPagamento tipoPagamento, EnumBanco banco) {
-        parcelaService.pagarParcela(parcelaBean, loja, valorPago, multa, jurosMora, desconto, tipoFormaPagamento, tipoPagamento, banco, Calendar.getInstance());
+                             BigDecimal jurosMora, BigDecimal desconto, EnumTipoPagamento tipoPagamento) {
+        parcelaService.pagarParcela(parcelaBean, loja, valorPago, multa, jurosMora, desconto, tipoPagamento, Calendar.getInstance());
     }
+
 }

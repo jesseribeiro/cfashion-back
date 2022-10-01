@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface ProdutoRepository extends CrudRepository<ProdutoBean, Long>, GenericRepository {
 
     String FilterPagination = WHERE_EXCLUIDO
@@ -29,4 +31,14 @@ public interface ProdutoRepository extends CrudRepository<ProdutoBean, Long>, Ge
 
     @Query(value = "SELECT x FROM Produto x WHERE x.nome =:nome ")
     ProdutoBean findByProduto(@Param("nome") String nome);
+
+    @Query(value = "SELECT DISTINCT x.categoria FROM Produto x WHERE x.marca.id =:marcaId and x.qtd > 0 order by x.categoria ")
+    List<String> findCategoriasByMarca(@Param("marcaId") Long marcaId);
+
+    @Query(value = "SELECT x.codigo FROM Produto x WHERE x.marca.id =:marcaId and x.categoria =:categoria and x.qtd > 0 order by x.codigo")
+    List<String> findCodigos(@Param("marcaId") Long marcaId,
+                             @Param("categoria") EnumCategoria categoria);
+
+    @Query(value = "SELECT new br.com.crista.fashion.dto.ProdutoDTO(x) FROM Produto x WHERE x.codigo =:codigo")
+    ProdutoDTO findByCodigo(@Param("codigo") String codigo);
 }

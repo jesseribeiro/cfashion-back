@@ -22,7 +22,6 @@ public class LojaService extends GenericService<LojaBean, LojaRepository> {
     }
 
     public LojaDTO salvar(LojaDTO lojaDTO) {
-
         LojaBean loja = new LojaBean();
         loja = lojaDTO.converter(loja);
         save(loja);

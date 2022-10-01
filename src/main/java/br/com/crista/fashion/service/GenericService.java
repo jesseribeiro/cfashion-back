@@ -91,7 +91,7 @@ public class GenericService<T extends GenericBean, DAO extends CrudRepository<T,
      * Dessa forma é possível via token descriptografálo e pegar as informaçoes do usuário e roles deles e validar se tem permissão
      * para realizar a operação, caso tenha então deixa executar a operação senão retornar o status (405) e o fluxo se inicia.
      */
-    public boolean hasPermissao(HttpServletRequest request, EnumRole [] rolesPermitida) {
+    public boolean hasPermissao(HttpServletRequest request, EnumRole[] rolesPermitida) {
         if(hasPermissaoUsuarioLogado(rolesPermitida)) {
             return true;
         }

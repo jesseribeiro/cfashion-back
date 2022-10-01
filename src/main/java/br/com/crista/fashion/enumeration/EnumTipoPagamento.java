@@ -11,12 +11,12 @@ import java.util.stream.Collectors;
 public enum EnumTipoPagamento {
     CARTAO_CREDITO("Cartão de Crédito"),
     PIX("Pix"),
-    LOJA("Magalu"),
-    BANCO("Americanas"),
-    TODOS("Mercado Livre");
+    BOLETO("Boleto"),
+    MAGALU("Magalu"),
+    AMERICANAS("Americanas"),
+    MERCADO_LIVRE("Mercado Livre");
 
     private String label;
-
 
     EnumTipoPagamento(String label){
         this.label = label;

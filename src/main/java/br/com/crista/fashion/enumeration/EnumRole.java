@@ -11,9 +11,7 @@ public enum EnumRole {
     SUPERVISOR("Supervisor"),
     COMERCIAL("Comercial"),
     NEGOCIADOR("Negociador"),
-    CREDIARISTA("Crediarista"),
-    PROPRIETARIO("Proprietário"),
-    PROPRIETARIO_RELATORIO("Proprietário Relatório");
+    CREDIARISTA("Crediarista");
 
     private String label;
 

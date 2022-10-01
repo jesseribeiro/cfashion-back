@@ -3,7 +3,11 @@ package br.com.crista.fashion.service;
 import br.com.crista.fashion.bean.ClienteBean;
 import br.com.crista.fashion.dto.ClienteDTO;
 import br.com.crista.fashion.dto.PaginationFilterDTO;
+import br.com.crista.fashion.dto.ParcelaDTO;
+import br.com.crista.fashion.dto.VendaDTO;
+import br.com.crista.fashion.enumeration.EnumStatus;
 import br.com.crista.fashion.repository.ClienteRepository;
+import br.com.crista.fashion.repository.impl.VendaRepositoryImpl;
 import br.com.crista.fashion.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.List;
 
 @Slf4j
@@ -22,6 +27,9 @@ public class ClienteService extends GenericService<ClienteBean, ClienteRepositor
 
     @Autowired
     CidadeService cidadeService;
+
+    @Autowired
+    VendaRepositoryImpl vendaRepository;
 
     public ClienteDTO salvar(ClienteDTO dto) {
 
@@ -84,80 +92,37 @@ public class ClienteService extends GenericService<ClienteBean, ClienteRepositor
         return ResponseEntity.ok("Sucesso");
     }
 
-/*
-    public List<CarneClienteDTO> getCarnesCliente(Long clienteId, CarneClienteDTO filtro) {
+    public List<VendaDTO> getVendasCliente(Long clienteId, VendaDTO filtro) {
 
-        Boolean somenteCarne = false;
+        EnumStatus status = filtro.getStatus() != null ? EnumStatus.valueOf(filtro.getStatus()) : null;
+        List<VendaDTO> vendas = vendaRepository.findVendasCliente(clienteId, filtro.getDataInicial(),
+                filtro.getDataFinal(), status);
 
-        Comentado por enquanto, pq os lojistas tbem precisam ver os boletos
-        if (getUsuarioLogado().getRoleAtiva() == EnumRole.CREDIARISTA ||
-                getUsuarioLogado().getRoleAtiva() == EnumRole.PROPRIETARIO) {
-            somenteCarne = true;
-        }
-        EnumStatusCarne status = filtro.getStatus() != null ? EnumStatusCarne.valueOf(filtro.getStatus()) : null;
-        List<CarneClienteDTO> carnesCliente = carneRepository.findCarnesCliente(clienteId, filtro.getLojaId(), filtro.getDataInicial(),
-                filtro.getDataFinal(), status, somenteCarne);
-
-        for(CarneClienteDTO dto : carnesCliente) {
-            if(dto.getParcelas() != null && !dto.getParcelas().isEmpty()) {
-
-            } else {
-                dto.setTotalMultaJurosCarne(BigDecimal.ZERO);
-                dto.setTotalAtrasoCarne(BigDecimal.ZERO);
-                dto.setSaldoDevedorCarne(BigDecimal.ZERO);
-            }
-        }
-        return carnesCliente;
+        return vendas;
     }
-*/
 
-    /*
-    public Page<ParcelaClienteDTO> paginationParcelas(String cpf, PaginationFilterDTO<ParcelaClienteDTO> paginationFilter) {
-        ClienteBean cliente = getRepository().findByCpf(StringUtils.desformataCpfCnpj(cpf)).orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
-        
+    public Page<ParcelaDTO> paginationPagamentos(Long clienteId, PaginationFilterDTO<ParcelaDTO> paginationFilter) {
         Pageable paging = PageRequest.of(paginationFilter.getPageNo(), paginationFilter.getPageSize(), Sort.by(paginationFilter.getSortBy()));
-        ParcelaClienteDTO filtros = paginationFilter.getFiltros();
+        ParcelaDTO filtros = paginationFilter.getFiltros();
 
-        EnumStatusParcela status = filtros.getStatus() != null ? EnumStatusParcela.valueOf(filtros.getStatus()) : null;
-        Page<ParcelaClienteDTO> parcelas;
-        if (filtros.getLojaId() == -1L) {
-            filtros.setLojaId(null);
-        }
-
-        if (filtros.getEmpresaId() == -1L) {
-            filtros.setEmpresaId(null);
-        }
-
-        if (filtros.getRedeId() == -1L) {
-            filtros.setRedeId(null);
-        }
-
+        Page<ParcelaDTO> clientes;
         if(filtros.getDataInicial() != null) {
-            parcelas = getRepository().paginationParcelas(
-                    cliente.getId(),
-                    filtros.getLojaId(),
-                    status,
+            clientes = getRepository().paginationPagamentos(
+                    clienteId,
                     filtros.getDataInicial(),
                     filtros.getDataFinal() == null ? Calendar.getInstance() : filtros.getDataFinal(),
-                    TipoFormaPagamento.CARNE,
                     paging);
         } else {
-            parcelas = getRepository().paginationParcelasSemDatas(
-                    cliente.getId(),
-                    filtros.getLojaId(),
-                    status,
-                    TipoFormaPagamento.CARNE,
+            clientes = getRepository().paginationPagamentosSemDatas(
+                    clienteId,
                     paging);
         }
-        if(parcelas.hasContent()) {
-            calculaMultaEJurosMoraParcelas(parcelas.getContent());
-            return parcelas;
+        if(clientes.hasContent()) {
+            return clientes;
         } else {
             return Page.empty();
         }
     }
-
-     */
 
     public ClienteBean findByCpf(String cpf) {
         return getRepository().findByCpf(cpf).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));

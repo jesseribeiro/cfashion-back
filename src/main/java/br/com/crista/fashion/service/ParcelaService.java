@@ -5,13 +5,10 @@ import br.com.crista.fashion.bean.LojaBean;
 import br.com.crista.fashion.bean.ParcelaBean;
 import br.com.crista.fashion.dto.PaginationFilterDTO;
 import br.com.crista.fashion.dto.ParcelaDTO;
-import br.com.crista.fashion.enumeration.EnumBanco;
 import br.com.crista.fashion.enumeration.EnumStatus;
 import br.com.crista.fashion.enumeration.EnumTipoPagamento;
-import br.com.crista.fashion.enumeration.TipoFormaPagamento;
 import br.com.crista.fashion.repository.ParcelaRepository;
 import br.com.crista.fashion.repository.impl.ParcelaRepositoryImpl;
-import br.com.crista.fashion.utils.DateUtils;
 import br.com.crista.fashion.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,21 +54,12 @@ public class ParcelaService extends GenericService<ParcelaBean, ParcelaRepositor
             marcaId = marca.getId();
         }
 
-        Calendar dataInicial = null;
-        Calendar dataFinal = null;
-        if (filtros.getDataInicial() != null && !filtros.getDataInicial().isEmpty()) {
-            dataInicial = DateUtils.getDiaMesAno(filtros.getDataInicial());
-        }
-        if (filtros.getDataFinal() != null && !filtros.getDataFinal().isEmpty()) {
-            dataFinal = DateUtils.getDiaMesAno(filtros.getDataFinal());
-        }
-
         Page<ParcelaDTO> parcelas = parcelaRepository.pagination(
                 clienteId,
                 marcaId,
                 status,
-                dataInicial,
-                dataFinal,
+                filtros.getDataInicial(),
+                filtros.getDataFinal(),
                 paging);
 
         if (parcelas.hasContent()) {
@@ -83,8 +71,8 @@ public class ParcelaService extends GenericService<ParcelaBean, ParcelaRepositor
 
     @Transactional
     public void pagarParcela(ParcelaBean parcelaBean, LojaBean loja, BigDecimal valorPago, BigDecimal multa, BigDecimal jurosMora,
-                             BigDecimal desconto, TipoFormaPagamento tipoFormaPagamento, EnumTipoPagamento tipoPagamento,
-                             EnumBanco banco, Calendar dataPagamento) {
+                             BigDecimal desconto, EnumTipoPagamento tipoPagamento,
+                             Calendar dataPagamento) {
         parcelaBean.setStatus(EnumStatus.PAGA);
         save(parcelaBean);
     }

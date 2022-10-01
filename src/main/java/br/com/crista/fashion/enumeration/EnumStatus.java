@@ -22,18 +22,4 @@ public enum EnumStatus {
     public static List<LabelDescricaoDTO> getLabels(){
         return Arrays.stream(values()).map(status -> new LabelDescricaoDTO(status.name(), status.getLabel())).collect(Collectors.toList());
     }
-
-    public static EnumStatus getValueOf(final String value) {
-        if(value != null) {
-            for(EnumStatus e : EnumStatus.values()) {
-                if(e.getLabel().equals(value)) {
-                    return e;
-                }
-                if(e.name().equals(value)) {
-                    return e;
-                }
-            }
-        }
-        return null;
-    }
 }

@@ -107,4 +107,24 @@ public class ProdutoService extends GenericService<ProdutoBean, ProdutoRepositor
     public ProdutoBean produtoByNome (String nome) {
         return getRepository().findByProduto(nome);
     }
+
+    public List<String> getCategoriasByMarca (Long marcaId) {
+        return getRepository().findCategoriasByMarca(marcaId);
+    }
+
+    public List<String> getCodigos (Long marcaId, String categoria) {
+        EnumCategoria cat = EnumCategoria.valueOf(categoria);
+        return getRepository().findCodigos(marcaId, cat);
+    }
+
+    public ProdutoDTO findByCodigo (String codigo) {
+        return getRepository().findByCodigo(codigo);
+    }
+
+    public void atualizaProduto (Long produtoId) {
+        ProdutoBean produto = getById(produtoId);
+        Integer qtd = produto.getQtd();
+        produto.setQtd(--qtd);
+        update(produto);
+    }
 }

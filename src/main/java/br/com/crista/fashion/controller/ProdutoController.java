@@ -69,4 +69,23 @@ public class ProdutoController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping(path = "/categorias/{id}")
+    public List<String> getAllCategoriasByMarca(@PathVariable("id") Long id) {
+        return produtoService.getCategoriasByMarca(id);
+    }
+
+    @PostMapping(path = "/{id}/codigos//{categoria}")
+    public List<String> getAllCodigos(@PathVariable("id") Long id, @PathVariable("categoria") String categoria) {
+        return produtoService.getCodigos(id, categoria);
+    }
+
+    @PostMapping(path = "/codigo/{codigo}")
+    public ResponseEntity getProduto(@PathVariable("codigo") String codigo) {
+        try {
+            return ResponseEntity.ok(produtoService.findByCodigo(codigo));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

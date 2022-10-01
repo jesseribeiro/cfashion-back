@@ -3,8 +3,6 @@ package br.com.crista.fashion.utils;
 import javax.swing.text.MaskFormatter;
 import java.text.Normalizer;
 import java.text.ParseException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
@@ -62,44 +60,5 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         }
         String saida = telResidencial.replaceAll("\\D+","");
         return saida.substring(2);
-    }
-
-    public static String primeiroNomeMsg (String nome){
-        String primeiroNome;
-        if(nome.equalsIgnoreCase("") || nome.equals(null)){
-            primeiroNome = "Cliente";
-        } else {
-            try{
-                primeiroNome = nome.substring(0, nome.indexOf(" "));
-            }
-            catch (Exception e){
-                primeiroNome = nome;
-            }
-        }
-        return primeiroNome;
-    }
-
-    public static String toTitleCase(String input) {
-        StringBuffer strbf = new StringBuffer();
-        Matcher match = Pattern.compile("([a-z])([a-z]*)", Pattern.CASE_INSENSITIVE).matcher(input);
-        while(match.find())
-        {
-            match.appendReplacement(strbf, match.group(1).toUpperCase() + match.group(2).toLowerCase());
-        }
-        input = match.appendTail(strbf).toString();
-        return input;
-    }
-
-
-    public static String removeBarraJson(String str) {
-        Integer begin = str.indexOf("\"") + 1;
-        Integer last = str.lastIndexOf("\"");
-        str = str.substring(begin,last);
-        return str;
-    }
-
-    public static String removeStringNull(String str) {
-        str = str.replaceAll("null","\"\"");
-        return str;
     }
 }

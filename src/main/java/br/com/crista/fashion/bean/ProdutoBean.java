@@ -14,6 +14,11 @@ import java.util.Calendar;
 @Getter
 @Setter
 @Entity(name = "Produto")
+@Table(name = "produto", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {
+                "codigo"
+        })
+})
 public class ProdutoBean extends GenericBean {
 
     private String nome;

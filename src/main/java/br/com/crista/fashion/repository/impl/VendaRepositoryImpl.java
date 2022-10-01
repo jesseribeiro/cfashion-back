@@ -20,9 +20,8 @@ public class VendaRepositoryImpl {
     @PersistenceContext
     EntityManager entityManager;
 
-    public Page<VendaDTO> pagination(Long clienteId, Long lojaId,
-                                     EnumStatus status, Calendar dataInicial,
-                                     Calendar dataFinal, Pageable paging) {
+    public Page<VendaDTO> pagination(Long clienteId, Long lojaId, EnumStatus status,
+                                     Calendar dataInicial, Calendar dataFinal, Pageable paging) {
         String filtros = " From Venda as x " +
                 " JOIN x.loja as l " +
                 " JOIN x.cliente as c " +
@@ -73,6 +72,44 @@ public class VendaRepositoryImpl {
         if (dataFinal != null) {
             dataFinal = DateUtils.setUltimaHoraDoDia(dataFinal);
             query.setParameter("dataFinal", dataFinal);
+        }
+    }
+
+    public List<VendaDTO> findVendasCliente(Long clienteId, Calendar dataInicial, Calendar dataFinal, EnumStatus status) {
+        String sqlVendasCompra = " SELECT new br.com.crista.fashion.dto.VendaDTO(x) From Venda as x " +
+                " JOIN x.cliente as c " +
+                " WHERE " +
+                " c.id =:clienteId ";
+
+        String filtros = "";
+        if(dataInicial != null) {
+            filtros += " and x.dataVenda >= :dataInicial ";
+        }
+        if(dataFinal != null) {
+            filtros += " and x.dataVenda <= :dataFinal ";
+        }
+        if(status != null) {
+            filtros += " and x.status = :status ";
+        }
+        sqlVendasCompra += filtros;
+
+        Query query = entityManager.createQuery(sqlVendasCompra);
+        addFiltros(clienteId, dataInicial, dataFinal, status, query);
+
+        List<VendaDTO> vendas = query.getResultList();
+        return vendas;
+    }
+
+    private void addFiltros(Long clienteId, Calendar dataInicial, Calendar dataFinal, EnumStatus status, Query query) {
+        query.setParameter("clienteId", clienteId);
+        if (status != null) {
+            query.setParameter("status", status);
+        }
+        if (dataInicial != null) {
+            query.setParameter("dataInicial", DateUtils.zeraHorario(dataInicial));
+        }
+        if (dataFinal != null) {
+            query.setParameter("dataFinal", DateUtils.setUltimaHoraDoDia(dataFinal));
         }
     }
 }

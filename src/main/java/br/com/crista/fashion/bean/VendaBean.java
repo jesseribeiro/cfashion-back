@@ -1,6 +1,5 @@
 package br.com.crista.fashion.bean;
 
-import br.com.crista.fashion.enumeration.EnumBanco;
 import br.com.crista.fashion.enumeration.EnumStatus;
 import br.com.crista.fashion.enumeration.EnumTipoPagamento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -14,6 +13,7 @@ import org.hibernate.envers.NotAudited;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.List;
 
 @Audited
 @Getter
@@ -53,9 +53,11 @@ public class VendaBean extends GenericBean {
     @Enumerated(EnumType.STRING)
     private EnumTipoPagamento tipo;
 
-    @Enumerated(value = EnumType.STRING)
-    private EnumBanco banco;
-
     @Enumerated(EnumType.STRING)
     private EnumStatus status;
+
+    @JsonIgnore
+    @NotAudited
+    @OneToMany(mappedBy = "venda", fetch = FetchType.LAZY)
+    private List<ParcelaBean> parcelas;
 }

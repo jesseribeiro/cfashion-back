@@ -1,6 +1,8 @@
 package br.com.crista.fashion.controller;
 
-import br.com.crista.fashion.dto.*;
+import br.com.crista.fashion.dto.CalcularVendaDTO;
+import br.com.crista.fashion.dto.PaginationFilterDTO;
+import br.com.crista.fashion.dto.VendaDTO;
 import br.com.crista.fashion.service.VendaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.io.IOException;
 
 @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR', 'COMERCIAL', 'NEGOCIADOR', 'PROPRIETARIO', 'CREDIARISTA')")
 @RestController
@@ -26,21 +27,8 @@ public class VendaController {
         return vendaService.pagination(paginationFilter);
     }
 
-    /*
-    @PostMapping(path = "/calcular")
-    public ResponseEntity calcularVenda(@RequestBody @Valid @NotNull CalcularVendaDTO dto) {
-        try {
-            return ResponseEntity.ok(vendaService.calcularVenda(dto));
-        } catch (OperacaoNaoPermitidaException e) {
-            return ResponseEntity.status(METHOD_NOT_ALLOWED).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-    */
-
     @PostMapping(path = "/vender")
-    public ResponseEntity vender(@RequestBody @Valid @NotNull CalcularVendaDTO dto) throws IOException {
+    public ResponseEntity vender(@RequestBody @Valid @NotNull CalcularVendaDTO dto) {
         try {
             return ResponseEntity.ok(vendaService.vender(dto));
         } catch (Exception e) {

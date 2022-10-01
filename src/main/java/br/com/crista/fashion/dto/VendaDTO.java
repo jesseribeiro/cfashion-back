@@ -1,5 +1,6 @@
 package br.com.crista.fashion.dto;
 
+import br.com.crista.fashion.bean.ParcelaBean;
 import br.com.crista.fashion.bean.VendaBean;
 import br.com.crista.fashion.json.MoneyDeserializerJson;
 import br.com.crista.fashion.utils.StringUtils;
@@ -7,6 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -17,8 +19,8 @@ import java.util.List;
 @Builder
 public class VendaDTO extends GenericDTO<VendaBean> {
 
-    private String dataInicial;
-    private String dataFinal;
+    private Calendar dataInicial;
+    private Calendar dataFinal;
 
     @JsonDeserialize(converter = MoneyDeserializerJson.class)
     private BigDecimal vlParcela;
@@ -62,9 +64,13 @@ public class VendaDTO extends GenericDTO<VendaBean> {
         if (bean.getTipo() != null) {
             tipo = bean.getTipo().getLabel();
         }
-
         if (bean.getStatus() != null) {
             status = bean.getStatus().getLabel();
+        }
+
+        this.parcelas = new ArrayList<>();
+        for(ParcelaBean p : bean.getParcelas()) {
+            this.parcelas.add(new ParcelaDTO(p));
         }
     }
 }

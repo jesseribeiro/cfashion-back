@@ -2,6 +2,8 @@ package br.com.crista.fashion.controller;
 
 import br.com.crista.fashion.dto.ClienteDTO;
 import br.com.crista.fashion.dto.PaginationFilterDTO;
+import br.com.crista.fashion.dto.ParcelaDTO;
+import br.com.crista.fashion.dto.VendaDTO;
 import br.com.crista.fashion.service.ClienteService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,12 +65,16 @@ public class ClienteController extends GenericController {
         return clienteService.delete(id);
     }
 
-    /*
-    @PostMapping(path = "/{cpf}/parcelas")
-    public Page<ParcelaClienteDTO> paginationCarnes(@PathVariable("cpf") String cpf, @RequestBody PaginationFilterDTO<ParcelaClienteDTO> paginationFilter) {
-        return clienteService.paginationParcelas(cpf, paginationFilter);
+
+    @PostMapping(path = "/{id}/vendas")
+    public List<VendaDTO> getVendasCliente(@PathVariable("id") Long id, @RequestBody VendaDTO filtro) {
+        return clienteService.getVendasCliente(id, filtro);
     }
-    */
+
+    @PostMapping(path = "/{id}/pagamentos")
+    public Page<ParcelaDTO> paginationPagamentos(@PathVariable("id") Long id, @RequestBody PaginationFilterDTO<ParcelaDTO> paginationFilter) {
+        return clienteService.paginationPagamentos(id, paginationFilter);
+    }
 
     @PostMapping(path = "/consulta-cpf")
     public ResponseEntity consultaCPF(@RequestBody @Valid @NotNull ClienteDTO dto) {

@@ -16,8 +16,8 @@ import java.util.Calendar;
 @NoArgsConstructor
 public class ParcelaDTO extends GenericDTO<ParcelaBean> {
 
-    private String dataInicial;
-    private String dataFinal;
+    private Calendar dataInicial;
+    private Calendar dataFinal;
 
     private Long marcaId;
     private String marca;
@@ -34,6 +34,7 @@ public class ParcelaDTO extends GenericDTO<ParcelaBean> {
     private Calendar dataPagamento;
     private Long vendaId;
     private String status;
+    private String tipo;
 
     public ParcelaDTO(ParcelaBean bean) {
         super(bean);
@@ -55,6 +56,10 @@ public class ParcelaDTO extends GenericDTO<ParcelaBean> {
         dataVencimento = bean.getDataVencimento();
         dataPagamento = bean.getDataPagto();
         vendaId = bean.getVenda().getId();
+
+        if (bean.getVenda().getTipo() != null) {
+            tipo = bean.getVenda().getTipo().getLabel();
+        }
 
         if (bean.getStatus() != null) {
             status = bean.getStatus().getLabel();

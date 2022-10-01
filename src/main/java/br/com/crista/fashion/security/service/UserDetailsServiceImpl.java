@@ -20,7 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String login)
             throws UsernameNotFoundException {
 
-        UsuarioBean usuario = usuarioRepository.findByLogin(login)
+        UsuarioBean usuario = usuarioRepository.findById(1L)
                 .orElseThrow(() ->
                         new UsernameNotFoundException("Usuário não encontrado: " + login)
                 );
