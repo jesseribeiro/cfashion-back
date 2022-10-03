@@ -29,7 +29,6 @@ br\com\crista\fashion\enumeration\EnumPrioridade.class
 br\com\crista\fashion\bean\AuditEntity.class
 br\com\crista\fashion\dto\NovoLimiteClienteDTO.class
 br\com\crista\fashion\exception\UsuarioInativoException.class
-br\com\crista\fashion\utils\TratadorCertificado.class
 br\com\crista\fashion\enumeration\TipoContaBanco.class
 br\com\crista\fashion\json\EnderecoJson.class
 br\com\crista\fashion\bean\CidadeBean.class
@@ -65,7 +64,6 @@ br\com\crista\fashion\service\UsuarioLogadoService.class
 br\com\crista\fashion\enumeration\TipoFormaPagamento.class
 br\com\crista\fashion\dto\GenericDTO.class
 br\com\crista\fashion\exception\ClienteSemLimiteException.class
-br\com\crista\fashion\report\IReport.class
 br\com\crista\fashion\security\jwt\JwtProvider.class
 br\com\crista\fashion\security\jwt\JwtAuthTokenFilter.class
 br\com\crista\fashion\json\ResponseMessageDTO$ResponseMessageDTOBuilder.class
@@ -80,7 +78,6 @@ br\com\crista\fashion\dto\RoleDTO.class
 br\com\crista\fashion\dto\NovoLimiteClienteDTO$NovoLimiteClienteDTOBuilder.class
 br\com\crista\fashion\bean\LojaBean.class
 br\com\crista\fashion\controller\TiposController.class
-br\com\crista\fashion\utils\SQLUtils.class
 br\com\crista\fashion\dto\ClienteDTO.class
 br\com\crista\fashion\dto\ProdutoDTO.class
 br\com\crista\fashion\repository\EstadoRepository.class
@@ -92,11 +89,9 @@ br\com\crista\fashion\service\UsuarioService.class
 br\com\crista\fashion\utils\StringUtils.class
 br\com\crista\fashion\json\JsonAuditSerializable.class
 br\com\crista\fashion\repository\LojaRepository.class
-br\com\crista\fashion\utils\NoNamesWriter.class
 br\com\crista\fashion\dto\NovaSenhaDTO$NovaSenhaDTOBuilder.class
 br\com\crista\fashion\enumeration\EnumEscolaridade.class
 br\com\crista\fashion\enumeration\EnumStatus.class
-br\com\crista\fashion\utils\NoNamesWriter$1.class
 br\com\crista\fashion\dto\VendaDTO$VendaDTOBuilder.class
 br\com\crista\fashion\enumeration\EnumPrimeiraFatura.class
 br\com\crista\fashion\json\UsuarioJson.class
@@ -167,6 +162,5 @@ br\com\crista\fashion\controller\GenericController.class
 br\com\crista\fashion\bean\RoleBean.class
 br\com\crista\fashion\controller\AuthController.class
 br\com\crista\fashion\controller\CEPController.class
-br\com\crista\fashion\utils\DelegatingXMLStreamWriter.class
 br\com\crista\fashion\dto\UsuarioDTO$UsuarioDTOBuilder.class
 br\com\crista\fashion\enumeration\EnumTipoRegra.class
