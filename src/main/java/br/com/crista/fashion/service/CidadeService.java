@@ -37,20 +37,6 @@ public class CidadeService extends GenericService<CidadeBean, CidadeRepository> 
         return null;
     }
 
-    public List<CidadeBean> findCidadesByNome (String nome) {
-        if (nome != null){
-            return cidadeRepository.findCidadesByNome(nome);
-        }
-        return null;
-    }
-
-    public List<CidadeBean> findCidadesByNomeSemAcento (String nome) {
-        if (nome != null){
-            return cidadeRepository.findCidadesByNomeSemAcento(nome);
-        }
-        return null;
-    }
-
     public void updateCidadeSemAcento () {
         List<CidadeBean> cidades = findAll();
         for (CidadeBean bean : cidades) {

@@ -45,4 +45,14 @@ public class VendaController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @PostMapping(path = "/pagar-venda/{id}")
+    public ResponseEntity pagarVenda(@PathVariable("id") Long vendaId) {
+        try {
+            vendaService.pagarVenda(vendaId);
+            return ResponseEntity.ok("Pagamento realizado com sucesso!");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

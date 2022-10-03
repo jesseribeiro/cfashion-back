@@ -86,7 +86,5 @@ public class ClienteServiceTest {
         usuarioBean.setSenha("123456");
         usuarioBean.setIsAtivo(true);
         usuarioService.save(usuarioBean);
-        usuarioBean.jsonAudit();
-
     }
 }

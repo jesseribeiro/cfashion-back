@@ -40,5 +40,4 @@ public class CidadeController {
             return ResponseEntity.badRequest().body("Não foi possível atualizar as cidades");
         }
     }
-
 }

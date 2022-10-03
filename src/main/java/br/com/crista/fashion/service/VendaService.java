@@ -134,7 +134,6 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
                 }
                 parcela.setDataVencimento(dataVencimento);
             }
-            log.info(DateUtils.getDiaMesAnoPortugues(parcela.getDataVencimento()));
 
             parcela.setVenda(venda);
             parcelaService.save(parcela);
@@ -158,7 +157,6 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
                 throw new RuntimeException("Venda não pode ser cancelada. Não é permitido cancelar venda realizadas em outro dia.");
             }
 
-            venda.setUsuarioExcluiu(getUsuarioLogado());
             update(venda);
 
             List<ParcelaBean> parcelas = null;
@@ -174,4 +172,12 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
         parcelaService.pagarParcela(parcelaBean, loja, valorPago, multa, jurosMora, desconto, tipoPagamento, Calendar.getInstance());
     }
 
+    @Transactional
+    public void pagarVenda(Long vendaId) {
+        VendaBean venda = getRepository().findById(vendaId).get();
+        venda.setStatus(EnumStatus.PAGA);
+        update(venda);
+
+        parcelaService.updateParcelasPagas(venda.getParcelas());
+    }
 }

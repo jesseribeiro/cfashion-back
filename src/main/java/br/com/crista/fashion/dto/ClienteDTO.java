@@ -47,7 +47,8 @@ public class ClienteDTO extends GenericDTO<ClienteBean> {
         bean.setSexo(sexo);
         bean.setCelular(celular);
         bean.setEmail(email);
-        bean.setEndereco(bean.getEndereco());
+        bean.setEndereco(endereco);
+        bean.setDataNascimento(dataNascimento);
         return bean;
     }
 }

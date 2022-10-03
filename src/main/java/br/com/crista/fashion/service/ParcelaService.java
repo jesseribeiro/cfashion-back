@@ -77,6 +77,16 @@ public class ParcelaService extends GenericService<ParcelaBean, ParcelaRepositor
         save(parcelaBean);
     }
 
+    public void updateParcelasPagas(List<ParcelaBean> parcelas) {
+        for (ParcelaBean bean : parcelas) {
+            if (bean.getStatus() != EnumStatus.PAGA) {
+                bean.setDataPagto(Calendar.getInstance());
+                bean.setStatus(EnumStatus.PAGA);
+                update(bean);
+            }
+        }
+    }
+
     public void updateStatusParcelasByIds(EnumStatus status, List<Long> parcelasIds) {
         getRepository().updateStatusParcelasByIds(status, parcelasIds);
     }

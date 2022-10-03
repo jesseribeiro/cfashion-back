@@ -23,7 +23,7 @@ public interface ParcelaRepository extends CrudRepository<ParcelaBean, Long>, Ge
 */
 
     @Modifying
-    @Query(value = "update parcela set status=:status where id in (:ids)", nativeQuery = true)
+    @Query(value = " update parcela set status=:status where id in (:ids)", nativeQuery = true)
     void updateStatusParcelasByIds(@Param("status") EnumStatus status, @Param("ids") List<Long> parcelasIds);
 
     /*

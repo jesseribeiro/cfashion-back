@@ -57,13 +57,11 @@ public class GenericService<T extends GenericBean, DAO extends CrudRepository<T,
     }
 
     public T update(T bean) {
-        bean.setUsuarioAlteracao(usuarioLogadoService.getUsuarioLogado());
         bean.setDataAlteracao(Calendar.getInstance());
         return repository.save(bean);
     }
 
     public void delete(T bean) {
-        bean.setUsuarioExcluiu(usuarioLogadoService.getUsuarioLogado());
         bean.setDataExclusao(Calendar.getInstance());
         bean.setExcluido(true);
         repository.save(bean);

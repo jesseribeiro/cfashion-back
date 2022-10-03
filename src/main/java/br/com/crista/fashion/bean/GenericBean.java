@@ -1,7 +1,6 @@
 package br.com.crista.fashion.bean;
 
 import br.com.crista.fashion.utils.NullUtils;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
@@ -33,20 +32,6 @@ public abstract class GenericBean {
     @Column(name = "is_excluido")
     private Boolean isExcluido;
 
-    @Column(name = "algorix_id")
-    @JsonIgnore
-    private Long algorixId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_excluiu_id")
-    @JsonIgnore
-    private UsuarioBean usuarioExcluiu;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_alteracao_id")
-    @JsonIgnore
-    private UsuarioBean usuarioAlteracao;
-
     public Long getId() {
         return id;
     }
@@ -75,10 +60,6 @@ public abstract class GenericBean {
         return dataCadastro;
     }
 
-    public Long getAlgorixId() {
-        return algorixId;
-    }
-
     public void setDataCadastro(Calendar dataCadastro) {
         this.dataCadastro = dataCadastro;
     }
@@ -87,28 +68,8 @@ public abstract class GenericBean {
         return dataAlteracao;
     }
 
-    public void setAlgorixId(Long algorixId) {
-        this.algorixId = algorixId;
-    }
-
     public void setDataAlteracao(Calendar dataAlteracao) {
         this.dataAlteracao = dataAlteracao;
-    }
-
-    public UsuarioBean getUsuarioExcluiu() {
-        return usuarioExcluiu;
-    }
-
-    public void setUsuarioExcluiu(UsuarioBean usuarioExcluiu) {
-        this.usuarioExcluiu = usuarioExcluiu;
-    }
-
-    public UsuarioBean getUsuarioAlteracao() {
-        return usuarioAlteracao;
-    }
-
-    public void setUsuarioAlteracao(UsuarioBean usuarioAlteracao) {
-        this.usuarioAlteracao = usuarioAlteracao;
     }
 
     public int hashCode() {
