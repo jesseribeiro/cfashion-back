@@ -6,11 +6,9 @@ import br.com.crista.fashion.service.ParcelaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR', 'COMERCIAL', 'NEGOCIADOR', 'PROPRIETARIO', 'CREDIARISTA')")
 @RestController
@@ -25,16 +23,24 @@ public class ParcelaController {
         return parcelaService.pagination(paginationFilter);
     }
 
-    /*
-    @PostMapping(path = "/calcular")
-    public ResponseEntity calcularVenda(@RequestBody @Valid @NotNull CalcularVendaDTO dto) {
+
+    @PostMapping(path = "/cancelar-parcela/{id}")
+    public ResponseEntity cancelarParcela(@PathVariable("id") Long parcelaId) {
         try {
-            return ResponseEntity.ok(vendaService.calcularVenda(dto));
-        } catch (OperacaoNaoPermitidaException e) {
-            return ResponseEntity.status(METHOD_NOT_ALLOWED).body(e.getMessage());
+            parcelaService.cancelarParcela(parcelaId);
+            return ResponseEntity.ok("Parcela cancelada com sucesso!");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    */
+
+    @PostMapping(path = "/pagar-parcela/{id}")
+    public ResponseEntity pagarParcela(@PathVariable("id") Long parcelaId) {
+        try {
+            parcelaService.pagarParcela(parcelaId);
+            return ResponseEntity.ok("Pagamento realizado com sucesso!");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

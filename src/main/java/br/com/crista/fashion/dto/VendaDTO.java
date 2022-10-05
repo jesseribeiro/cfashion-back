@@ -23,6 +23,8 @@ public class VendaDTO extends GenericDTO<VendaBean> {
     private Calendar dataFinal;
 
     @JsonDeserialize(converter = MoneyDeserializerJson.class)
+    private BigDecimal vlTarifa;
+    @JsonDeserialize(converter = MoneyDeserializerJson.class)
     private BigDecimal vlParcela;
     @JsonDeserialize(converter = MoneyDeserializerJson.class)
     private BigDecimal vlProduto;
@@ -60,6 +62,7 @@ public class VendaDTO extends GenericDTO<VendaBean> {
         qtdParcela = bean.getQtdParcela();
         vlTotal = bean.getValorTotal();
         vlProduto = bean.getValorProduto();
+        vlTarifa = bean.getValorTarifa();
         frete = bean.getFrete();
         descontos = bean.getDescontos();
         comissao = bean.getComissao();

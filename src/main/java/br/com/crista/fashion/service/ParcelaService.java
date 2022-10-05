@@ -6,7 +6,6 @@ import br.com.crista.fashion.bean.ParcelaBean;
 import br.com.crista.fashion.dto.PaginationFilterDTO;
 import br.com.crista.fashion.dto.ParcelaDTO;
 import br.com.crista.fashion.enumeration.EnumStatus;
-import br.com.crista.fashion.enumeration.EnumTipoPagamento;
 import br.com.crista.fashion.repository.ParcelaRepository;
 import br.com.crista.fashion.repository.impl.ParcelaRepositoryImpl;
 import br.com.crista.fashion.utils.StringUtils;
@@ -19,7 +18,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
 
@@ -70,11 +68,17 @@ public class ParcelaService extends GenericService<ParcelaBean, ParcelaRepositor
     }
 
     @Transactional
-    public void pagarParcela(ParcelaBean parcelaBean, LojaBean loja, BigDecimal valorPago, BigDecimal multa, BigDecimal jurosMora,
-                             BigDecimal desconto, EnumTipoPagamento tipoPagamento,
-                             Calendar dataPagamento) {
-        parcelaBean.setStatus(EnumStatus.PAGA);
-        save(parcelaBean);
+    public void cancelarParcela(Long parcelaId) {
+        ParcelaBean parcela = getRepository().findById(parcelaId).get();
+        parcela.setStatus(EnumStatus.CANCELADA);
+        update(parcela);
+    }
+
+    @Transactional
+    public void pagarParcela(Long parcelaId) {
+        ParcelaBean parcela = getRepository().findById(parcelaId).get();
+        parcela.setStatus(EnumStatus.PAGA);
+        update(parcela);
     }
 
     public void updateParcelasPagas(List<ParcelaBean> parcelas) {

@@ -60,4 +60,9 @@ public class TiposController {
     public List<LabelDescricaoDTO> getAllTamanho(){
         return EnumTamanho.getLabels();
     }
+
+    @GetMapping( path = "/balancos")
+    public List<LabelDescricaoDTO> getAllBalanco(){
+        return EnumBalanco.getLabels();
+    }
 }

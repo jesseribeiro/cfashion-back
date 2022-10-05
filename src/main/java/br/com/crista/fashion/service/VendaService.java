@@ -152,11 +152,6 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
         parcelaService.updateParcelasCanceladas(venda.getParcelas());
     }
 
-    public void pagarParcela(ParcelaBean parcelaBean, LojaBean loja, BigDecimal valorPago, BigDecimal multa,
-                             BigDecimal jurosMora, BigDecimal desconto, EnumTipoPagamento tipoPagamento) {
-        parcelaService.pagarParcela(parcelaBean, loja, valorPago, multa, jurosMora, desconto, tipoPagamento, Calendar.getInstance());
-    }
-
     @Transactional
     public void pagarVenda(Long vendaId) {
         VendaBean venda = getRepository().findById(vendaId).get();
