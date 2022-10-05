@@ -27,8 +27,6 @@ public class ParcelaDTO extends GenericDTO<ParcelaBean> {
     private String nomeCliente;
     private String cpf;
     private BigDecimal valorParcela;
-    private BigDecimal vlTarifa;
-    private BigDecimal vlParcelaSemJuros;
     private Integer numero;
     private Calendar dataVencimento;
     private Calendar dataPagamento;
@@ -50,8 +48,6 @@ public class ParcelaDTO extends GenericDTO<ParcelaBean> {
         nomeCliente = bean.getCliente().getNome();
         cpf = StringUtils.inserirMascaraCpfCnpj(bean.getCliente().getCpf());
         valorParcela = bean.getValorParcela();
-        vlTarifa = bean.getVlTarifa();
-        vlParcelaSemJuros = bean.getVlParcelaSemJuros();
         numero = bean.getNumero();
         dataVencimento = bean.getDataVencimento();
         dataPagamento = bean.getDataPagto();

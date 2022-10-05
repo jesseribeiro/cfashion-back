@@ -25,6 +25,9 @@ public class CalcularVendaDTO {
     private Calendar dataVenda;
 
     @JsonDeserialize(converter = MoneyDeserializerJson.class)
+    private BigDecimal valorVenda;
+
+    @JsonDeserialize(converter = MoneyDeserializerJson.class)
     private BigDecimal valorProduto;
 
     @JsonDeserialize(converter = MoneyDeserializerJson.class)
@@ -38,4 +41,7 @@ public class CalcularVendaDTO {
 
     @JsonDeserialize(converter = MoneyDeserializerJson.class)
     private BigDecimal desconto;
+
+    @JsonDeserialize(converter = MoneyDeserializerJson.class)
+    private BigDecimal valorTarifa;
 }

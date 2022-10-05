@@ -28,11 +28,6 @@ public class ParcelaBean extends GenericBean {
     @ManyToOne
     private VendaBean venda;
 
-    private BigDecimal vlTarifa;
-
-    @Column(name = "vl_parcela_sem_juros")
-    private BigDecimal vlParcelaSemJuros;
-
     @Column(name = "data_pagamento")
     @Temporal(TemporalType.DATE)
     private Calendar dataPagto;

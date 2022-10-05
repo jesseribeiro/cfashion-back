@@ -87,22 +87,10 @@ public class ParcelaService extends GenericService<ParcelaBean, ParcelaRepositor
         }
     }
 
-    public void updateStatusParcelasByIds(EnumStatus status, List<Long> parcelasIds) {
-        getRepository().updateStatusParcelasByIds(status, parcelasIds);
-    }
-
-    @Transactional
-    public void cancelarParcelas(List<ParcelaBean> parcelas) {
-        for (ParcelaBean parcela : parcelas) {
-            cancelarParcela(parcela);
-        }
-    }
-
-    @Transactional
-    public void cancelarParcela(ParcelaBean parcela) {
-        if (!EnumStatus.PAGA.equals(parcela.getStatus())) {
-            parcela.setStatus(EnumStatus.CANCELADA);
-            update(parcela);
+    public void updateParcelasCanceladas(List<ParcelaBean> parcelas) {
+        for (ParcelaBean bean : parcelas) {
+            bean.setStatus(EnumStatus.CANCELADA);
+            update(bean);
         }
     }
 }

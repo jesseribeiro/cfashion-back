@@ -55,4 +55,31 @@ public class VendaController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @PostMapping(path = "/calcular-frete-desconto")
+    public ResponseEntity calcularDesconto(@RequestBody @Valid @NotNull CalcularVendaDTO dto) {
+        try {
+            return ResponseEntity.ok(vendaService.calcularFreteDesconto(dto));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping(path = "/calcular-parcela")
+    public ResponseEntity calcularParcela(@RequestBody @Valid @NotNull CalcularVendaDTO dto) {
+        try {
+            return ResponseEntity.ok(vendaService.calcularParcela(dto));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping(path = "/calcular-comissao")
+    public ResponseEntity calcularComissao(@RequestBody @Valid @NotNull CalcularVendaDTO dto) {
+        try {
+            return ResponseEntity.ok(vendaService.calcularComissao(dto));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

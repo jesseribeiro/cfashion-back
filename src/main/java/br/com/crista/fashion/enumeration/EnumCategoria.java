@@ -9,9 +9,17 @@ import java.util.stream.Collectors;
 
 @Getter
 public enum EnumCategoria {
-    VESTIDO("Vestido"),
+    BLUSA("Blusa"),
+    CALCA("Calça"),
+    CAMISA("Camisa"),
+    CASACO("Casaco"),
+    CONJUNTO("Conjunto"),
+    JEANS("Jeans"),
+    PLUS_SIZE("Plus size"),
     SAIA("Saia"),
-    BLUSA("Blusa");
+    VESTIDO("Vestido"),
+    BOLSA("Bolsa"),
+    PERFUME("Perfume");
 
     private String label;
 

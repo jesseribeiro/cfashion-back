@@ -25,6 +25,7 @@ public class VendaBean extends GenericBean {
 
     private BigDecimal valorProduto;
     private BigDecimal valorTotal;
+    private BigDecimal valorTarifa;
     private Integer qtdParcela;
     private BigDecimal frete;
     private BigDecimal descontos;

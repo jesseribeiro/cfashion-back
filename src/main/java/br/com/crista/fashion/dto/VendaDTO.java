@@ -27,6 +27,8 @@ public class VendaDTO extends GenericDTO<VendaBean> {
     @JsonDeserialize(converter = MoneyDeserializerJson.class)
     private BigDecimal vlProduto;
     @JsonDeserialize(converter = MoneyDeserializerJson.class)
+    private BigDecimal vlTotal;
+    @JsonDeserialize(converter = MoneyDeserializerJson.class)
     private BigDecimal frete;
     @JsonDeserialize(converter = MoneyDeserializerJson.class)
     private BigDecimal descontos;
@@ -56,6 +58,7 @@ public class VendaDTO extends GenericDTO<VendaBean> {
         produtoId = bean.getProduto().getId();
         dataVenda = bean.getDataVenda();
         qtdParcela = bean.getQtdParcela();
+        vlTotal = bean.getValorTotal();
         vlProduto = bean.getValorProduto();
         frete = bean.getFrete();
         descontos = bean.getDescontos();

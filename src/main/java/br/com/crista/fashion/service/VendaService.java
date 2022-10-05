@@ -4,7 +4,6 @@ import br.com.crista.fashion.bean.*;
 import br.com.crista.fashion.dto.CalcularVendaDTO;
 import br.com.crista.fashion.dto.PaginationFilterDTO;
 import br.com.crista.fashion.dto.VendaDTO;
-import br.com.crista.fashion.enumeration.EnumRole;
 import br.com.crista.fashion.enumeration.EnumStatus;
 import br.com.crista.fashion.enumeration.EnumTipoPagamento;
 import br.com.crista.fashion.repository.VendaRepository;
@@ -23,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
-import java.util.List;
 
 @Slf4j
 @Service
@@ -93,14 +91,15 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
         venda.setStatus(EnumStatus.NAO_PAGA);
         venda.setTipo(EnumTipoPagamento.valueOf(dto.getTipo()));
 
+        venda.setValorTotal(dto.getValorVenda());
         venda.setValorProduto(dto.getValorProduto());
-        // calcular valorTotal
-        venda.setFrete(dto.getFrete());
+        venda.setValorTarifa(dto.getValorTarifa());
         venda.setComissao(dto.getComissao());
+        venda.setFrete(dto.getFrete());
         venda.setDescontos(dto.getDesconto());
         venda.setQtdParcela(dto.getQtdParcela());
-
         venda.setDataVenda(Calendar.getInstance());
+
         save(venda);
 
         Calendar dataVencimento = dto.getDataVenda();
@@ -146,25 +145,11 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
 
     @Transactional
     public void cancelarVenda(Long vendaId) {
+        VendaBean venda = getRepository().findById(vendaId).get();
+        venda.setStatus(EnumStatus.CANCELADA);
+        update(venda);
 
-        if (getUsuarioLogado().getRoleAtiva() == EnumRole.CREDIARISTA || getUsuarioLogado().getRoleAtiva() == EnumRole.SUPERVISOR ||
-                getUsuarioLogado().getRoleAtiva() == EnumRole.ADMIN || getUsuarioLogado().getRoleAtiva() == EnumRole.SUPERVISOR) {
-
-            VendaBean venda = getById(vendaId);
-            if (!DateUtils.equalsDate(venda.getDataVenda(), Calendar.getInstance()) &&
-                    getUsuarioLogado().getRoleAtiva() != EnumRole.ADMIN &&
-                    getUsuarioLogado().getRoleAtiva() != EnumRole.SUPERVISOR) {
-                throw new RuntimeException("Venda não pode ser cancelada. Não é permitido cancelar venda realizadas em outro dia.");
-            }
-
-            update(venda);
-
-            List<ParcelaBean> parcelas = null;
-
-            for (ParcelaBean parcela : parcelas) {
-                parcelaService.update(parcela);
-            }
-        }
+        parcelaService.updateParcelasCanceladas(venda.getParcelas());
     }
 
     public void pagarParcela(ParcelaBean parcelaBean, LojaBean loja, BigDecimal valorPago, BigDecimal multa,
@@ -179,5 +164,51 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
         update(venda);
 
         parcelaService.updateParcelasPagas(venda.getParcelas());
+    }
+
+    public CalcularVendaDTO calcularFreteDesconto(CalcularVendaDTO dto) {
+        BigDecimal valorVenda = dto.getValorProduto();
+        valorVenda = valorVenda.add(dto.getFrete());
+        valorVenda = valorVenda.subtract(dto.getDesconto());
+        dto.setValorVenda(valorVenda);
+        return dto;
+    }
+
+    public CalcularVendaDTO calcularParcela(CalcularVendaDTO dto) {
+        BigDecimal valorTarifa = BigDecimal.ZERO;
+        BigDecimal valorParcela = BigDecimal.ZERO;
+
+        if (dto.getQtdParcela() == 1) {
+            valorTarifa = dto.getValorVenda().multiply(new BigDecimal(0.0449));
+        } else if (dto.getQtdParcela() <= 6) {
+            valorTarifa = dto.getValorVenda().multiply(new BigDecimal(0.0520));
+        } else if (dto.getQtdParcela() > 6) {
+            valorTarifa = dto.getValorVenda().multiply(new BigDecimal(0.0570));
+        }
+
+        dto.setValorTarifa(valorTarifa);
+        valorParcela = dto.getValorVenda().subtract(valorTarifa);
+
+        valorParcela = valorParcela.divide(new BigDecimal(dto.getQtdParcela()), 2, BigDecimal.ROUND_HALF_EVEN);
+        dto.setValorParcela(valorParcela);
+        return dto;
+    }
+
+    public CalcularVendaDTO calcularComissao(CalcularVendaDTO dto) {
+        EnumTipoPagamento tipo = EnumTipoPagamento.valueOf(dto.getTipo());
+
+        BigDecimal comissao = BigDecimal.ZERO;
+        if (tipo == EnumTipoPagamento.MAGALU) {
+            comissao = dto.getValorVenda().multiply(new BigDecimal(0.20));
+        }
+        if (tipo == EnumTipoPagamento.AMERICANAS) {
+            comissao = dto.getValorVenda().multiply(new BigDecimal(0.16));
+        }
+        if (tipo == EnumTipoPagamento.MERCADO_LIVRE) {
+            comissao = dto.getValorVenda().multiply(new BigDecimal(0.18));
+        }
+
+        dto.setComissao(comissao);
+        return dto;
     }
 }

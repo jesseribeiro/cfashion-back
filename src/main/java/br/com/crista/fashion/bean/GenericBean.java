@@ -1,6 +1,7 @@
 package br.com.crista.fashion.bean;
 
 import br.com.crista.fashion.utils.NullUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
@@ -31,6 +32,16 @@ public abstract class GenericBean {
 
     @Column(name = "is_excluido")
     private Boolean isExcluido;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_excluiu_id")
+    @JsonIgnore
+    private UsuarioBean usuarioExcluiu;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_alteracao_id")
+    @JsonIgnore
+    private UsuarioBean usuarioAlteracao;
 
     public Long getId() {
         return id;
