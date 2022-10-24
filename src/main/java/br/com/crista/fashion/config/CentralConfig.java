@@ -12,4 +12,8 @@ public class CentralConfig {
     public String getCentralPath(){
         return centralUrl;
     }
+
+    public String getCentralTempPath() {
+        return centralUrl.concat("/temp/");
+    }
 }

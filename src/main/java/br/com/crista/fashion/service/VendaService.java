@@ -171,18 +171,17 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
 
     public CalcularVendaDTO calcularParcela(CalcularVendaDTO dto) {
         BigDecimal valorTarifa = BigDecimal.ZERO;
-        BigDecimal valorParcela = BigDecimal.ZERO;
 
         if (dto.getQtdParcela() == 1) {
-            valorTarifa = dto.getValorVenda().multiply(new BigDecimal(0.0449));
+            valorTarifa = dto.getValorVenda().multiply(new BigDecimal(0.0449)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
         } else if (dto.getQtdParcela() <= 6) {
-            valorTarifa = dto.getValorVenda().multiply(new BigDecimal(0.0520));
+            valorTarifa = dto.getValorVenda().multiply(new BigDecimal(0.0520)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
         } else if (dto.getQtdParcela() > 6) {
-            valorTarifa = dto.getValorVenda().multiply(new BigDecimal(0.0570));
+            valorTarifa = dto.getValorVenda().multiply(new BigDecimal(0.0570)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
         }
 
         dto.setValorTarifa(valorTarifa);
-        valorParcela = dto.getValorVenda().subtract(valorTarifa);
+        BigDecimal valorParcela = dto.getValorVenda().subtract(valorTarifa);
 
         valorParcela = valorParcela.divide(new BigDecimal(dto.getQtdParcela()), 2, BigDecimal.ROUND_HALF_EVEN);
         dto.setValorParcela(valorParcela);
@@ -194,13 +193,13 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
 
         BigDecimal comissao = BigDecimal.ZERO;
         if (tipo == EnumTipoPagamento.MAGALU) {
-            comissao = dto.getValorVenda().multiply(new BigDecimal(0.20));
+            comissao = dto.getValorVenda().multiply(new BigDecimal(0.20)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
         }
         if (tipo == EnumTipoPagamento.AMERICANAS) {
-            comissao = dto.getValorVenda().multiply(new BigDecimal(0.16));
+            comissao = dto.getValorVenda().multiply(new BigDecimal(0.16)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
         }
         if (tipo == EnumTipoPagamento.MERCADO_LIVRE) {
-            comissao = dto.getValorVenda().multiply(new BigDecimal(0.18));
+            comissao = dto.getValorVenda().multiply(new BigDecimal(0.18)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
         }
 
         dto.setComissao(comissao);
