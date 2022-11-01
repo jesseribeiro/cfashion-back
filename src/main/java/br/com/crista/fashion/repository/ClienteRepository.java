@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -18,9 +17,6 @@ public interface  ClienteRepository extends CrudRepository<ClienteBean, Long>, G
 
     @Query("Select new br.com.crista.fashion.dto.ClienteDTO(x) from Cliente x "+WHERE_EXCLUIDO)
     List<ClienteDTO> findAllDTO();
-
-    @Query(value = "Select count(1) from Cliente x where x.data_cadastro <:data", nativeQuery = true)
-    BigInteger qtdClientesData(@Param("data") Calendar data);
 
     String filterPagination = WHERE_EXCLUIDO
             + " and (:nome is null or LOWER(x.nome) LIKE LOWER(CONCAT('%',:nome,'%'))) "
@@ -33,20 +29,12 @@ public interface  ClienteRepository extends CrudRepository<ClienteBean, Long>, G
                                 @Param("cpf") String cpf,
                                 Pageable paging);
 
-    Optional<ClienteBean> findByNome(String nome);
-
     Optional<ClienteBean> findByCpf(String cpf);
 
     @Query(" Select new br.com.crista.fashion.dto.ClienteDTO(x) " +
             " from Cliente x " +
             " Where x.id = :id")
     ClienteDTO findDTO(@Param("id") Long id);
-
-    @Query(value = "SELECT x FROM Cliente x WHERE x.cpf =:cpf ")
-    ClienteBean getClienteByCpf(@Param("cpf") String cpf);
-
-    @Query("Select case when (count(x) > 0)  then true else false end From Cliente x where x.cpf =:cpf")
-    boolean existClienteCpf(@Param("cpf") String cpf);
 
     String filterDatasPagto = " and (x.dataPagto >= :dataInicial and x.dataPagto <= :dataFinal)";
     String filterPagto = " From Parcela as x " +
