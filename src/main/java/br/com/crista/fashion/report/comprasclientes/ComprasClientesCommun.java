@@ -1,7 +1,7 @@
 package br.com.crista.fashion.report.comprasclientes;
 
-import br.com.trulogic.pratico.report.dto.FiltroRelatorioDTO;
-import br.com.trulogic.pratico.report.utils.DateUtils;
+import br.com.crista.fashion.dto.FiltroRelatorioDTO;
+import br.com.crista.fashion.utils.DateUtils;
 
 public class ComprasClientesCommun {
 

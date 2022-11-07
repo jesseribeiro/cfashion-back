@@ -23,7 +23,8 @@ public interface UsuarioRepository extends CrudRepository<UsuarioBean, Long>, Ge
 
     @Query("Select case when (count(u) > 0)  then true else false end From Usuario u where u.login = ?1 ")
     Boolean existsByLogin(String login);
-// Aoo instalar a extension unaccent do Postgres, é possível fazer consultas ignorando a acentuação assim: + " and (:nome is null or unaccent(LOWER(u.nome)) LIKE unaccent(LOWER(CONCAT('%',:nome, '%')))) "
+
+    // Aoo instalar a extension unaccent do Postgres, é possível fazer consultas ignorando a acentuação assim: + " and (:nome is null or unaccent(LOWER(u.nome)) LIKE unaccent(LOWER(CONCAT('%',:nome, '%')))) "
     String FilterPagination = " WHERE (u.isExcluido is null or u.isExcluido is false) "
             + " and (:nome is null or LOWER(u.nome) LIKE LOWER(CONCAT('%',:nome, '%'))) "
             + " and (:login is null or LOWER(u.login) LIKE LOWER(CONCAT('%',:login, '%'))) "
@@ -37,12 +38,6 @@ public interface UsuarioRepository extends CrudRepository<UsuarioBean, Long>, Ge
 
     @Query(value = "SELECT x from Usuario x where x.roleAtiva =:role")
     List<UsuarioBean> getAllUsuariosByRole(@Param("role") EnumRole role);
-
-    @Query(value = "SELECT x from Usuario x where x.roleAtiva in ('ADMIN','SUPERVISOR','COMERCIAL','NEGOCIADOR') ")
-    List<UsuarioBean> getAllUsuariosByRolePratico();
-
-    @Query(value = "SELECT x from Usuario x where x.roleAtiva in ('ADMIN','SUPERVISOR') ")
-    List<UsuarioBean> getAllUsuariosSupAdmin();
 
     @Query(value = "SELECT new br.com.crista.fashion.dto.UsuarioRoleDTO(x) " +
             " from Usuario x " +
