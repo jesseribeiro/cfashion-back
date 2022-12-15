@@ -16,6 +16,7 @@ D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\repository\ClienteRe
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\repository\UsuarioRepository.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\report\RelatorioBasePDF.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\security\jwt\JwtAuthTokenFilter.java
+D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\enumeration\EnumTipoRelatorio.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\repository\ProdutoRepository.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\controller\UsuarioController.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\security\jwt\JwtProvider.java
@@ -24,6 +25,7 @@ D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\controller\ClienteCo
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\dto\GenericDTO.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\utils\Constants.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\controller\ParcelaController.java
+D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\report\comprasclientes\ComprasClientesPDF.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\service\ParcelaService.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\json\CalendarListDeserializerJson.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\dto\VendaDTO.java
@@ -32,8 +34,10 @@ D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\service\ClienteServi
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\exception\PlanoPagamentoNaoPodeSerExcluidoException.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\exception\ClienteSemLimiteException.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\controller\AuthController.java
+D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\dto\FiltroRelatorioDTO.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\dto\FilterAuditDTO.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\enumeration\EnumStatus.java
+D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\controller\RelatorioController.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\dto\LojaDTO.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\bean\UsuarioBean.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\controller\CEPController.java
@@ -61,6 +65,7 @@ D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\repository\LojaRepos
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\controller\GenericController.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\exception\PlanoPagamentoJaEmUsoException.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\bean\ProdutoBean.java
+D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\dto\RespostaErroDTO.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\security\service\UserDetailsServiceImpl.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\config\CentralConfig.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\service\VendaService.java
@@ -71,6 +76,7 @@ D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\report\HeaderFooterP
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\bean\AuditEntity.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\bean\AuditListener.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\controller\VendaController.java
+D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\report\comprasclientes\ComprasClientesCommun.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\utils\DateUtils.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\service\UsuarioService.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\service\EstadoService.java
@@ -89,6 +95,7 @@ D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\dto\AuthDTO.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\dto\ParcelaDTO.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\bean\LojaBean.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\json\MoneySerializerJson.java
+D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\dto\ComprasDTO.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\json\MoneyDeserializerJson.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\service\UsuarioLogadoService.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\feign\ViaCEPClient.java
@@ -100,6 +107,7 @@ D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\repository\TiposRepo
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\bean\RolePermissaoBean.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\json\CalendarDeserializerJson.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\message\JwtResponse.java
+D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\repository\impl\ComprasClientesRepositoryImpl.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\service\LojaService.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\utils\NullUtils.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\security\service\UsuarioPrincipal.java
@@ -111,6 +119,7 @@ D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\security\Authorities
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\repository\EstadoRepository.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\json\JsonAuditSerializable.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\service\CidadeService.java
+D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\report\comprasclientes\ComprasClientesXLS.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\dto\ClienteDTO.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\security\SecurityUtils.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\controller\TiposController.java

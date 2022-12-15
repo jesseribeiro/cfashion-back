@@ -21,6 +21,7 @@ br\com\crista\fashion\service\ParcelaService.class
 br\com\crista\fashion\enumeration\EnumTamanho.class
 br\com\crista\fashion\bean\AuditEntity.class
 br\com\crista\fashion\exception\UsuarioInativoException.class
+br\com\crista\fashion\report\comprasclientes\ComprasClientesPDF.class
 br\com\crista\fashion\json\EnderecoJson.class
 br\com\crista\fashion\bean\CidadeBean.class
 br\com\crista\fashion\dto\NovaSenhaDTO.class
@@ -28,8 +29,11 @@ br\com\crista\fashion\dto\PaginationFilterDTO.class
 br\com\crista\fashion\security\SecurityUtils.class
 br\com\crista\fashion\bean\ProdutoBean.class
 br\com\crista\fashion\dto\CodigoDescricaoDTO.class
+br\com\crista\fashion\enumeration\EnumTipoRelatorio.class
 br\com\crista\fashion\json\CalendarListDeserializerJson.class
+br\com\crista\fashion\controller\RelatorioController$1.class
 br\com\crista\fashion\report\HeaderFooterPageEvent.class
+br\com\crista\fashion\dto\FiltroRelatorioDTO.class
 br\com\crista\fashion\enumeration\EnumRole.class
 br\com\crista\fashion\json\JsonMapperUtil.class
 br\com\crista\fashion\exception\PlanoPagamentoNaoPodeSerExcluidoException.class
@@ -74,6 +78,7 @@ br\com\crista\fashion\dto\NovaSenhaDTO$NovaSenhaDTOBuilder.class
 br\com\crista\fashion\enumeration\EnumStatus.class
 br\com\crista\fashion\dto\VendaDTO$VendaDTOBuilder.class
 br\com\crista\fashion\json\UsuarioJson.class
+br\com\crista\fashion\report\comprasclientes\ComprasClientesCommun.class
 br\com\crista\fashion\repository\TiposRepository.class
 br\com\crista\fashion\feign\ViaCEPClient.class
 br\com\crista\fashion\dto\ParcelaDTO.class
@@ -87,13 +92,16 @@ br\com\crista\fashion\bean\VendaBean.class
 br\com\crista\fashion\dto\AutorizacaoDTO.class
 br\com\crista\fashion\utils\NullUtils.class
 br\com\crista\fashion\dto\EnderecoDTO.class
+br\com\crista\fashion\report\comprasclientes\ComprasClientesXLS.class
 br\com\crista\fashion\repository\CepRepository.class
 br\com\crista\fashion\bean\EnderecoBean.class
+br\com\crista\fashion\repository\impl\ComprasClientesRepositoryImpl.class
 br\com\crista\fashion\bean\CepBean.class
 br\com\crista\fashion\controller\EstadoController.class
 br\com\crista\fashion\service\EstadoService.class
 br\com\crista\fashion\repository\GenericRepository.class
 br\com\crista\fashion\repository\ProdutoRepository.class
+br\com\crista\fashion\dto\ComprasDTO.class
 br\com\crista\fashion\service\LojaService.class
 br\com\crista\fashion\controller\CidadeController.class
 br\com\crista\fashion\repository\impl\ParcelaRepositoryImpl.class
@@ -114,6 +122,7 @@ br\com\crista\fashion\controller\LojaController.class
 br\com\crista\fashion\dto\AuthDTO.class
 br\com\crista\fashion\dto\UsuarioRoleDTO$UsuarioRoleDTOBuilder.class
 br\com\crista\fashion\repository\VendaRepository.class
+br\com\crista\fashion\dto\RespostaErroDTO$RespostaErroDTOBuilder.class
 br\com\crista\fashion\exception\CodigoAutorizacaoInvalidoOrExpiradoException.class
 br\com\crista\fashion\controller\ClienteController.class
 br\com\crista\fashion\dto\UsuarioRoleDTO.class
@@ -124,8 +133,10 @@ br\com\crista\fashion\repository\ClienteRepository.class
 br\com\crista\fashion\bean\ParcelaBean.class
 br\com\crista\fashion\utils\FileUtils.class
 br\com\crista\fashion\bean\EstadoBean.class
+br\com\crista\fashion\dto\RespostaErroDTO.class
 br\com\crista\fashion\controller\GenericController.class
 br\com\crista\fashion\bean\RoleBean.class
 br\com\crista\fashion\controller\AuthController.class
 br\com\crista\fashion\controller\CEPController.class
 br\com\crista\fashion\dto\UsuarioDTO$UsuarioDTOBuilder.class
+br\com\crista\fashion\controller\RelatorioController.class

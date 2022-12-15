@@ -80,7 +80,7 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
 
         ClienteBean cliente = clienteService.getById(dto.getClienteId());
         LojaBean marca = lojaService.getLojaById(dto.getMarcaId());
-        ProdutoBean produto = produtoService.getById(dto.getMarcaId());
+        ProdutoBean produto = produtoService.getById(dto.getProdutoId());
 
         VendaBean venda = new VendaBean();
         venda.setCliente(cliente);
