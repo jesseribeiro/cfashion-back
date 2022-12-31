@@ -44,7 +44,7 @@ public class ProdutoDTO extends GenericDTO<ProdutoBean> {
         nome = bean.getNome();
 
         if (bean.getTamanho() != null) {
-            tamanho = (bean.getTamanho()).getLabel();
+            tamanho = (bean.getTamanho()).toString();
         }
 
         if (bean.getCategoria() != null) {

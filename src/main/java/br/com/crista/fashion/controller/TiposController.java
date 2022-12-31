@@ -65,4 +65,9 @@ public class TiposController {
     public List<LabelDescricaoDTO> getAllBalanco(){
         return EnumBalanco.getLabels();
     }
+
+    @GetMapping( path = "/tipos-relatorio")
+    public List<LabelDescricaoDTO> getAllTiposRelatorio(){
+        return EnumTipoRelatorio.getLabels();
+    }
 }

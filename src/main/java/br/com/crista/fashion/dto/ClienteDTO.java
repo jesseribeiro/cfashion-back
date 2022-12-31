@@ -27,6 +27,10 @@ public class ClienteDTO extends GenericDTO<ClienteBean> {
     private String email;
     private EnderecoBean endereco;
 
+    private String cidade;
+    private String estado;
+    private Integer qtd;
+
     public ClienteDTO(ClienteBean bean) {
         super(bean);
         nome = bean.getNome();

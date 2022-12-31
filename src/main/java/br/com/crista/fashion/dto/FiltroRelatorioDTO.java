@@ -16,12 +16,14 @@ import java.util.Calendar;
 @NoArgsConstructor
 public class FiltroRelatorioDTO {
 
-    Long lojaId;
-    Long tipoLancamentoId;
+    Long marcaId;
+
     @JsonDeserialize(converter = CalendarDeserializerJson.class)
     Calendar dataInicio;
     @JsonDeserialize(converter = CalendarDeserializerJson.class)
     Calendar dataFim;
+
     EnumTipoRelatorio tipoRel;
-    String tpAnalise;
+    String categoria;
+    Boolean temEstoque;
 }

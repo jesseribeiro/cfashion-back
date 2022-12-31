@@ -8,6 +8,7 @@ D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\dto\UsuarioDTO.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\bean\EstadoBean.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\dto\DadosClientesDTO.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\dto\PermissaoDTO.java
+D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\repository\impl\ListaProdutosRepositoryImpl.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\repository\impl\VendaRepositoryImpl.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\dto\AutorizacaoDTO.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\json\EnderecoJson.java
@@ -25,7 +26,6 @@ D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\controller\ClienteCo
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\dto\GenericDTO.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\utils\Constants.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\controller\ParcelaController.java
-D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\report\comprasclientes\ComprasClientesPDF.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\service\ParcelaService.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\json\CalendarListDeserializerJson.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\dto\VendaDTO.java
@@ -44,6 +44,7 @@ D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\controller\CEPContro
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\security\WebSecurityConfig.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\enumeration\EnumBalanco.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\bean\GenericBean.java
+D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\report\listaprodutos\ListaProdutosPDF.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\bean\VendaBean.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\json\ResponseMessageDTO.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\repository\VendaRepository.java
@@ -76,7 +77,6 @@ D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\report\HeaderFooterP
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\bean\AuditEntity.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\bean\AuditListener.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\controller\VendaController.java
-D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\report\comprasclientes\ComprasClientesCommun.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\utils\DateUtils.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\service\UsuarioService.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\service\EstadoService.java
@@ -87,6 +87,7 @@ D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\utils\StringUtils.ja
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\bean\ClienteBean.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\dto\CodigoDescricaoDTO.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\config\CorsFilter.java
+D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\report\listaprodutos\ListaProdutosCommun.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\dto\VenderDTO.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\enumeration\EnumSexo.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\controller\CidadeController.java
@@ -97,6 +98,7 @@ D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\bean\LojaBean.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\json\MoneySerializerJson.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\dto\ComprasDTO.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\json\MoneyDeserializerJson.java
+D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\report\listaprodutos\ListaProdutosXLS.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\service\UsuarioLogadoService.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\feign\ViaCEPClient.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\repository\CepRepository.java
@@ -107,7 +109,6 @@ D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\repository\TiposRepo
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\bean\RolePermissaoBean.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\json\CalendarDeserializerJson.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\message\JwtResponse.java
-D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\repository\impl\ComprasClientesRepositoryImpl.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\service\LojaService.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\utils\NullUtils.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\security\service\UsuarioPrincipal.java
@@ -119,7 +120,6 @@ D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\security\Authorities
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\repository\EstadoRepository.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\json\JsonAuditSerializable.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\service\CidadeService.java
-D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\report\comprasclientes\ComprasClientesXLS.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\dto\ClienteDTO.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\security\SecurityUtils.java
 D:\Github\cfashion-back\src\main\java\br\com\crista\fashion\controller\TiposController.java

@@ -21,7 +21,6 @@ br\com\crista\fashion\service\ParcelaService.class
 br\com\crista\fashion\enumeration\EnumTamanho.class
 br\com\crista\fashion\bean\AuditEntity.class
 br\com\crista\fashion\exception\UsuarioInativoException.class
-br\com\crista\fashion\report\comprasclientes\ComprasClientesPDF.class
 br\com\crista\fashion\json\EnderecoJson.class
 br\com\crista\fashion\bean\CidadeBean.class
 br\com\crista\fashion\dto\NovaSenhaDTO.class
@@ -42,6 +41,7 @@ br\com\crista\fashion\config\CentralConfig.class
 br\com\crista\fashion\dto\LabelDescricaoDTO.class
 br\com\crista\fashion\bean\ClienteBean.class
 br\com\crista\fashion\bean\GenericBean.class
+br\com\crista\fashion\report\listaprodutos\ListaProdutosXLS.class
 br\com\crista\fashion\exception\PlanoPagamentoJaEmUsoException.class
 br\com\crista\fashion\security\service\UserDetailsServiceImpl.class
 br\com\crista\fashion\service\CEPService.class
@@ -49,12 +49,14 @@ br\com\crista\fashion\dto\RoleAtualDTO.class
 br\com\crista\fashion\enumeration\EnumCategoria.class
 br\com\crista\fashion\dto\UsuarioDTO.class
 br\com\crista\fashion\json\MoneyDeserializerJson.class
+br\com\crista\fashion\repository\impl\ListaProdutosRepositoryImpl.class
 br\com\crista\fashion\dto\EnderecoDTO$EnderecoDTOBuilder.class
 br\com\crista\fashion\service\UsuarioLogadoService.class
 br\com\crista\fashion\dto\GenericDTO.class
 br\com\crista\fashion\exception\ClienteSemLimiteException.class
 br\com\crista\fashion\security\jwt\JwtProvider.class
 br\com\crista\fashion\security\jwt\JwtAuthTokenFilter.class
+br\com\crista\fashion\report\listaprodutos\ListaProdutosCommun.class
 br\com\crista\fashion\json\ResponseMessageDTO$ResponseMessageDTOBuilder.class
 br\com\crista\fashion\dto\ClienteDTO$ClienteDTOBuilder.class
 br\com\crista\fashion\dto\LojaDTO.class
@@ -78,13 +80,13 @@ br\com\crista\fashion\dto\NovaSenhaDTO$NovaSenhaDTOBuilder.class
 br\com\crista\fashion\enumeration\EnumStatus.class
 br\com\crista\fashion\dto\VendaDTO$VendaDTOBuilder.class
 br\com\crista\fashion\json\UsuarioJson.class
-br\com\crista\fashion\report\comprasclientes\ComprasClientesCommun.class
 br\com\crista\fashion\repository\TiposRepository.class
 br\com\crista\fashion\feign\ViaCEPClient.class
 br\com\crista\fashion\dto\ParcelaDTO.class
 br\com\crista\fashion\repository\ParcelaRepository.class
 br\com\crista\fashion\enumeration\EnumTipoPagamento.class
 br\com\crista\fashion\dto\ProdutoDTO$ProdutoDTOBuilder.class
+br\com\crista\fashion\report\listaprodutos\ListaProdutosPDF.class
 br\com\crista\fashion\security\WebSecurityConfig.class
 br\com\crista\fashion\dto\VendaDTO.class
 br\com\crista\fashion\json\ResponseMessageDTO.class
@@ -92,10 +94,8 @@ br\com\crista\fashion\bean\VendaBean.class
 br\com\crista\fashion\dto\AutorizacaoDTO.class
 br\com\crista\fashion\utils\NullUtils.class
 br\com\crista\fashion\dto\EnderecoDTO.class
-br\com\crista\fashion\report\comprasclientes\ComprasClientesXLS.class
 br\com\crista\fashion\repository\CepRepository.class
 br\com\crista\fashion\bean\EnderecoBean.class
-br\com\crista\fashion\repository\impl\ComprasClientesRepositoryImpl.class
 br\com\crista\fashion\bean\CepBean.class
 br\com\crista\fashion\controller\EstadoController.class
 br\com\crista\fashion\service\EstadoService.class
