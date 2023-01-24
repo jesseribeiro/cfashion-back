@@ -53,7 +53,7 @@ public class ProdutoDTO extends GenericDTO<ProdutoBean> {
         cor = bean.getCor();
         codigo = bean.getCodigo();
         qtd = bean.getQtd();
-        valorProduto = bean.getValorProduto();
+        //valorProduto = bean.getValorProduto();
         valorCompra = bean.getValorCompra();
 
         if (bean.getMarca() != null) {
@@ -71,7 +71,7 @@ public class ProdutoDTO extends GenericDTO<ProdutoBean> {
         bean.setCor(cor);
         bean.setCodigo(codigo);
         bean.setQtd(qtd);
-        bean.setValorProduto(valorProduto);
+        //bean.setValorProduto(valorProduto);
         bean.setValorCompra(valorCompra);
         return bean;
     }
