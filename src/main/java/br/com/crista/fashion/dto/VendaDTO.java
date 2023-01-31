@@ -60,7 +60,7 @@ public class VendaDTO extends GenericDTO<VendaBean> {
         produtoId = bean.getProduto().getId();
         dataVenda = bean.getDataVenda();
         qtdParcela = bean.getQtdParcela();
-        vlTotal = bean.getValorTotal();
+        vlTotal = bean.getValorProduto(); //alterar aqui
         vlProduto = bean.getValorProduto();
         vlTarifa = bean.getValorTarifa();
         frete = bean.getFrete();

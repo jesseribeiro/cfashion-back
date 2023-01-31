@@ -91,7 +91,7 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
         venda.setStatus(EnumStatus.NAO_PAGA);
         venda.setTipo(EnumTipoPagamento.valueOf(dto.getTipo()));
 
-        venda.setValorTotal(dto.getValorVenda());
+        //venda.setValorTotal(dto.getValorVenda());
         venda.setValorProduto(dto.getValorProduto());
         venda.setValorTarifa(dto.getValorTarifa());
         venda.setComissao(dto.getComissao());
