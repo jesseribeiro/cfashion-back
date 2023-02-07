@@ -37,7 +37,10 @@ public class CalcularVendaDTO {
     private BigDecimal comissao;
 
     @JsonDeserialize(converter = MoneyDeserializerJson.class)
-    private BigDecimal frete;
+    private BigDecimal freteReceber;
+
+    @JsonDeserialize(converter = MoneyDeserializerJson.class)
+    private BigDecimal fretePagar;
 
     @JsonDeserialize(converter = MoneyDeserializerJson.class)
     private BigDecimal desconto;

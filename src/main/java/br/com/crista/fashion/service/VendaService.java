@@ -91,11 +91,12 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
         venda.setStatus(EnumStatus.NAO_PAGA);
         venda.setTipo(EnumTipoPagamento.valueOf(dto.getTipo()));
 
-        //venda.setValorTotal(dto.getValorVenda());
+        venda.setValorTotal(dto.getValorVenda());
         venda.setValorProduto(dto.getValorProduto());
         venda.setValorTarifa(dto.getValorTarifa());
         venda.setComissao(dto.getComissao());
-        venda.setFrete(dto.getFrete());
+        venda.setFreteReceber(dto.getFreteReceber());
+        venda.setFretePagar(dto.getFretePagar());
         venda.setDescontos(dto.getDesconto());
         venda.setQtdParcela(dto.getQtdParcela());
         venda.setDataVenda(Calendar.getInstance());
@@ -163,7 +164,8 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
 
     public CalcularVendaDTO calcularFreteDesconto(CalcularVendaDTO dto) {
         BigDecimal valorVenda = dto.getValorProduto();
-        valorVenda = valorVenda.add(dto.getFrete());
+        valorVenda = valorVenda.add(dto.getFreteReceber());
+        valorVenda = valorVenda.subtract(dto.getFretePagar());
         valorVenda = valorVenda.subtract(dto.getDesconto());
         dto.setValorVenda(valorVenda);
         return dto;

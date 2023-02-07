@@ -22,7 +22,6 @@ import java.util.Calendar;
 public class ProdutoBean extends GenericBean {
 
     private String nome;
-    private BigDecimal valorProduto;
     private BigDecimal valorCompra;
 
     @Enumerated(EnumType.STRING)

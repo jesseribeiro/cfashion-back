@@ -59,6 +59,6 @@ public class ListaProdutosXLS extends RelatorioBaseXLS {
         createCell(row, 4, dto.getCor() + "", STYLE_VALOR);
         createCell(row, 5, dto.getTamanho() + "", STYLE_VALOR);
         createCell(row, 6, dto.getQtd() + "", STYLE_VALOR);
-        createCell(row, 7, "R$ " + MathUtils.convertBigDecimalToString(dto.getValorProduto()), STYLE_VALOR);
+        createCell(row, 7, "R$ " + MathUtils.convertBigDecimalToString(dto.getValorCompra()), STYLE_VALOR);
     }
 }

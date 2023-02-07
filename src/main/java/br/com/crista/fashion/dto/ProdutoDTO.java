@@ -32,9 +32,6 @@ public class ProdutoDTO extends GenericDTO<ProdutoBean> {
     private String marca;
 
     @JsonDeserialize(converter = MoneyDeserializerJson.class)
-    private BigDecimal valorProduto;
-
-    @JsonDeserialize(converter = MoneyDeserializerJson.class)
     private BigDecimal valorCompra;
 
     public ProdutoDTO(ProdutoBean bean) {
@@ -53,7 +50,6 @@ public class ProdutoDTO extends GenericDTO<ProdutoBean> {
         cor = bean.getCor();
         codigo = bean.getCodigo();
         qtd = bean.getQtd();
-        valorProduto = bean.getValorCompra();
         valorCompra = bean.getValorCompra();
 
         if (bean.getMarca() != null) {
@@ -71,7 +67,6 @@ public class ProdutoDTO extends GenericDTO<ProdutoBean> {
         bean.setCor(cor);
         bean.setCodigo(codigo);
         bean.setQtd(qtd);
-        bean.setValorProduto(valorCompra);
         bean.setValorCompra(valorCompra);
         return bean;
     }

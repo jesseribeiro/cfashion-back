@@ -83,6 +83,6 @@ public class ListaProdutosPDF extends RelatorioBasePDF {
         table.addCell(newCellNoBorder(dto.getCor() + "", FONT_NORMAL, Element.ALIGN_CENTER));
         table.addCell(newCellNoBorder(EnumTamanho.valueOf(dto.getTamanho()).getLabel() + "", FONT_NORMAL, Element.ALIGN_CENTER));
         table.addCell(newCellNoBorder(dto.getQtd() + "", FONT_NORMAL, Element.ALIGN_CENTER));
-        table.addCell(newCellNoBorder("R$ " + MathUtils.convertBigDecimalToString(dto.getValorProduto()), FONT_NORMAL, Element.ALIGN_CENTER));
+        table.addCell(newCellNoBorder("R$ " + MathUtils.convertBigDecimalToString(dto.getValorCompra()), FONT_NORMAL, Element.ALIGN_CENTER));
     }
 }

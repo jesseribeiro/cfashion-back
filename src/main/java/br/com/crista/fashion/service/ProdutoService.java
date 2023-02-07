@@ -83,7 +83,6 @@ public class ProdutoService extends GenericService<ProdutoBean, ProdutoRepositor
         produto.setCor(dto.getCor());
         produto.setCodigo(dto.getCodigo());
         produto.setQtd(dto.getQtd());
-        produto.setValorProduto(dto.getValorCompra());
         produto.setValorCompra(dto.getValorCompra());
 
         LojaBean lojaBean = lojaService.getById(dto.getMarcaId());

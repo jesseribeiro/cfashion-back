@@ -21,7 +21,7 @@ public class ListaProdutosRepositoryImpl {
 
     public List<ProdutoDTO> getListaProdutos(FiltroRelatorioDTO filtro) {
         String sql = " Select p.data_cadastro, p.nome, p.categoria, p.codigo, p.cor, " +
-                " p.tamanho, p.qtd, p.valor_produto, l.nome_fantasia " +
+                " p.tamanho, p.qtd, p.valor_compra, l.nome_fantasia " +
                 " from produto p " +
                 " join loja l on l.id = p.marca_id " +
                 " where 1=1 ";
@@ -61,7 +61,7 @@ public class ListaProdutosRepositoryImpl {
                 produtos.setCor((String) line[4]);
                 produtos.setTamanho((String) line[5]);
                 produtos.setQtd((Integer) line[6]);
-                produtos.setValorProduto((BigDecimal) line[7]);
+                produtos.setValorCompra((BigDecimal) line[7]);
                 produtos.setMarca((String) line[8]);
                 listaResultados.add(produtos);
             } catch (Exception e) {
