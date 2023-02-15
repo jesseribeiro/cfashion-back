@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.envers.Audited;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Calendar;
 
 @Audited
 @Getter
@@ -26,4 +25,8 @@ public class MovimentacaoBean extends GenericBean {
     private EnumMovimentacao tipo;
 
     private String descricao;
+
+    @Column(name = "data_lancamento")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar dataLancamento;
 }

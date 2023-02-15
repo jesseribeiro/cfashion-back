@@ -38,6 +38,7 @@ public class MovimentacaoService extends GenericService<MovimentacaoBean, Movime
         MovimentacaoBean movimentacaoBean = new MovimentacaoBean();
         movimentacaoBean.setTipo(EnumMovimentacao.valueOf(dto.getTipo()));
         movimentacaoBean.setValor(dto.getValor());
+        movimentacaoBean.setDataLancamento(dto.getDataLancamento());
         save(movimentacaoBean);
         return ResponseEntity.ok().body(movimentacaoBean);
     }

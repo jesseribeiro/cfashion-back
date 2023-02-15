@@ -10,7 +10,7 @@ import org.springframework.data.repository.CrudRepository;
 public interface MovimentacaoRepository extends CrudRepository<MovimentacaoBean, Long>, GenericRepository {
 
     @Query(value = "SELECT new br.com.crista.fashion.dto.MovimentacaoDTO(x) FROM Movimentacao x "
-            + " order by x.id asc ",
+            + " order by x.dataLancamento desc ",
             countQuery = "Select count(x) From Movimentacao x ")
     Page<MovimentacaoDTO> pagination(Pageable paging);
 
