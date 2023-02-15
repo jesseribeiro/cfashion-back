@@ -1,6 +1,8 @@
 package br.com.crista.fashion;
 
+import br.com.crista.fashion.service.ComissaoService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,11 +29,15 @@ import java.io.IOException;
 @EnableScheduling
 public class EmpresaApplication implements CommandLineRunner {
 
+	@Autowired
+	ComissaoService comissaoService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(EmpresaApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws IOException {
+
 	}
 }

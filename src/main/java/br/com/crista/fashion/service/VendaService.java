@@ -34,6 +34,9 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
     LojaService lojaService;
 
     @Autowired
+    ComissaoService comissaoService;
+
+    @Autowired
     ProdutoService produtoService;
 
     @Autowired
@@ -91,7 +94,7 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
         venda.setStatus(EnumStatus.NAO_PAGA);
         venda.setTipo(EnumTipoPagamento.valueOf(dto.getTipo()));
 
-        venda.setValorTotal(dto.getValorVenda());
+        BigDecimal valor = dto.getValorVenda();
         venda.setValorProduto(dto.getValorProduto());
         venda.setValorTarifa(dto.getValorTarifa());
         venda.setComissao(dto.getComissao());
@@ -101,6 +104,11 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
         venda.setQtdParcela(dto.getQtdParcela());
         venda.setDataVenda(Calendar.getInstance());
 
+        if (dto.getComissao() != null) {
+            valor = dto.getValorVenda().subtract(dto.getComissao());
+        }
+
+        venda.setValorTotal(valor);
         save(venda);
 
         Calendar dataVencimento = dto.getDataVenda();
@@ -193,16 +201,8 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
     public CalcularVendaDTO calcularComissao(CalcularVendaDTO dto) {
         EnumTipoPagamento tipo = EnumTipoPagamento.valueOf(dto.getTipo());
 
-        BigDecimal comissao = BigDecimal.ZERO;
-        if (tipo == EnumTipoPagamento.MAGALU) {
-            comissao = dto.getValorVenda().multiply(new BigDecimal(0.20)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
-        }
-        if (tipo == EnumTipoPagamento.AMERICANAS) {
-            comissao = dto.getValorVenda().multiply(new BigDecimal(0.16)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
-        }
-        if (tipo == EnumTipoPagamento.MERCADO_LIVRE) {
-            comissao = dto.getValorVenda().multiply(new BigDecimal(0.18)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
-        }
+        BigDecimal comissao = dto.getValorVenda().multiply(
+                comissaoService.pegaComissao(tipo)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 
         dto.setComissao(comissao);
         return dto;
