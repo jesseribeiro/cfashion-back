@@ -23,7 +23,6 @@ public class ParcelaController {
         return parcelaService.pagination(paginationFilter);
     }
 
-
     @PostMapping(path = "/cancelar-parcela/{id}")
     public ResponseEntity cancelarParcela(@PathVariable("id") Long parcelaId) {
         try {

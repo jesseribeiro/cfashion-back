@@ -10,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,9 +23,10 @@ public class MovimentacaoService extends GenericService<MovimentacaoBean, Movime
     }
 
     public Page<MovimentacaoDTO> pagination(PaginationFilterDTO<MovimentacaoDTO> paginationFilter) {
-        Pageable paging = PageRequest.of(0, paginationFilter.getPageSize(), Sort.by(paginationFilter.getSortBy()));
+        Pageable paging = PageRequest.of(paginationFilter.getPageNo(), paginationFilter.getPageSize(), Sort.by(paginationFilter.getSortBy()));
 
         Page<MovimentacaoDTO> movimentacao = getRepository().pagination(paging);
+
         if (movimentacao.hasContent()) {
             return movimentacao;
         } else {
@@ -34,12 +34,18 @@ public class MovimentacaoService extends GenericService<MovimentacaoBean, Movime
         }
     }
 
-    public ResponseEntity salvar(MovimentacaoDTO dto) {
+    public void salvar(MovimentacaoDTO dto) {
         MovimentacaoBean movimentacaoBean = new MovimentacaoBean();
         movimentacaoBean.setTipo(EnumMovimentacao.valueOf(dto.getTipo()));
         movimentacaoBean.setValor(dto.getValor());
+        movimentacaoBean.setDescricao(dto.getDescricao());
         movimentacaoBean.setDataLancamento(dto.getDataLancamento());
         save(movimentacaoBean);
-        return ResponseEntity.ok().body(movimentacaoBean);
     }
+
+    public void delete(Long id) {
+        MovimentacaoBean movimentacaoBean = getById(id);
+        delete(movimentacaoBean);
+    }
+
 }

@@ -15,6 +15,9 @@ import java.util.Calendar;
 @Builder
 public class MovimentacaoDTO extends GenericDTO<MovimentacaoBean> {
 
+    private Calendar dataInicial;
+    private Calendar dataFinal;
+
     @JsonDeserialize(converter = MoneyDeserializerJson.class)
     private BigDecimal valor;
 

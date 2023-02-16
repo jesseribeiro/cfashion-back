@@ -9,9 +9,11 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface MovimentacaoRepository extends CrudRepository<MovimentacaoBean, Long>, GenericRepository {
 
+    String FilterPagination = WHERE_EXCLUIDO;
+
     @Query(value = "SELECT new br.com.crista.fashion.dto.MovimentacaoDTO(x) FROM Movimentacao x "
-            + " order by x.dataLancamento desc ",
-            countQuery = "Select count(x) From Movimentacao x ")
+            + FilterPagination + " order by x.dataLancamento desc ",
+            countQuery = "Select count(x) From Movimentacao x " + FilterPagination)
     Page<MovimentacaoDTO> pagination(Pageable paging);
 
 }
