@@ -2,6 +2,8 @@ package br.com.crista.fashion.report.listaprodutos;
 
 import br.com.crista.fashion.dto.FiltroRelatorioDTO;
 import br.com.crista.fashion.dto.ProdutoDTO;
+import br.com.crista.fashion.enumeration.EnumCategoria;
+import br.com.crista.fashion.enumeration.EnumTamanho;
 import br.com.crista.fashion.report.RelatorioBaseXLS;
 import br.com.crista.fashion.utils.MathUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -55,9 +57,9 @@ public class ListaProdutosXLS extends RelatorioBaseXLS {
         createCell(row, 0, dto.getNome() + "", STYLE_VALOR);
         createCell(row, 1, dto.getMarca() + "", STYLE_VALOR);
         createCell(row, 2, dto.getCodigo() + "", STYLE_VALOR);
-        createCell(row, 3, dto.getCategoria() + "", STYLE_VALOR);
+        createCell(row, 3, EnumCategoria.valueOf(dto.getCategoria()).getLabel() + "", STYLE_VALOR);
         createCell(row, 4, dto.getCor() + "", STYLE_VALOR);
-        createCell(row, 5, dto.getTamanho() + "", STYLE_VALOR);
+        createCell(row, 5, EnumTamanho.valueOf(dto.getTamanho()).getLabel() + "", STYLE_VALOR);
         createCell(row, 6, dto.getQtd() + "", STYLE_VALOR);
         createCell(row, 7, "R$ " + MathUtils.convertBigDecimalToString(dto.getValorCompra()), STYLE_VALOR);
     }

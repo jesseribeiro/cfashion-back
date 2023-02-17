@@ -40,7 +40,7 @@ public class ListaClientesXLS extends RelatorioBaseXLS {
 
         for (ClienteDTO dto : dados){
             addRow(dto);
-            total += dto.getQtd();
+            total += dto.getQtd().intValue();
         }
         printNovaLinha(titles.length -1);
 

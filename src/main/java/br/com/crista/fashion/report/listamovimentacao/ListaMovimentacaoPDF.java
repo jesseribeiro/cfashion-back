@@ -1,9 +1,11 @@
-package br.com.crista.fashion.report.listaclientes;
+package br.com.crista.fashion.report.listamovimentacao;
 
-import br.com.crista.fashion.dto.ClienteDTO;
 import br.com.crista.fashion.dto.FiltroRelatorioDTO;
+import br.com.crista.fashion.dto.MovimentacaoDTO;
+import br.com.crista.fashion.enumeration.EnumMovimentacao;
 import br.com.crista.fashion.report.RelatorioBasePDF;
-import br.com.crista.fashion.utils.StringUtils;
+import br.com.crista.fashion.utils.DateUtils;
+import br.com.crista.fashion.utils.MathUtils;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -13,17 +15,17 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 @Slf4j
-public class ListaClientesPDF extends RelatorioBasePDF {
+public class ListaMovimentacaoPDF extends RelatorioBasePDF {
 
-    private final List<ClienteDTO> dados;
+    private final List<MovimentacaoDTO> dados;
     FiltroRelatorioDTO filtro;
-    private static final float[] columnWidths = {20f,20f,20f,20f,10f,10f};
+    private static final float[] columnWidths = {20f,35f,20f,25f};
     private static final String[] titles = {
-            "Nome", "CPF", "Celular", "Cidade", "Estado", "Qtd Compras"
+            "Data", "Descrição", "Tipo", "Valor"
     };
 
-    public ListaClientesPDF(List<ClienteDTO> dados, FiltroRelatorioDTO filtro, String diretorio) throws FileNotFoundException, DocumentException {
-        super("Relatório - Lista de Clientes", PageSize.A4.rotate(), diretorio);
+    public ListaMovimentacaoPDF(List<MovimentacaoDTO> dados, FiltroRelatorioDTO filtro, String diretorio) throws FileNotFoundException, DocumentException {
+        super("Relatório - Lista de Movimentações", PageSize.A4.rotate(), diretorio);
         this.dados = dados;
         this.filtro = filtro;
     }
@@ -34,15 +36,12 @@ public class ListaClientesPDF extends RelatorioBasePDF {
         table.setWidthPercentage(100);
         table.setWidths(columnWidths);
 
-        Integer total = 0;
 
-        for (ClienteDTO dto : dados) {
+        for (MovimentacaoDTO dto : dados) {
             addCell(table, dto);
-            total += dto.getQtd().intValue();
         }
         printNovaLinha(table,titles.length);
 
-        printCell(table, total + " clientes", titles.length);
         addTable(table);
 
         close();
@@ -74,12 +73,10 @@ public class ListaClientesPDF extends RelatorioBasePDF {
         addTableHeader(document);
     }
 
-    private void addCell(PdfPTable table, ClienteDTO dto) {
-        table.addCell(newCellNoBorder(dto.getNome() + "", FONT_NORMAL, Element.ALIGN_CENTER));
-        table.addCell(newCellNoBorder(StringUtils.desformataCpfCnpj(dto.getCpf()) + "", FONT_NORMAL, Element.ALIGN_CENTER));
-        table.addCell(newCellNoBorder(dto.getCelular() + "", FONT_NORMAL, Element.ALIGN_CENTER));
-        table.addCell(newCellNoBorder(dto.getCidade() + "", FONT_NORMAL, Element.ALIGN_CENTER));
-        table.addCell(newCellNoBorder(dto.getEstado() + "", FONT_NORMAL, Element.ALIGN_CENTER));
-        table.addCell(newCellNoBorder(dto.getQtd() + "", FONT_NORMAL, Element.ALIGN_CENTER));
+    private void addCell(PdfPTable table, MovimentacaoDTO dto) {
+        table.addCell(newCellNoBorder(DateUtils.getDiaMesAnoPortugues(dto.getData()) + "", FONT_NORMAL, Element.ALIGN_CENTER));
+        table.addCell(newCellNoBorder(dto.getDescricao() + "", FONT_NORMAL, Element.ALIGN_CENTER));
+        table.addCell(newCellNoBorder(EnumMovimentacao.valueOf(dto.getTipo()).getLabel() + "", FONT_NORMAL, Element.ALIGN_CENTER));
+        table.addCell(newCellNoBorder("R$ " + MathUtils.convertBigDecimalToString(dto.getValor()), FONT_NORMAL, Element.ALIGN_CENTER));
     }
 }

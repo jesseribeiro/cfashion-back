@@ -42,6 +42,15 @@ public class DateUtils {
         }
     }
 
+    public static String getDiaMesAnoPortugues(String dateString) {
+        try{
+            return getDiaMesAnoPortugues(getDiaMesAno(dateString));
+        }
+        catch (Exception e){
+            return dateString;
+        }
+    }
+
     public static Calendar getDiaMesAno(String time) {
         try {
             if (time != null && !time.isEmpty()) {

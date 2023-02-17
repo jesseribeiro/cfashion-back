@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,8 +40,8 @@ public class ListaClientesRepositoryImpl {
             sql += " and x.vid > 0 ";
         }
 
-        sql += " group by x.id, x.nome, x.cpf, x.celular, x.cidade_nome, x.estado " +
-                " order by x.nome ";
+        sql += " group by x.id, c.nome, c.cpf, c.celular, c.cidade_nome, c.estado " +
+                " order by c.nome ";
 
         Query query = entityManager.createNativeQuery(sql);
         addFilters(filtro, query);
@@ -50,13 +51,13 @@ public class ListaClientesRepositoryImpl {
         for (Object[] line : listaObjects) {
             ClienteDTO clientes = new ClienteDTO();
             try {
-                clientes.setId((Long) line[0]);
+                clientes.setId(((BigInteger) line[0]).longValue());
                 clientes.setNome((String) line[1]);
                 clientes.setCpf((String) line[2]);
                 clientes.setCelular((String) line[3]);
                 clientes.setCidade((String) line[4]);
                 clientes.setEstado((String) line[5]);
-                clientes.setQtd((Integer) line[6]);
+                clientes.setQtd((BigInteger) line[6]);
                 listaResultados.add(clientes);
             } catch (Exception e) {
                 e.printStackTrace();

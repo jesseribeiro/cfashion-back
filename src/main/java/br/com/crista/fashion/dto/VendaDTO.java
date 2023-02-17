@@ -52,6 +52,9 @@ public class VendaDTO extends GenericDTO<VendaBean> {
     private Integer qtdParcela;
     private List<ParcelaDTO> parcelas;
 
+    private String data;
+    private String categoria;
+
     public VendaDTO(VendaBean bean) {
         super(bean);
         clienteId = bean.getCliente().getId();

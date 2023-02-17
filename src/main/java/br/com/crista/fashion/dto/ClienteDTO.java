@@ -5,6 +5,7 @@ import br.com.crista.fashion.bean.EnderecoBean;
 import br.com.crista.fashion.utils.StringUtils;
 import lombok.*;
 
+import java.math.BigInteger;
 import java.util.Calendar;
 
 @Getter
@@ -29,7 +30,7 @@ public class ClienteDTO extends GenericDTO<ClienteBean> {
 
     private String cidade;
     private String estado;
-    private Integer qtd;
+    private BigInteger qtd;
 
     public ClienteDTO(ClienteBean bean) {
         super(bean);

@@ -25,6 +25,8 @@ public class MovimentacaoDTO extends GenericDTO<MovimentacaoBean> {
     private String descricao;
     private Calendar dataLancamento;
 
+    private String data;
+
     public MovimentacaoDTO(MovimentacaoBean bean) {
         super(bean);
         valor = bean.getValor();

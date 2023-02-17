@@ -2,6 +2,7 @@ package br.com.crista.fashion.report.listaprodutos;
 
 import br.com.crista.fashion.dto.FiltroRelatorioDTO;
 import br.com.crista.fashion.dto.ProdutoDTO;
+import br.com.crista.fashion.enumeration.EnumCategoria;
 import br.com.crista.fashion.enumeration.EnumTamanho;
 import br.com.crista.fashion.report.RelatorioBasePDF;
 import br.com.crista.fashion.utils.MathUtils;
@@ -79,7 +80,7 @@ public class ListaProdutosPDF extends RelatorioBasePDF {
         table.addCell(newCellNoBorder(dto.getNome() + "", FONT_NORMAL, Element.ALIGN_CENTER));
         table.addCell(newCellNoBorder(dto.getMarca() + "", FONT_NORMAL, Element.ALIGN_CENTER));
         table.addCell(newCellNoBorder(dto.getCodigo() + "", FONT_NORMAL, Element.ALIGN_CENTER));
-        table.addCell(newCellNoBorder(dto.getCategoria() + "", FONT_NORMAL, Element.ALIGN_CENTER));
+        table.addCell(newCellNoBorder(EnumCategoria.valueOf(dto.getCategoria()).getLabel() + "", FONT_NORMAL, Element.ALIGN_CENTER));
         table.addCell(newCellNoBorder(dto.getCor() + "", FONT_NORMAL, Element.ALIGN_CENTER));
         table.addCell(newCellNoBorder(EnumTamanho.valueOf(dto.getTamanho()).getLabel() + "", FONT_NORMAL, Element.ALIGN_CENTER));
         table.addCell(newCellNoBorder(dto.getQtd() + "", FONT_NORMAL, Element.ALIGN_CENTER));
