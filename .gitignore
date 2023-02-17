@@ -1,7 +1,6 @@
 # Compiled class file
 *.class
 
-HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
@@ -18,7 +17,7 @@ target/
 
 ### IntelliJ IDEA ###
 application.properties
-target
+target/
 .idea
 *.iws
 *.iml
