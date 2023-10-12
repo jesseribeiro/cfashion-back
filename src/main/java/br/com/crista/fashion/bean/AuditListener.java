@@ -5,6 +5,8 @@ import org.hibernate.envers.RevisionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import static java.util.Objects.nonNull;
+
 @Component
 public class AuditListener implements RevisionListener {
 
@@ -12,10 +14,13 @@ public class AuditListener implements RevisionListener {
     UsuarioLogadoService usuarioLogadoService;
 
     @Override
-    public void newRevision(Object revisionEntity) {    	
+    public void newRevision(Object revisionEntity) {
+
     	AuditEntity revEntity = (AuditEntity) revisionEntity;
         UsuarioBean usuario = usuarioLogadoService.getUsuarioLogado();
-        if(usuario != null) {
+
+        if (nonNull(usuario)) {
+
     	    revEntity.setUsuario(usuario.getLogin());
             revEntity.setIp(usuario.getIp());
         }

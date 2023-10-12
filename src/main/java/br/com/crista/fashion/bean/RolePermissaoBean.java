@@ -1,12 +1,13 @@
 package br.com.crista.fashion.bean;
 
 import br.com.crista.fashion.json.MoneyDeserializerJson;
-import br.com.crista.fashion.utils.NullUtils;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.math.BigDecimal;
+
+import static java.util.Objects.isNull;
 
 @Embeddable
 public class RolePermissaoBean {
@@ -194,7 +195,7 @@ public class RolePermissaoBean {
     }
 
     public Boolean getInformarValorEntrada() {
-        return NullUtils.isNull(informarValorEntrada);
+        return isNull(informarValorEntrada);
     }
 
     public BigDecimal getPeMaxDescontoAtrasoAcordo() {
@@ -234,7 +235,7 @@ public class RolePermissaoBean {
     }
 
     public Boolean getGerarFilaCobranca() {
-        return NullUtils.isNull(gerarFilaCobranca);
+        return isNull(gerarFilaCobranca);
     }
 
     public int getQtdMaxConsultasCadastral() {
@@ -246,103 +247,103 @@ public class RolePermissaoBean {
     }
 
     public Boolean getVisualizarRespRestricaoCadastralInclusao() {
-        return NullUtils.isNull(visualizarRespRestricaoCadastralInclusao);
+        return isNull(visualizarRespRestricaoCadastralInclusao);
     }
 
     public Boolean getPermitirCadastroRestricaoCadastral() {
-        return NullUtils.isNull(permitirCadastroRestricaoCadastral);
+        return isNull(permitirCadastroRestricaoCadastral);
     }
 
     public Boolean getVisualizarRespAnaliseVisualInclusao() {
-        return NullUtils.isNull(visualizarRespAnaliseVisualInclusao);
+        return isNull(visualizarRespAnaliseVisualInclusao);
     }
 
     public Boolean getPermitirCadastroAnaliseVisual() {
-        return NullUtils.isNull(permitirCadastroAnaliseVisual);
+        return isNull(permitirCadastroAnaliseVisual);
     }
 
     public Boolean getVisualizarGrupoRiscoInclusao() {
-        return NullUtils.isNull(visualizarGrupoRiscoInclusao);
+        return isNull(visualizarGrupoRiscoInclusao);
     }
 
     public Boolean getPermitirCadastroGrupoRisco() {
-        return NullUtils.isNull(permitirCadastroGrupoRisco);
+        return isNull(permitirCadastroGrupoRisco);
     }
 
     public Boolean getVisualizarDadosCruzadosInclusao() {
-        return NullUtils.isNull(visualizarDadosCruzadosInclusao);
+        return isNull(visualizarDadosCruzadosInclusao);
     }
 
     public Boolean getPermitirCadastroDadosCruzados() {
-        return NullUtils.isNull(permitirCadastroDadosCruzados);
+        return isNull(permitirCadastroDadosCruzados);
     }
 
     public Boolean getPesquisaCPF() {
-        return NullUtils.isNull(pesquisaCPF);
+        return isNull(pesquisaCPF);
     }
 
     public Boolean getPesquisaNome() {
-        return NullUtils.isNull(pesquisaNome);
+        return isNull(pesquisaNome);
     }
 
     public Boolean getPesquisaIdentidade() {
-        return NullUtils.isNull(pesquisaIdentidade);
+        return isNull(pesquisaIdentidade);
     }
 
     public Boolean getPesquisaDataCadastro() {
-        return NullUtils.isNull(pesquisaDataCadastro);
+        return isNull(pesquisaDataCadastro);
     }
 
     public Boolean getPesquisaTelefone() {
-        return NullUtils.isNull(pesquisaTelefone);
+        return isNull(pesquisaTelefone);
     }
 
     public Boolean getVisualizarTelefone() {
-        return NullUtils.isNull(visualizarTelefone);
+        return isNull(visualizarTelefone);
     }
 
     public Boolean getVisualizarEndereco() {
-        return NullUtils.isNull(visualizarEndereco);
+        return isNull(visualizarEndereco);
     }
 
     public Boolean getVisualizarCPF() {
-        return NullUtils.isNull(visualizarCPF);
+        return isNull(visualizarCPF);
     }
 
     public Boolean getVisualizarNascimento() {
-        return NullUtils.isNull(visualizarNascimento);
+        return isNull(visualizarNascimento);
     }
 
     public Boolean getVisualizarScore() {
-        return NullUtils.isNull(visualizarScore);
+        return isNull(visualizarScore);
     }
 
     public Boolean getVisualizarLimites() {
-        return NullUtils.isNull(visualizarLimites);
+        return isNull(visualizarLimites);
     }
 
     public Boolean getLimitarAutonomia() {
-        return NullUtils.isNull(limitarAutonomia);
+        return isNull(limitarAutonomia);
     }
 
     public Boolean getAlterarApenasClientesDaEntidade() {
-        return NullUtils.isNull(alterarApenasClientesDaEntidade);
+        return isNull(alterarApenasClientesDaEntidade);
     }
 
     public Boolean getVisualizarPagEmBanco() {
-        return NullUtils.isNull(visualizarPagEmBanco);
+        return isNull(visualizarPagEmBanco);
     }
 
     public Boolean getVisualizarBoletoFatura() {
-        return NullUtils.isNull(visualizarBoletoFatura);
+        return isNull(visualizarBoletoFatura);
     }
 
     public Boolean getVisualizarMsgStatusProcessamento() {
-        return NullUtils.isNull(visualizarMsgStatusProcessamento);
+        return isNull(visualizarMsgStatusProcessamento);
     }
 
     public Boolean getVisualizarParcelamentoFatura() {
-        return NullUtils.isNull(visualizarParcelamentoFatura);
+        return isNull(visualizarParcelamentoFatura);
     }
 
     public int getDiasValidadeUltimaAlteracaoTelefoneEmail() {

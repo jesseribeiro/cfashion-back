@@ -28,44 +28,58 @@ public class LojaController {
 
     @PostMapping
     public ResponseEntity create(@RequestBody @Valid @NotNull LojaDTO lojaDTO) {
+
         try {
+
             return ResponseEntity.ok(lojaService.salvar(lojaDTO));
         } catch (Exception e) {
+
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity findAll() {
+
         List<LojaBean> lojas = lojaService.findAll();
+
         return new ResponseEntity<>(lojas, HttpStatus.OK);
     }
 
     @PostMapping(path = "/pagination")
     public Page<LojaDTO> pagination(@RequestBody PaginationFilterDTO<LojaDTO> paginationFilter) {
+
         return lojaService.pagination(paginationFilter);
     }
 
     @GetMapping(path = "/{id}")
     public LojaDTO getById(@PathVariable("id") Long id) {
+
         return lojaService.getByIdDTO(id);
     }
 
     @PostMapping(path = "/{id}")
     public ResponseEntity update(@PathVariable("id") Long id, @RequestBody @Valid @NotNull LojaDTO dto) {
+
         try {
+
             return ResponseEntity.ok(lojaService.update(id, dto));
         } catch (Exception e) {
+
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity delete(@PathVariable("id") Long id) {
+
         try {
+
             lojaService.delete(id);
+
             return ResponseEntity.ok("Loja excluída com sucesso!");
         } catch (Exception e) {
+
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

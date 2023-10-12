@@ -12,43 +12,68 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository("vendasRepositoryImpl")
-public class VendasRepositoryImpl {
+import static java.util.Objects.nonNull;
+
+@Repository("listaVendasRepositoryImpl")
+public class ListaVendasRepositoryImpl {
 
     @PersistenceContext
     EntityManager entityManager;
 
     public List<VendaDTO> getListaVendas(FiltroRelatorioDTO filtro) {
-        String sql = " select to_char(v.data_venda, 'YYYY-MM-DD') as data, v.valor_produto, " +
-                " v.tipo, v.frete_pagar, v.frete_receber, " +
-                " v.descontos, v.comissao, v.valor_total, v.status, p.categoria " +
-                " from venda v " +
-                " join produto p on p.id = v.produto_id " +
-                " where 1=1 ";
 
-        if (filtro.getDataInicio() != null) {
-            sql += " and v.data_venda >= :data_inicial ";
-        }
-        if (filtro.getDataFim() != null) {
-            sql += " and v.data_venda <= :data_final ";
-        }
-        if (filtro.getCategoria() != null && !filtro.getCategoria().equalsIgnoreCase("TODAS")) {
-            sql += " and p.categoria =:categoria ";
-        }
-        if (filtro.getTipo() != null && !filtro.getTipo().equalsIgnoreCase("TODAS")) {
-            sql += " and v.tipo =:tipo ";
+        String sql = " " +
+                " SELECT " +
+                "   to_char(v.data_venda, 'YYYY-MM-DD') as data, " +
+                "   v.valor_produto, " +
+                "   v.tipo, " +
+                "   v.frete_pagar, " +
+                "   v.frete_receber, " +
+                "   v.descontos," +
+                "   v.comissao, " +
+                "   v.valor_total, " +
+                "   v.status, " +
+                "   p.categoria " +
+                " FROM " +
+                "   venda v " +
+                " JOIN produto p " +
+                "   ON p.id = v.produto_id " +
+                " WHERE 1=1 ";
+
+        if (nonNull(filtro.getDataInicio())) {
+
+            sql += " AND v.data_venda >= :data_inicial ";
         }
 
-        sql += " order by v.data_venda ";
+        if (nonNull(filtro.getDataFim())) {
+
+            sql += " AND v.data_venda <= :data_final ";
+        }
+
+        if (nonNull(filtro.getCategoria()) && !filtro.getCategoria().equalsIgnoreCase("TODAS")) {
+
+            sql += " AND p.categoria =:categoria ";
+        }
+
+        if (nonNull(filtro.getTipo()) && !filtro.getTipo().equalsIgnoreCase("TODAS")) {
+
+            sql += " AND v.tipo =:tipo ";
+        }
+
+        sql += " ORDER BY v.data_venda DESC";
 
         Query query = entityManager.createNativeQuery(sql);
         addFilters(filtro, query);
 
         List<VendaDTO> listaResultados = new ArrayList<>();
         List<Object[]> listaObjects = query.getResultList();
+
         for (Object[] line : listaObjects) {
+
             VendaDTO venda = new VendaDTO();
+
             try {
+
                 venda.setData((String) line[0]);
                 venda.setVlProduto((BigDecimal) line[1]);
                 venda.setTipo((String) line[2]);
@@ -60,24 +85,35 @@ public class VendasRepositoryImpl {
                 venda.setStatus((String) line[8]);
                 venda.setCategoria((String) line[9]);
                 listaResultados.add(venda);
+
             } catch (Exception e) {
+
                 e.printStackTrace();
             }
         }
+
         return listaResultados;
     }
 
     private void addFilters(FiltroRelatorioDTO filtro, Query query) {
-        if (filtro.getDataInicio() != null) {
+
+        if (nonNull(filtro.getDataInicio())) {
+
             query.setParameter("data_inicial", DateUtils.zeraHorario(filtro.getDataInicio()));
         }
-        if (filtro.getDataFim() != null) {
+
+        if (nonNull(filtro.getDataFim())) {
+
             query.setParameter("data_final", DateUtils.setUltimaHoraDoDia(filtro.getDataFim()));
         }
-        if (filtro.getTipo() != null && !filtro.getTipo().equalsIgnoreCase("TODAS")) {
+
+        if (nonNull(filtro.getTipo()) && !filtro.getTipo().equalsIgnoreCase("TODAS")) {
+
             query.setParameter("tipo", filtro.getTipo());
         }
-        if (filtro.getCategoria() != null && !filtro.getCategoria().equalsIgnoreCase("TODAS")) {
+
+        if (nonNull(filtro.getCategoria()) && !filtro.getCategoria().equalsIgnoreCase("TODAS")) {
+
             query.setParameter("categoria", filtro.getCategoria());
         }
     }

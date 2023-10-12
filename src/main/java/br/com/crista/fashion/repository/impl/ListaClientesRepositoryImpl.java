@@ -12,6 +12,8 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Objects.nonNull;
+
 @Repository("listaClientesRepositoryImpl")
 public class ListaClientesRepositoryImpl {
 
@@ -19,38 +21,68 @@ public class ListaClientesRepositoryImpl {
     EntityManager entityManager;
 
     public List<ClienteDTO> getListaClientes(FiltroRelatorioDTO filtro) {
-        String sql = " select x.id, c.nome, c.cpf, c.celular, c.cidade_nome, c.estado, count(vid) from ( " +
-                " select c.id, v.id as vid " +
-                " from cliente c " +
-                " full outer join venda v on v.cliente_id = c.id " +
-                " where 1=1 ";
 
-        if (filtro.getDataInicio() != null) {
-            sql += " and c.data_cadastro >= :data_inicial ";
-        }
-        if (filtro.getDataFim() != null) {
-            sql += " and c.data_cadastro <= :data_final ";
+        String sql = " " +
+                " SELECT" +
+                "   x.id, " +
+                "   c.nome, " +
+                "   c.cpf, " +
+                "   c.celular, " +
+                "   c.cidade_nome, " +
+                "   c.estado, " +
+                "   count(vid) as vendas " +
+                " FROM ( " +
+                "   SELECT " +
+                "       c.id, " +
+                "       v.id as vid " +
+                "   FROM " +
+                "       cliente c " +
+                "   FULL OUTER JOIN venda v " +
+                "       ON v.cliente_id = c.id " +
+                "   WHERE 1=1 ";
+
+        if (nonNull(filtro.getDataInicio())) {
+
+            sql += " AND v.data_venda >= :data_inicial ";
         }
 
-        sql += " ) as x " +
-                " join cliente c on c.id = x.id " +
-                " where 1=1 ";
+        if (nonNull(filtro.getDataFim())) {
+
+            sql += " AND v.data_venda <= :data_final ";
+        }
+
+        sql += " ) AS x" +
+               " JOIN cliente c " +
+               "   ON c.id = x.id " +
+               " WHERE 1=1 ";
 
         if (filtro.getTemEstoque()) {
-            sql += " and x.vid > 0 ";
+
+            sql += " AND x.vid > 0 ";
         }
 
-        sql += " group by x.id, c.nome, c.cpf, c.celular, c.cidade_nome, c.estado " +
-                " order by c.nome ";
+        sql += " GROUP BY x.id, c.nome, c.cpf, c.celular, c.cidade_nome, c.estado " +
+               " ORDER BY ";
+
+        if (filtro.getOrdenarClientes()) {
+
+            sql += " vendas DESC, ";
+        }
+
+        sql += " c.nome ASC";
 
         Query query = entityManager.createNativeQuery(sql);
         addFilters(filtro, query);
 
         List<ClienteDTO> listaResultados = new ArrayList<>();
         List<Object[]> listaObjects = query.getResultList();
+
         for (Object[] line : listaObjects) {
+
             ClienteDTO clientes = new ClienteDTO();
+
             try {
+
                 clientes.setId(((BigInteger) line[0]).longValue());
                 clientes.setNome((String) line[1]);
                 clientes.setCpf((String) line[2]);
@@ -59,18 +91,25 @@ public class ListaClientesRepositoryImpl {
                 clientes.setEstado((String) line[5]);
                 clientes.setQtd((BigInteger) line[6]);
                 listaResultados.add(clientes);
+
             } catch (Exception e) {
+
                 e.printStackTrace();
             }
         }
+
         return listaResultados;
     }
 
     private void addFilters(FiltroRelatorioDTO filtro, Query query) {
-        if (filtro.getDataInicio() != null) {
+
+        if (nonNull(filtro.getDataInicio())) {
+
             query.setParameter("data_inicial", DateUtils.zeraHorario(filtro.getDataInicio()));
         }
-        if (filtro.getDataFim() != null) {
+
+        if (nonNull(filtro.getDataFim())) {
+
             query.setParameter("data_final", DateUtils.setUltimaHoraDoDia(filtro.getDataFim()));
         }
     }

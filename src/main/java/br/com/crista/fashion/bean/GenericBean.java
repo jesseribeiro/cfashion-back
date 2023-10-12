@@ -1,11 +1,12 @@
 package br.com.crista.fashion.bean;
 
-import br.com.crista.fashion.utils.NullUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 import java.util.Calendar;
+
+import static java.util.Objects.isNull;
 
 @MappedSuperclass
 public abstract class GenericBean {
@@ -60,7 +61,7 @@ public abstract class GenericBean {
     }
 
     public Boolean isExcluido() {
-        return NullUtils.isNull(isExcluido);
+        return isNull(isExcluido);
     }
 
     public void setExcluido(Boolean excluido) {
@@ -84,32 +85,47 @@ public abstract class GenericBean {
     }
 
     public int hashCode() {
+
         boolean prime = true;
         int result = 1;
-        result = 31 * result + (this.id == null ? 0 : this.id.hashCode());
+        result = 31 * result + (isNull(this.id) ? 0 : this.id.hashCode());
         return result;
     }
 
     public boolean equals(Object obj) {
+
         if (this == obj) {
+
             return true;
-        } else if (obj == null) {
+
+        } else if (isNull(obj)) {
+
             return false;
+
         } else if (this.getClass() != obj.getClass()) {
+
             return false;
+
         } else {
+
             GenericBean other = (GenericBean)obj;
-            if (this.id == null) {
-                return other.id == null;
+
+            if (isNull(this.id)) {
+
+                return isNull(other.id);
+
             } else {
+
                 return this.id.equals(other.id);
             }
         }
     }
 
     public JSONObject jsonAudit() {
+
         JSONObject obj = new JSONObject();
         obj.put("generic", "TODO implemntar na classe filha");
+
         return obj;
     }
 }

@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static java.util.Objects.nonNull;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -56,6 +58,7 @@ public class VendaDTO extends GenericDTO<VendaBean> {
     private String categoria;
 
     public VendaDTO(VendaBean bean) {
+
         super(bean);
         clienteId = bean.getCliente().getId();
         cpf = StringUtils.inserirMascaraCpfCnpj(bean.getCliente().getCpf());
@@ -73,15 +76,20 @@ public class VendaDTO extends GenericDTO<VendaBean> {
         descontos = bean.getDescontos();
         comissao = bean.getComissao();
 
-        if (bean.getTipo() != null) {
+        if (nonNull(bean.getTipo())) {
+
             tipo = bean.getTipo().getLabel();
         }
-        if (bean.getStatus() != null) {
+
+        if (nonNull(bean.getStatus())) {
+
             status = bean.getStatus().getLabel();
         }
 
         this.parcelas = new ArrayList<>();
-        for(ParcelaBean p : bean.getParcelas()) {
+
+        for (ParcelaBean p : bean.getParcelas()) {
+
             this.parcelas.add(new ParcelaDTO(p));
         }
     }

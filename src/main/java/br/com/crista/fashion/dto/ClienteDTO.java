@@ -33,6 +33,7 @@ public class ClienteDTO extends GenericDTO<ClienteBean> {
     private BigInteger qtd;
 
     public ClienteDTO(ClienteBean bean) {
+
         super(bean);
         nome = bean.getNome();
         cpf = StringUtils.inserirMascaraCpfCnpj(bean.getCpf());
@@ -46,6 +47,7 @@ public class ClienteDTO extends GenericDTO<ClienteBean> {
 
     @Override
     public ClienteBean converter(ClienteBean bean) {
+
         bean = super.converter(bean);
         bean.setNome(nome);
         bean.setCpf(StringUtils.desformataCpfCnpj(cpf));
@@ -54,6 +56,7 @@ public class ClienteDTO extends GenericDTO<ClienteBean> {
         bean.setEmail(email);
         bean.setEndereco(endereco);
         bean.setDataNascimento(dataNascimento);
+
         return bean;
     }
 }

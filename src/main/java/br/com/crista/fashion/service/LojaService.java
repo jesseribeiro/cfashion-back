@@ -17,39 +17,45 @@ import java.util.List;
 @Service
 public class LojaService extends GenericService<LojaBean, LojaRepository> {
 
-    public List<LojaBean> findAll(){
+    public List<LojaBean> findAll() {
+
         return convertIterableToList(getRepository().findAll());
     }
 
     public LojaDTO salvar(LojaDTO lojaDTO) {
+
         LojaBean loja = new LojaBean();
         loja = lojaDTO.converter(loja);
         save(loja);
 
-        LojaDTO dto = new LojaDTO(loja);
-        return dto;
+        return new LojaDTO(loja);
     }
 
     public Page<LojaDTO> pagination(PaginationFilterDTO<LojaDTO> paginationFilter) {
+
         Pageable paging = PageRequest.of(paginationFilter.getPageNo(), paginationFilter.getPageSize(), Sort.by(paginationFilter.getSortBy()));
         LojaDTO filtros = paginationFilter.getFiltros();
 
         Page<LojaDTO> lojas = getRepository().pagination(filtros.getId(), filtros.getNomeFantasia(), paging);
+
         if (lojas.hasContent()) {
+
             return lojas;
         } else {
+
             return Page.empty();
         }
     }
 
     public LojaDTO getByIdDTO(Long id) {
+
        LojaBean loja = getLojaById(id);
 
-       LojaDTO dto = new LojaDTO(loja);
-       return dto;
+        return new LojaDTO(loja);
     }
 
     public LojaDTO update(Long id, LojaDTO dto) {
+
         LojaBean loja = getLojaById(id);
         loja.setNomeFantasia(dto.getNomeFantasia());
         loja.setTelefone(dto.getTelefone());
@@ -58,20 +64,22 @@ public class LojaService extends GenericService<LojaBean, LojaRepository> {
         loja.setWhatsapp(dto.getWhatsapp());
         update(loja);
 
-        LojaDTO lojaDTO = new LojaDTO(loja);
-        return lojaDTO;
+        return new LojaDTO(loja);
     }
 
     public LojaBean getLojaById(Long id) {
+
         return getRepository().findById(id).orElse(null);
     }
 
     public void delete(Long id) {
+
         LojaBean loja = getLojaById(id);
         delete(loja);
     }
 
     public LojaBean lojaByNomeFantasia (String nomeLoja) {
+
         return getRepository().findLojaByNomeFantasia(nomeLoja);
     }
 }

@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static java.util.Objects.nonNull;
+
 @Slf4j
 @Getter
 @Setter
@@ -33,47 +35,62 @@ public class GenericService<T extends GenericBean, DAO extends CrudRepository<T,
     JwtProvider jwtProvider;
 
     public UsuarioBean getUsuarioLogado() {
+
         return usuarioLogadoService.getUsuarioLogado();
     }
 
     public String getLoginUsuarioLogado() {
+
         UsuarioBean usuarioLogado = getUsuarioLogado();
-        if(usuarioLogado != null) {
+
+        if (nonNull(usuarioLogado)) {
+
             return usuarioLogado.getLogin();
         }
+
         return null;
     }
 
     public T save(T bean) {
-        if(bean.getId() != null) {
+
+        if (nonNull(bean.getId())) {
+
             return update(bean);
         }
+
         bean.setDataCadastro(Calendar.getInstance());
+
         return repository.save(bean);
     }
 
     public T saveNoDate(T bean) {
+
         return repository.save(bean);
     }
 
     public T update(T bean) {
+
         bean.setDataAlteracao(Calendar.getInstance());
+
         return repository.save(bean);
     }
 
     public void delete(T bean) {
+
         bean.setDataExclusao(Calendar.getInstance());
         bean.setExcluido(true);
         repository.save(bean);
     }
 
     public T getById(Long id) {
+
         return repository.findById(id).orElseThrow(()->
                 new EntityNotFoundException("Entidade não encontrada")
         );
     }
 
-    public List<T> convertIterableToList(Iterable<T> iterable){
+    public List<T> convertIterableToList(Iterable<T> iterable) {
+
         return StreamSupport.stream(iterable.spliterator(), false)
                 .collect(Collectors.toList());
     }
@@ -90,18 +107,28 @@ public class GenericService<T extends GenericBean, DAO extends CrudRepository<T,
      * para realizar a operação, caso tenha então deixa executar a operação senão retornar o status (405) e o fluxo se inicia.
      */
     public boolean hasPermissao(HttpServletRequest request, EnumRole[] rolesPermitida) {
-        if(hasPermissaoUsuarioLogado(rolesPermitida)) {
+
+        if (hasPermissaoUsuarioLogado(rolesPermitida)) {
+
             return true;
         }
 
-        if (request != null && rolesPermitida != null) {
+        if (nonNull(request) && nonNull(rolesPermitida)) {
+
             String token = request.getParameter("accessToken");
-            if(token != null) {
+
+            if (nonNull(token)) {
+
                 List<String> roles = jwtProvider.getRolesUsuarioByToken(token);
-                if(roles != null) {
+
+                if (nonNull(roles)) {
+
                     for (String roleUsuario: roles) {
-                        for(EnumRole rolePermissao : rolesPermitida) {
-                            if(rolePermissao.name().equalsIgnoreCase(roleUsuario)) {
+
+                        for (EnumRole rolePermissao : rolesPermitida) {
+
+                            if (rolePermissao.name().equalsIgnoreCase(roleUsuario)) {
+
                                 return true;
                             }
                         }
@@ -109,20 +136,28 @@ public class GenericService<T extends GenericBean, DAO extends CrudRepository<T,
                 }
             }
         }
+
         return false;
     }
 
     public boolean hasPermissaoUsuarioLogado(EnumRole [] rolesPermitida) {
+
         UsuarioBean usuarioLogado = getUsuarioLogado();
-        if (usuarioLogado != null && rolesPermitida != null) {
-            for(RoleBean roleUsuario : usuarioLogado.getRoles()) {
+
+        if (nonNull(usuarioLogado) && nonNull(rolesPermitida)) {
+
+            for (RoleBean roleUsuario : usuarioLogado.getRoles()) {
+
                 for(EnumRole rolePermissao : rolesPermitida) {
-                    if(rolePermissao.name().equalsIgnoreCase(roleUsuario.getNome().name())) {
+
+                    if (rolePermissao.name().equalsIgnoreCase(roleUsuario.getNome().name())) {
+
                         return true;
                     }
                 }
             }
         }
+
         return false;
     }
 }

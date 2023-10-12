@@ -26,5 +26,11 @@ public class FiltroRelatorioDTO {
     EnumTipoRelatorio tipoRel;
     String categoria;
     String tipo;
+    String status;
     Boolean temEstoque;
+
+    String nomeCliente;
+    String cpf;
+
+    Boolean ordenarClientes;
 }

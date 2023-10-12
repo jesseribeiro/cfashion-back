@@ -23,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
+import static java.util.Objects.nonNull;
+
 @Slf4j
 @Service
 public class VendaService extends GenericService<VendaBean, VendaRepository> {
@@ -46,19 +48,23 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
     ParcelaService parcelaService;
 
     public Page<VendaDTO> pagination(PaginationFilterDTO<VendaDTO> paginationFilter) {
+
         Pageable paging = PageRequest.of(paginationFilter.getPageNo(), paginationFilter.getPageSize(), Sort.by(paginationFilter.getSortBy()));
         VendaDTO filtros = paginationFilter.getFiltros();
 
         Long clienteId = null;
         Long marcaId = null;
-        EnumStatus status = filtros.getStatus() != null ? EnumStatus.valueOf(filtros.getStatus()) : null;
 
-        if (filtros.getCpf() != null && !filtros.getCpf().isEmpty()) {
+        EnumStatus status = nonNull(filtros.getStatus()) ? EnumStatus.valueOf(filtros.getStatus()) : null;
+
+        if (nonNull(filtros.getCpf()) && !filtros.getCpf().isEmpty()) {
+
             ClienteBean cliente = clienteService.findByCpf(StringUtils.desformataCpfCnpj(filtros.getCpf()));
             clienteId = cliente.getId();
         }
 
-        if (filtros.getMarcaId() != null) {
+        if (nonNull(filtros.getMarcaId())) {
+
             LojaBean marca = lojaService.getById(filtros.getMarcaId());
             marcaId = marca.getId();
         }
@@ -72,8 +78,10 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
                 paging);
 
         if (vendas.hasContent()) {
+
             return vendas;
         } else {
+
             return Page.empty();
         }
     }
@@ -98,13 +106,14 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
         venda.setValorProduto(dto.getValorProduto());
         venda.setValorTarifa(dto.getValorTarifa());
         venda.setComissao(dto.getComissao());
-        venda.setFreteReceber(dto.getFreteReceber());
-        venda.setFretePagar(dto.getFretePagar());
+        venda.setFreteReceber(nonNull(dto.getFreteReceber()) ? dto.getFreteReceber() : BigDecimal.ZERO);
+        venda.setFretePagar(nonNull(dto.getFretePagar()) ? dto.getFretePagar() : BigDecimal.ZERO);
         venda.setDescontos(dto.getDesconto());
         venda.setQtdParcela(dto.getQtdParcela());
-        venda.setDataVenda(Calendar.getInstance());
+        venda.setDataVenda(dto.getDataVenda());
 
-        if (dto.getComissao() != null) {
+        if (nonNull(dto.getComissao())) {
+
             valor = dto.getValorVenda().subtract(dto.getComissao());
         }
 
@@ -125,17 +134,26 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
             parcela.setStatus(EnumStatus.NAO_PAGA);
 
             if (venda.getTipo() == EnumTipoPagamento.CARTAO_CREDITO) {
+
                 parcela.setDataVencimento(DateUtils.proximoMes(dataVencimento, x));
+
             } else {
+
                 dataVencimento.add(Calendar.DATE, 1);
                 Integer dia = Integer.parseInt(DateUtils.getDia(dataVencimento));
+
                 if (venda.getTipo() == EnumTipoPagamento.MAGALU) {
+
                     while (dia != 2) {
+
                         dataVencimento.add(Calendar.DATE, 1);
                         dia = Integer.parseInt(DateUtils.getDia(dataVencimento));
                     }
+
                 } else if (venda.getTipo() == EnumTipoPagamento.AMERICANAS || venda.getTipo() == EnumTipoPagamento.MERCADO_LIVRE) {
+
                     while (dia != 14) {
+
                         dataVencimento.add(Calendar.DATE, 1);
                         dia = Integer.parseInt(DateUtils.getDia(dataVencimento));
                     }
@@ -154,6 +172,7 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
 
     @Transactional
     public void cancelarVenda(Long vendaId) {
+
         VendaBean venda = getRepository().findById(vendaId).get();
         venda.setStatus(EnumStatus.CANCELADA);
         update(venda);
@@ -163,6 +182,7 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
 
     @Transactional
     public void pagarVenda(Long vendaId) {
+
         VendaBean venda = getRepository().findById(vendaId).get();
         venda.setStatus(EnumStatus.PAGA);
         update(venda);
@@ -171,22 +191,30 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
     }
 
     public CalcularVendaDTO calcularFreteDesconto(CalcularVendaDTO dto) {
+
         BigDecimal valorVenda = dto.getValorProduto();
         valorVenda = valorVenda.add(dto.getFreteReceber());
         valorVenda = valorVenda.subtract(dto.getFretePagar());
         valorVenda = valorVenda.subtract(dto.getDesconto());
         dto.setValorVenda(valorVenda);
+
         return dto;
     }
 
     public CalcularVendaDTO calcularParcela(CalcularVendaDTO dto) {
+
         BigDecimal valorTarifa = BigDecimal.ZERO;
 
         if (dto.getQtdParcela() == 1) {
+
             valorTarifa = dto.getValorVenda().multiply(new BigDecimal(0.0449)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+
         } else if (dto.getQtdParcela() <= 6) {
+
             valorTarifa = dto.getValorVenda().multiply(new BigDecimal(0.0520)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+
         } else if (dto.getQtdParcela() > 6) {
+
             valorTarifa = dto.getValorVenda().multiply(new BigDecimal(0.0570)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
         }
 
@@ -195,10 +223,12 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
 
         valorParcela = valorParcela.divide(new BigDecimal(dto.getQtdParcela()), 2, BigDecimal.ROUND_HALF_EVEN);
         dto.setValorParcela(valorParcela);
+
         return dto;
     }
 
     public CalcularVendaDTO calcularComissao(CalcularVendaDTO dto) {
+
         EnumTipoPagamento tipo = EnumTipoPagamento.valueOf(dto.getTipo());
 
         BigDecimal comissao = dto.getValorVenda().multiply(

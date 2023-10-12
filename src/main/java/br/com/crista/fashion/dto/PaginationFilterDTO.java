@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.domain.Sort;
 
+import static java.util.Objects.isNull;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -25,9 +27,12 @@ public class PaginationFilterDTO<T extends GenericDTO> {
     }
 
     public Integer getPageSize() {
-        if(pageSize == null || pageSize < 0) {
+
+        if (isNull(pageSize) || pageSize < 0) {
+
             return 25;
         }
+
         return pageSize;
     }
 }

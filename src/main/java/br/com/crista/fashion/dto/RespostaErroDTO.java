@@ -8,5 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class RespostaErroDTO {
+
     private String message;
 }

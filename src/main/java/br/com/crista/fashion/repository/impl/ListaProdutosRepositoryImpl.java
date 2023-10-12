@@ -13,6 +13,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Objects.nonNull;
+
 @Repository("listaProdutosRepositoryImpl")
 public class ListaProdutosRepositoryImpl {
 
@@ -20,41 +22,63 @@ public class ListaProdutosRepositoryImpl {
     EntityManager entityManager;
 
     public List<ProdutoDTO> getListaProdutos(FiltroRelatorioDTO filtro) {
-        String sql = " Select p.data_cadastro, p.nome, p.categoria, p.codigo, p.cor, " +
-                " p.tamanho, p.qtd, p.valor_compra, l.nome_fantasia " +
-                " from produto p " +
-                " join loja l on l.id = p.marca_id " +
-                " where 1=1 ";
 
-        if (filtro.getMarcaId() != null && filtro.getMarcaId().intValue() != Constants.SELECT_TODAS) {
-            sql += " and p.marca_id =:loja_id ";
+        String sql = " " +
+                " SELECT " +
+                "   p.data_cadastro, " +
+                "   p.nome, " +
+                "   p.categoria, " +
+                "   p.codigo, " +
+                "   p.cor, " +
+                "   p.tamanho, " +
+                "   p.qtd, " +
+                "   p.valor_compra, " +
+                "   l.nome_fantasia " +
+                " FROM " +
+                "   produto p " +
+                " JOIN loja l " +
+                "   ON l.id = p.marca_id " +
+                " WHERE 1=1 ";
+
+        if (nonNull(filtro.getMarcaId()) && filtro.getMarcaId().intValue() != Constants.SELECT_TODAS) {
+
+            sql += " AND p.marca_id =:loja_id ";
         }
 
-        if (filtro.getCategoria() != null && !filtro.getCategoria().equalsIgnoreCase("TODAS")) {
-            sql += " and p.categoria =:categoria ";
+        if (nonNull(filtro.getCategoria()) && !filtro.getCategoria().equalsIgnoreCase("TODAS")) {
+
+            sql += " AND p.categoria =:categoria ";
         }
 
         if (filtro.getTemEstoque()) {
-            sql += " and p.qtd > 0 ";
+
+            sql += " AND p.qtd > 0 ";
         }
 
-        if (filtro.getDataInicio() != null) {
-            sql += " and p.data_cadastro >= :data_inicial ";
-        }
-        if (filtro.getDataFim() != null) {
-            sql += " and p.data_cadastro <= :data_final ";
+        if (nonNull(filtro.getDataInicio())) {
+
+            sql += " AND p.data_cadastro >= :data_inicial ";
         }
 
-        sql += " order by p.codigo ";
+        if (nonNull(filtro.getDataFim())) {
+
+            sql += " AND p.data_cadastro <= :data_final ";
+        }
+
+        sql += " ORDER BY p.codigo ASC";
 
         Query query = entityManager.createNativeQuery(sql);
         addFilters(filtro, query);
 
         List<ProdutoDTO> listaResultados = new ArrayList<>();
         List<Object[]> listaObjects = query.getResultList();
+
         for (Object[] line : listaObjects) {
+
             ProdutoDTO produtos = new ProdutoDTO();
+
             try {
+
                 produtos.setNome((String) line[1]);
                 produtos.setCategoria((String) line[2]);
                 produtos.setCodigo((String) line[3]);
@@ -64,26 +88,35 @@ public class ListaProdutosRepositoryImpl {
                 produtos.setValorCompra((BigDecimal) line[7]);
                 produtos.setMarca((String) line[8]);
                 listaResultados.add(produtos);
+
             } catch (Exception e) {
+
                 e.printStackTrace();
             }
         }
+
         return listaResultados;
     }
 
     private void addFilters(FiltroRelatorioDTO filtro, Query query) {
-        if (filtro.getMarcaId() != null && filtro.getMarcaId().intValue() != Constants.SELECT_TODAS) {
+
+        if (nonNull(filtro.getMarcaId()) && filtro.getMarcaId().intValue() != Constants.SELECT_TODAS) {
+
             query.setParameter("loja_id", filtro.getMarcaId());
         }
 
-        if (filtro.getDataInicio() != null) {
+        if (nonNull(filtro.getDataInicio())) {
+
             query.setParameter("data_inicial", DateUtils.zeraHorario(filtro.getDataInicio()));
         }
-        if (filtro.getDataFim() != null) {
+
+        if (nonNull(filtro.getDataFim())) {
+
             query.setParameter("data_final", DateUtils.setUltimaHoraDoDia(filtro.getDataFim()));
         }
 
-        if (filtro.getCategoria() != null && !filtro.getCategoria().equalsIgnoreCase("TODAS")) {
+        if (nonNull(filtro.getCategoria()) && !filtro.getCategoria().equalsIgnoreCase("TODAS")) {
+
             query.setParameter("categoria", filtro.getCategoria());
         }
     }

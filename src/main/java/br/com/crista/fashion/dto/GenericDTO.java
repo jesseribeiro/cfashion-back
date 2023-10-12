@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import static java.util.Objects.isNull;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,15 +20,19 @@ public class GenericDTO<T extends GenericBean> {
     }
 
     public GenericDTO(T bean) {
+
         this.id = bean.getId();
     }
 
     public GenericDTO(Long id) {
+
         this.id = id;
     }
 
     public T converter(T bean) {
-        if (bean.getId() == null) {
+
+        if (isNull(bean.getId())) {
+
             bean.setId(this.id);
         }
 
@@ -34,10 +40,12 @@ public class GenericDTO<T extends GenericBean> {
     }
 
     public Long getId() {
+
         return this.id;
     }
 
     public void setId(Long id) {
+
         this.id = id;
     }
 }

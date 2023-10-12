@@ -1,6 +1,6 @@
 package br.com.crista.fashion.security.service;
+
 import br.com.crista.fashion.bean.UsuarioBean;
-import br.com.crista.fashion.exception.UsuarioInativoException;
 import br.com.crista.fashion.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,9 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .orElseThrow(() ->
                         new UsernameNotFoundException("Usuário não encontrado: " + login)
                 );
-        if(!usuario.getIsAtivo()){
-            throw new UsuarioInativoException();
-        }
+
         return UsuarioPrincipal.build(usuario);
     }
 }

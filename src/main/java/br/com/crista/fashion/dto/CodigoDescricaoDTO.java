@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CodigoDescricaoDTO {
+
     private Long id;
     private String descricao;
 

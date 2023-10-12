@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static java.util.Objects.nonNull;
+
 public class JwtAuthTokenFilter extends OncePerRequestFilter {
 
     private static final String TOKEN_PREFIX = "Bearer";
@@ -34,10 +36,13 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
                     HttpServletResponse response, 
                     FilterChain filterChain) 
                         throws ServletException, IOException {
+
         try {
           
             String jwt = getJwt(request);
-            if (jwt!=null && tokenProvider.validateJwtToken(jwt)) {
+
+            if (nonNull(jwt) && tokenProvider.validateJwtToken(jwt)) {
+
                 String username = tokenProvider.getUserNameFromJwtToken(jwt);
  
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -47,7 +52,9 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
  
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
+
         } catch (Exception e) {
+
             logger.error("Não conseguiu add o usuário em Authorization -> Message: {}", e);
         }
  
@@ -55,9 +62,11 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
     }
  
     private String getJwt(HttpServletRequest request) {
+
         String authHeader = request.getHeader("Authorization");
           
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+        if (nonNull(authHeader) && authHeader.startsWith("Bearer ")) {
+
           return authHeader.replace("Bearer ","");
         }
  

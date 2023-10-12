@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import static java.util.Objects.isNull;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -20,7 +22,8 @@ public class LojaDTO extends GenericDTO<LojaBean> {
     private String whatsapp;
     private String dataCadastro;
 
-    public LojaDTO(LojaBean bean){
+    public LojaDTO(LojaBean bean) {
+
         id = bean.getId();
         nomeFantasia = bean.getNomeFantasia();
         telefone = bean.getTelefone();
@@ -32,6 +35,7 @@ public class LojaDTO extends GenericDTO<LojaBean> {
 
     @Override
     public LojaBean converter(LojaBean bean) {
+
         bean = super.converter(bean);
         bean.setNomeFantasia(nomeFantasia);
         bean.setTelefone(telefone);
@@ -41,7 +45,8 @@ public class LojaDTO extends GenericDTO<LojaBean> {
         return bean;
     }
 
-    public String getNomeFantasia(){
-        return nomeFantasia == null ? "" : nomeFantasia;
+    public String getNomeFantasia() {
+
+        return isNull(nomeFantasia) ? "" : nomeFantasia;
     }
 }

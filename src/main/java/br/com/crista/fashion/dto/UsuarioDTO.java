@@ -7,6 +7,8 @@ import lombok.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.nonNull;
+
 @Builder
 @Getter
 @Setter
@@ -29,7 +31,8 @@ public class UsuarioDTO extends GenericDTO<UsuarioBean> {
     private String bloqueioIp;
     private Boolean somenteBoleto;
 
-    public UsuarioDTO(UsuarioBean bean){
+    public UsuarioDTO(UsuarioBean bean) {
+
         super(bean.getId());
         this.nome = bean.getNome();
         this.email = bean.getEmail();
@@ -42,19 +45,22 @@ public class UsuarioDTO extends GenericDTO<UsuarioBean> {
 
         this.roles = bean.getRoles().stream().map(role -> role.getId()).collect(Collectors.toList());
 
-        if(!this.lojas.isEmpty()) {
+        if (!this.lojas.isEmpty()) {
+
             this.lojaId = this.lojas.get(0);
         }
 
         // utilizado a lista de roles para mostrar na paginacao, caso deva mostrar as lojas do usuario descomente essa lina
         this.rolesLabel = bean.getRoles().stream().map(role -> role.getNome().name()).collect(Collectors.joining(","));
 
-        if(bean.getRoleAtiva() != null) {
+        if (nonNull(bean.getRoleAtiva())) {
+
             this.roleAtiva = bean.getRoleAtiva().name();
         }
     }
 
-    public UsuarioDTO(Long id, Long empresaId, String nome, String email, String login, boolean ativo){
+    public UsuarioDTO(Long id, Long empresaId, String nome, String email, String login, boolean ativo) {
+
         super(id);
         this.empresaId = empresaId;
         this.nome = nome;
@@ -65,15 +71,19 @@ public class UsuarioDTO extends GenericDTO<UsuarioBean> {
     }
 
     public UsuarioBean converter(UsuarioBean bean) {
+
         bean = super.converter(bean);
         bean.setNome(nome);
         bean.setEmail(email);
         bean.setLogin(login);
         bean.setIsAtivo(ativo);
         bean.setBloqueioIp(bloqueioIp);
-        if(this.roleAtiva != null) {
+
+        if (nonNull(this.roleAtiva)) {
+
             bean.setRoleAtiva(EnumRole.valueOf(this.roleAtiva));
         }
+
         return bean;
     }
 }

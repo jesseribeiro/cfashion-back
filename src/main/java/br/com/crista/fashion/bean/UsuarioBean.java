@@ -1,7 +1,6 @@
 package br.com.crista.fashion.bean;
 
 import br.com.crista.fashion.enumeration.EnumRole;
-import br.com.crista.fashion.utils.NullUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,6 +14,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.util.Objects.isNull;
 
 @Audited
 @AllArgsConstructor
@@ -62,6 +63,7 @@ public class UsuarioBean extends GenericBean {
 
     @Override
     public JSONObject jsonAudit() {
+
         JSONObject obj = new JSONObject();
         obj.put("nome", this.getNome());
         obj.put("email", this.getEmail());
@@ -71,6 +73,7 @@ public class UsuarioBean extends GenericBean {
     }
 
     public Boolean getIsAtivo() {
-        return NullUtils.isNull(isAtivo);
+
+        return isNull(isAtivo);
     }
 }

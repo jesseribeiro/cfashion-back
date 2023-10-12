@@ -20,25 +20,32 @@ public class ParcelaController {
 
     @PostMapping(path = "/pagination")
     public Page<ParcelaDTO> pagination(@RequestBody PaginationFilterDTO<ParcelaDTO> paginationFilter) {
+
         return parcelaService.pagination(paginationFilter);
     }
 
     @PostMapping(path = "/cancelar-parcela/{id}")
     public ResponseEntity cancelarParcela(@PathVariable("id") Long parcelaId) {
+
         try {
             parcelaService.cancelarParcela(parcelaId);
+
             return ResponseEntity.ok("Parcela cancelada com sucesso!");
         } catch (Exception e) {
+
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping(path = "/pagar-parcela/{id}")
     public ResponseEntity pagarParcela(@PathVariable("id") Long parcelaId) {
+
         try {
             parcelaService.pagarParcela(parcelaId);
+
             return ResponseEntity.ok("Pagamento realizado com sucesso!");
         } catch (Exception e) {
+
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

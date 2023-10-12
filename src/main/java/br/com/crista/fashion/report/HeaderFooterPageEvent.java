@@ -67,8 +67,8 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
             text.setPaddingBottom(15);
             text.setPaddingLeft(10);
             text.setBorder(Rectangle.NO_BORDER);
-            text.addElement(new Phrase("Prático Administradora", new Font(Font.FontFamily.HELVETICA, 10)));
-            text.addElement(new Phrase("http://crediariopratico.com.br", new Font(Font.FontFamily.HELVETICA, 8)));
+            text.addElement(new Phrase("Cristã Fashion", new Font(Font.FontFamily.HELVETICA, 10)));
+            text.addElement(new Phrase("https://cristafashion.com.br", new Font(Font.FontFamily.HELVETICA, 8)));
             header.addCell(text);
 
             PdfPCell dataEmissao = new PdfPCell(new Paragraph("Emitido em " + DateUtils.getDiaMesAnoHoraMinutoSegundo(Calendar.getInstance()), new Font(Font.FontFamily.HELVETICA, 8)));
@@ -89,10 +89,10 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
             float[] columnWidths = {10f, 90f};
             table.setWidths(columnWidths);
 
-            PdfPCell cell1 = new PdfPCell(new Paragraph("Grupo:", new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD)));
+            PdfPCell cell1 = new PdfPCell(new Paragraph(" ", new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD)));
             cell1.setBorder(Rectangle.NO_BORDER);
 
-            PdfPCell cell2 = new PdfPCell(new Paragraph("Prático", new Font(Font.FontFamily.HELVETICA, 10)));
+            PdfPCell cell2 = new PdfPCell(new Paragraph(" ", new Font(Font.FontFamily.HELVETICA, 10)));
             cell2.setBorder(Rectangle.NO_BORDER);
 
             table.addCell(cell1);
@@ -126,7 +126,7 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
             footer.getDefaultCell().setBorderColor(BaseColor.LIGHT_GRAY);
 
             // add copyright
-            footer.addCell(new Phrase("\u00A9 http://crediariopratico.com.br", new Font(Font.FontFamily.HELVETICA, 8)));
+            footer.addCell(new Phrase("\u00A9 http://https://cristafashion.com.br/", new Font(Font.FontFamily.HELVETICA, 8)));
 
             // add current page count
             footer.getDefaultCell().setHorizontalAlignment(Element.ALIGN_RIGHT);

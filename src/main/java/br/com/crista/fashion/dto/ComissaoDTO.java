@@ -7,6 +7,8 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
+import static java.util.Objects.nonNull;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -20,10 +22,12 @@ public class ComissaoDTO extends GenericDTO<ComissaoBean> {
     private String tipo;
 
     public ComissaoDTO(ComissaoBean bean) {
+
         super(bean);
         comissao = bean.getComissao();
 
-        if (bean.getTipo() != null) {
+        if (nonNull(bean.getTipo())) {
+
             tipo = bean.getTipo().getLabel();
         }
     }

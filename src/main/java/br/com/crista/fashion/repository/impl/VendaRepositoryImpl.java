@@ -14,6 +14,8 @@ import javax.persistence.Query;
 import java.util.Calendar;
 import java.util.List;
 
+import static java.util.Objects.nonNull;
+
 @Repository("vendaRepositoryImpl")
 public class VendaRepositoryImpl {
 
@@ -22,23 +24,34 @@ public class VendaRepositoryImpl {
 
     public Page<VendaDTO> pagination(Long clienteId, Long lojaId, EnumStatus status,
                                      Calendar dataInicial, Calendar dataFinal, Pageable paging) {
+
         String filtros = " From Venda as x " +
                 " JOIN x.loja as l " +
                 " JOIN x.cliente as c " +
                 " WHERE 1 = 1 ";
-        if (lojaId != null) {
+
+        if (nonNull(lojaId)) {
+
             filtros += " and l.id = :lojaId ";
         }
-        if (clienteId != null) {
+
+        if (nonNull(clienteId)) {
+
             filtros += " and c.id = :clienteId ";
         }
-        if (status != null) {
+
+        if (nonNull(status)) {
+
             filtros += " and x.status = :status ";
         }
-        if (dataInicial != null) {
+
+        if (nonNull(dataInicial)) {
+
             filtros += " and x.dataVenda >=:dataInicial";
         }
-        if (dataFinal != null) {
+
+        if (nonNull(dataFinal)) {
+
             filtros += " and x.dataVenda <=:dataFinal";
         }
 
@@ -52,63 +65,90 @@ public class VendaRepositoryImpl {
         query.setMaxResults(paging.getPageSize());
 
         List<VendaDTO> vendas = query.getResultList();
+
         return new PageImpl<>(vendas, paging, countResult);
     }
 
     private void addParamQuery( Long clienteId, Long lojaId, EnumStatus status, Calendar dataInicial, Calendar dataFinal, Query query) {
-        if (lojaId != null) {
+
+        if (nonNull(lojaId)) {
+
             query.setParameter("lojaId", lojaId);
         }
-        if (clienteId != null) {
+
+        if (nonNull(clienteId)) {
+
             query.setParameter("clienteId", clienteId);
         }
-        if (status != null) {
+
+        if (nonNull(status)) {
+
             query.setParameter("status", status);
         }
-        if (dataInicial != null) {
+
+        if (nonNull(dataInicial)) {
+
             dataInicial = DateUtils.zeraHorario(dataInicial);
             query.setParameter("dataInicial", dataInicial);
         }
-        if (dataFinal != null) {
+
+        if (nonNull(dataFinal)) {
+
             dataFinal = DateUtils.setUltimaHoraDoDia(dataFinal);
             query.setParameter("dataFinal", dataFinal);
         }
     }
 
     public List<VendaDTO> findVendasCliente(Long clienteId, Calendar dataInicial, Calendar dataFinal, EnumStatus status) {
+
         String sqlVendasCompra = " SELECT new br.com.crista.fashion.dto.VendaDTO(x) From Venda as x " +
                 " JOIN x.cliente as c " +
                 " WHERE " +
                 " c.id =:clienteId ";
 
         String filtros = "";
-        if(dataInicial != null) {
+
+        if (nonNull(dataInicial)) {
+
             filtros += " and x.dataVenda >= :dataInicial ";
         }
-        if(dataFinal != null) {
+
+        if (nonNull(dataFinal)) {
+
             filtros += " and x.dataVenda <= :dataFinal ";
         }
-        if(status != null) {
+
+        if (nonNull(status)) {
+
             filtros += " and x.status = :status ";
         }
+
         sqlVendasCompra += filtros;
 
         Query query = entityManager.createQuery(sqlVendasCompra);
         addFiltros(clienteId, dataInicial, dataFinal, status, query);
 
         List<VendaDTO> vendas = query.getResultList();
+
         return vendas;
     }
 
     private void addFiltros(Long clienteId, Calendar dataInicial, Calendar dataFinal, EnumStatus status, Query query) {
+
         query.setParameter("clienteId", clienteId);
-        if (status != null) {
+
+        if (nonNull(status)) {
+
             query.setParameter("status", status);
         }
-        if (dataInicial != null) {
+
+        if (nonNull(dataInicial)) {
+
             query.setParameter("dataInicial", DateUtils.zeraHorario(dataInicial));
         }
-        if (dataFinal != null) {
+
+        if (nonNull(dataFinal)) {
+
             query.setParameter("dataFinal", DateUtils.setUltimaHoraDoDia(dataFinal));
         }
     }

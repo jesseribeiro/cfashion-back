@@ -8,6 +8,8 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
+import static java.util.Objects.nonNull;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -28,12 +30,14 @@ public class MovimentacaoDTO extends GenericDTO<MovimentacaoBean> {
     private String data;
 
     public MovimentacaoDTO(MovimentacaoBean bean) {
+
         super(bean);
         valor = bean.getValor();
         descricao = bean.getDescricao();
         dataLancamento = bean.getDataLancamento();
 
-        if (bean.getTipo() != null) {
+        if (nonNull(bean.getTipo())) {
+
             tipo = bean.getTipo().getLabel();
         }
     }

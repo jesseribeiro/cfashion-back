@@ -10,6 +10,8 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
+import static java.util.Objects.nonNull;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -35,24 +37,22 @@ public class ProdutoDTO extends GenericDTO<ProdutoBean> {
     private BigDecimal valorCompra;
 
     public ProdutoDTO(ProdutoBean bean) {
+
         super(bean);
         dataCadastro = bean.getDataCadastro();
         dataSaida = bean.getDataSaida();
         nome = bean.getNome();
 
-        if (bean.getTamanho() != null) {
-            tamanho = (bean.getTamanho()).toString();
-        }
+        tamanho = nonNull(bean.getTamanho()) ? bean.getTamanho().toString() : null;
+        categoria = nonNull(bean.getCategoria()) ? bean.getCategoria().toString() : null;
 
-        if (bean.getCategoria() != null) {
-            categoria = bean.getCategoria().toString();
-        }
         cor = bean.getCor();
         codigo = bean.getCodigo();
         qtd = bean.getQtd();
         valorCompra = bean.getValorCompra();
 
-        if (bean.getMarca() != null) {
+        if (nonNull(bean.getMarca())) {
+
             marcaId = bean.getMarca().getId();
             marca = bean.getMarca().getNomeFantasia();
         }
@@ -60,6 +60,7 @@ public class ProdutoDTO extends GenericDTO<ProdutoBean> {
 
     @Override
     public ProdutoBean converter(ProdutoBean bean) {
+
         bean = super.converter(bean);
         bean.setNome(nome);
         bean.setTamanho(EnumTamanho.valueOf(tamanho));
@@ -68,6 +69,7 @@ public class ProdutoDTO extends GenericDTO<ProdutoBean> {
         bean.setCodigo(codigo);
         bean.setQtd(qtd);
         bean.setValorCompra(valorCompra);
+
         return bean;
     }
 }

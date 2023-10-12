@@ -28,21 +28,27 @@ public class ProdutoController {
 
     @PostMapping
     public ResponseEntity create(@RequestBody @Valid @NotNull ProdutoDTO produtoDTO) {
+
         try {
+
             return ResponseEntity.ok(produtoService.salvar(produtoDTO));
         } catch (Exception e) {
+
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity findAll() {
+
         List<ProdutoBean> produtos = produtoService.findAll();
+
         return new ResponseEntity<>(produtos, HttpStatus.OK);
     }
 
     @PostMapping(path = "/pagination")
     public Page<ProdutoDTO> pagination(@RequestBody PaginationFilterDTO<ProdutoDTO> paginationFilter) {
+
         return produtoService.pagination(paginationFilter);
     }
 
@@ -53,38 +59,50 @@ public class ProdutoController {
 
     @PostMapping(path = "/{id}")
     public ResponseEntity update(@PathVariable("id") Long id, @RequestBody @Valid @NotNull ProdutoDTO dto) {
+
         try {
+
             return ResponseEntity.ok(produtoService.update(id, dto));
         } catch (Exception e) {
+
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity delete(@PathVariable("id") Long id) {
+
         try {
             produtoService.delete(id);
+
             return ResponseEntity.ok("Loja excluída com sucesso!");
+
         } catch (Exception e) {
+
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @GetMapping(path = "/categorias/{id}")
     public List<String> getAllCategoriasByMarca(@PathVariable("id") Long id) {
+
         return produtoService.getCategoriasByMarca(id);
     }
 
     @PostMapping(path = "/{id}/codigos//{categoria}")
     public List<String> getAllCodigos(@PathVariable("id") Long id, @PathVariable("categoria") String categoria) {
+
         return produtoService.getCodigos(id, categoria);
     }
 
     @PostMapping(path = "/codigo/{codigo}")
     public ResponseEntity getProduto(@PathVariable("codigo") String codigo) {
+
         try {
+
             return ResponseEntity.ok(produtoService.findByCodigo(codigo));
         } catch (Exception e) {
+
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

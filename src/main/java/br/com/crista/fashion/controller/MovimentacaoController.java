@@ -26,31 +26,42 @@ public class MovimentacaoController {
 
     @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity findAll() {
+
         List<MovimentacaoBean> movimentacao = movimentacaoService.findAll();
+
         return new ResponseEntity<>(movimentacao, HttpStatus.OK);
     }
 
     @PostMapping(path = "/pagination")
     public Page<MovimentacaoDTO> pagination(@RequestBody PaginationFilterDTO<MovimentacaoDTO> paginationFilter) {
+
         return movimentacaoService.pagination(paginationFilter);
     }
 
     @PostMapping
     public ResponseEntity create(@RequestBody @Valid @NotNull MovimentacaoDTO movimentacaoDTO) {
+
         try {
+
             movimentacaoService.salvar(movimentacaoDTO);
+
             return ResponseEntity.ok("Movimentação inserida com sucesso!");
         } catch (Exception e) {
+
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity delete(@PathVariable("id") Long id) {
+
         try {
+
             movimentacaoService.delete(id);
+
             return ResponseEntity.ok("Movimentação excluída com sucesso!");
         } catch (Exception e) {
+
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

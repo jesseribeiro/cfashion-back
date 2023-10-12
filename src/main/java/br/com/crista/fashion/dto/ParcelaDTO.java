@@ -10,6 +10,8 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
+import static java.util.Objects.nonNull;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -35,11 +37,13 @@ public class ParcelaDTO extends GenericDTO<ParcelaBean> {
     private String tipo;
 
     public ParcelaDTO(ParcelaBean bean) {
+
         super(bean);
         marcaId = bean.getLoja().getId();
         marca = bean.getLoja().getNomeFantasia();
 
-        if (bean.getProduto() != null) {
+        if (nonNull(bean.getProduto())) {
+
             nomeProduto = bean.getProduto().getNome();
             produtoId = bean.getProduto().getId();
         }
@@ -53,12 +57,8 @@ public class ParcelaDTO extends GenericDTO<ParcelaBean> {
         dataPagamento = bean.getDataPagto();
         vendaId = bean.getVenda().getId();
 
-        if (bean.getVenda().getTipo() != null) {
-            tipo = bean.getVenda().getTipo().getLabel();
-        }
+        tipo = nonNull(bean.getVenda().getTipo()) ? bean.getVenda().getTipo().getLabel() : null;
+        status = nonNull(bean.getStatus()) ? bean.getStatus().getLabel() : null;
 
-        if (bean.getStatus() != null) {
-            status = bean.getStatus().getLabel();
-        }
     }
 }

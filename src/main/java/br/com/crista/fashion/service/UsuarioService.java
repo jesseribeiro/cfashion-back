@@ -30,7 +30,8 @@ public class UsuarioService extends GenericService<UsuarioBean, UsuarioRepositor
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    public ResponseEntity salvar(UsuarioDTO usuarioDTO){
+    public ResponseEntity salvar(UsuarioDTO usuarioDTO) {
+
         if(getRepository().existsByLogin(usuarioDTO.getLogin())) {
             return new ResponseEntity<String>("O Login informado já existe no sistema, favor tentar outro!",
                     HttpStatus.BAD_REQUEST);
@@ -49,7 +50,8 @@ public class UsuarioService extends GenericService<UsuarioBean, UsuarioRepositor
         return ResponseEntity.ok().body("Usuário cadastrado com sucesso!");
     }
 
-    public ResponseEntity update(Long usuarioId, UsuarioDTO usuarioDTO){
+    public ResponseEntity update(Long usuarioId, UsuarioDTO usuarioDTO) {
+
         UsuarioBean usuario = getById(usuarioId);
         usuario.setNome(usuarioDTO.getNome());
         usuario.setEmail(usuarioDTO.getEmail());
@@ -65,33 +67,42 @@ public class UsuarioService extends GenericService<UsuarioBean, UsuarioRepositor
     }
 
     public UsuarioDTO getUsuarioDTOById(Long id) {
+
         UsuarioBean usuario = getById(id);
         return new UsuarioDTO(usuario);
     }
 
     public ResponseEntity delete(HttpServletRequest request, Long id) {
-        if(hasPermissao(request, new EnumRole[]{ EnumRole.ADMIN, EnumRole.SUPERVISOR })) {
+
+        if (hasPermissao(request, new EnumRole[]{ EnumRole.ADMIN, EnumRole.SUPERVISOR })) {
+
             UsuarioBean usuario = getById(id);
             delete(usuario);
             return ResponseEntity.ok().body("Usuário excluído com sucesso!");
         } else {
+
             return ResponseEntity.status(METHOD_NOT_ALLOWED).body("Sem Permissão para realizar essa operação");
         }
     }
 
-    public Page<UsuarioDTO> pagination(PaginationFilterDTO<UsuarioDTO> paginationFilterDTO){
+    public Page<UsuarioDTO> pagination(PaginationFilterDTO<UsuarioDTO> paginationFilterDTO) {
+
         Pageable paging = PageRequest.of(paginationFilterDTO.getPageNo(), paginationFilterDTO.getPageSize(), Sort.by(paginationFilterDTO.getSortBy()));
         UsuarioDTO filtros = paginationFilterDTO.getFiltros();
 
         Page<UsuarioDTO> usuarios = getRepository().pagination(filtros.getNome(), filtros.getLogin(), filtros.getEmail(), paging);
-        if(usuarios.hasContent()) {
+
+        if (usuarios.hasContent()) {
+
             return usuarios;
         } else {
+
             return Page.empty();
         }
     }
 
     public ResponseEntity updateRoleAtiva(Long id, String role) {
+
         UsuarioBean usuario = getById(id);
         usuario.setRoleAtiva(EnumRole.valueOf(role));
         update(usuario);
@@ -99,21 +110,27 @@ public class UsuarioService extends GenericService<UsuarioBean, UsuarioRepositor
     }
 
     public ResponseEntity alterarSenha(Long usuarioId, NovaSenhaDTO novaSenha) {
+
         try {
+
             UsuarioBean usuario = getById(usuarioId);
             usuario.setSenha(passwordEncoder.encode(novaSenha.getSenha()));
             update(usuario);
             return ResponseEntity.ok().body("Senha alterada com sucesso");
+
         } catch (Exception e) {
+
             return ResponseEntity.badRequest().body("Erro ao tentar alterar a senha, tente novamente mais tarde");
         }
     }
 
     public List<UsuarioBean> getAllUsuariosByRole(EnumRole role) {
+
         return getRepository().getAllUsuariosByRole(role);
     }
 
     public ResponseEntity getAllUsuariosNegoc() {
+
         EnumRole [] roles = {EnumRole.NEGOCIADOR, EnumRole.ADMIN, EnumRole.SUPERVISOR, EnumRole.COMERCIAL};
         return ResponseEntity.ok(getRepository().getAllUsuariosDTOByRole(roles));
     }

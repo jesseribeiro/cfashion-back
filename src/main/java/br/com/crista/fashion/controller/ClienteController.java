@@ -28,59 +28,75 @@ public class ClienteController extends GenericController {
 
     @PostMapping
     public ResponseEntity create(@RequestBody @Valid @NotNull ClienteDTO dto) {
+
         try {
+
             return ResponseEntity.ok(clienteService.salvar(dto));
         } catch (Exception e) {
+
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping(path = "/pagination")
     public Page<ClienteDTO> pagination(@RequestBody PaginationFilterDTO<ClienteDTO> paginationFilter) {
+
         return clienteService.pagination(paginationFilter);
     }
 
     @GetMapping
     public List<ClienteDTO> findAll() {
+
         return clienteService.findAllDTO();
     }
 
     @GetMapping(path = "/{id}")
     public ClienteDTO getById(@PathVariable("id") Long id) {
+
         return clienteService.getClienteDTOById(id);
     }
 
     @PostMapping(path = "/{id}")
     public ResponseEntity update(@PathVariable("id") Long id, @RequestBody @Valid @NotNull ClienteDTO dto) {
+
         try {
+
             return ResponseEntity.ok(clienteService.update(id, dto));
         } catch(Exception e){
+
             log.info(e.getMessage());
+
             return ResponseEntity.badRequest().body("Erro ao atualizar: - " + e.getMessage());
         }
     }
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity delete(@PathVariable("id") Long id) {
+
         return clienteService.delete(id);
     }
 
 
     @PostMapping(path = "/{id}/vendas")
     public List<VendaDTO> getVendasCliente(@PathVariable("id") Long id, @RequestBody VendaDTO filtro) {
+
         return clienteService.getVendasCliente(id, filtro);
     }
 
     @PostMapping(path = "/{id}/pagamentos")
     public Page<ParcelaDTO> paginationPagamentos(@PathVariable("id") Long id, @RequestBody PaginationFilterDTO<ParcelaDTO> paginationFilter) {
+
         return clienteService.paginationPagamentos(id, paginationFilter);
     }
 
     @PostMapping(path = "/consulta-cpf")
     public ResponseEntity consultaCPF(@RequestBody @Valid @NotNull ClienteDTO dto) {
+
         try {
+
             return ResponseEntity.ok(clienteService.consultaCPF(dto));
         } catch (Exception e) {
+
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

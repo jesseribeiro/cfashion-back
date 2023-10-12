@@ -15,6 +15,7 @@ public class UsuarioRoleDTO {
     private String role;
 
     public UsuarioRoleDTO(UsuarioBean bean) {
+
         id = bean.getId();
         nome = bean.getNome();
         role = bean.getRoleAtiva().name();

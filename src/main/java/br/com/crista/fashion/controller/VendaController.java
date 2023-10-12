@@ -24,61 +24,82 @@ public class VendaController {
 
     @PostMapping(path = "/pagination")
     public Page<VendaDTO> pagination(@RequestBody PaginationFilterDTO<VendaDTO> paginationFilter) {
+
         return vendaService.pagination(paginationFilter);
     }
 
     @PostMapping(path = "/vender")
     public ResponseEntity vender(@RequestBody @Valid @NotNull CalcularVendaDTO dto) {
+
         try {
+
             return ResponseEntity.ok(vendaService.vender(dto));
         } catch (Exception e) {
+
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @RequestMapping(path = "/cancelar-venda/{id}", method = RequestMethod.GET)
     public ResponseEntity cancelarVenda(@PathVariable("id") Long vendaId) {
+
         try {
+
             vendaService.cancelarVenda(vendaId);
+
             return ResponseEntity.ok("Venda cancelada com sucesso!");
         } catch (Exception e) {
+
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping(path = "/pagar-venda/{id}")
     public ResponseEntity pagarVenda(@PathVariable("id") Long vendaId) {
+
         try {
+
             vendaService.pagarVenda(vendaId);
+
             return ResponseEntity.ok("Pagamento realizado com sucesso!");
         } catch (Exception e) {
+
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping(path = "/calcular-frete-desconto")
     public ResponseEntity calcularDesconto(@RequestBody @Valid @NotNull CalcularVendaDTO dto) {
+
         try {
+
             return ResponseEntity.ok(vendaService.calcularFreteDesconto(dto));
         } catch (Exception e) {
+
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping(path = "/calcular-parcela")
     public ResponseEntity calcularParcela(@RequestBody @Valid @NotNull CalcularVendaDTO dto) {
+
         try {
+
             return ResponseEntity.ok(vendaService.calcularParcela(dto));
         } catch (Exception e) {
+
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping(path = "/calcular-comissao")
     public ResponseEntity calcularComissao(@RequestBody @Valid @NotNull CalcularVendaDTO dto) {
+
         try {
+
             return ResponseEntity.ok(vendaService.calcularComissao(dto));
         } catch (Exception e) {
+
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

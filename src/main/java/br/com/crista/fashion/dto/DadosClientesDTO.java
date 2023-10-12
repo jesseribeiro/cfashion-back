@@ -11,6 +11,7 @@ import lombok.Setter;
 @Setter
 
 public class DadosClientesDTO {
+
     private Integer estCivilNaoInformado;
     private Integer casado;
     private Integer divorciado;

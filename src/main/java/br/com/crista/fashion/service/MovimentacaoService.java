@@ -18,23 +18,28 @@ import java.util.List;
 @Service
 public class MovimentacaoService extends GenericService<MovimentacaoBean, MovimentacaoRepository> {
 
-    public List<MovimentacaoBean> findAll(){
+    public List<MovimentacaoBean> findAll() {
+
         return convertIterableToList(getRepository().findAll());
     }
 
     public Page<MovimentacaoDTO> pagination(PaginationFilterDTO<MovimentacaoDTO> paginationFilter) {
+
         Pageable paging = PageRequest.of(paginationFilter.getPageNo(), paginationFilter.getPageSize(), Sort.by(paginationFilter.getSortBy()));
 
         Page<MovimentacaoDTO> movimentacao = getRepository().pagination(paging);
 
         if (movimentacao.hasContent()) {
+
             return movimentacao;
         } else {
+
             return Page.empty();
         }
     }
 
     public void salvar(MovimentacaoDTO dto) {
+
         MovimentacaoBean movimentacaoBean = new MovimentacaoBean();
         movimentacaoBean.setTipo(EnumMovimentacao.valueOf(dto.getTipo()));
         movimentacaoBean.setValor(dto.getValor());
@@ -44,6 +49,7 @@ public class MovimentacaoService extends GenericService<MovimentacaoBean, Movime
     }
 
     public void delete(Long id) {
+
         MovimentacaoBean movimentacaoBean = getById(id);
         delete(movimentacaoBean);
     }

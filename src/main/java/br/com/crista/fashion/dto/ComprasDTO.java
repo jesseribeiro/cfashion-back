@@ -13,16 +13,14 @@ import java.math.BigDecimal;
 @Setter
 
 public class ComprasDTO {
+
     private String dataVenda;
+    private String tipo;
+    private BigDecimal valor;
+    private String status;
+    private String categoria;
     private String nomeCliente;
     private String cpf;
-    private BigDecimal valorProduto;
-    private BigDecimal jurosCompra;
-    private BigDecimal valorEntrada;
-    private Integer qtParcela;
-    private BigDecimal valorParcela;
-    private String nomeRede;
-    private String nomeLoja;
+    private String cidade;
 
-    private BigDecimal qtdVendas;
 }

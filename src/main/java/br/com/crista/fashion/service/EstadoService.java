@@ -11,10 +11,12 @@ import java.util.List;
 public class EstadoService extends GenericService<EstadoBean, EstadoRepository>{
 
     public List<EstadoBean> findAll() {
+
         return convertIterableToList(getRepository().findAll());
     }
 
     public EstadoBean findById(Long estadoId) {
+
         return getRepository().findById(estadoId).orElseThrow(()-> new EntityNotFoundException("Estado não encontrado"));
     }
 }

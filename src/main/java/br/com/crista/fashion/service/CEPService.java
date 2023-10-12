@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import static java.util.Objects.nonNull;
+
 @Slf4j
 @Service
 public class CEPService extends GenericService<CepBean, CepRepository> {
@@ -17,26 +19,35 @@ public class CEPService extends GenericService<CepBean, CepRepository> {
     ViaCEPClient viaCEPClient;
 
     public ResponseEntity salvar(CepBean cep) {
+
         CepBean cepBean = getRepository().findByCep(cep.getCep());
-        if (cepBean == null) {
+
+        if (nonNull(cepBean)) {
             cep.setCep(cep.getCep().replaceAll("\\D+", ""));
             getRepository().save(cep);
         }
+
         return ResponseEntity.ok().body("CEP cadastrado com sucesso");
     }
 
     public CepBean findCep(String cep) {
+
         CepBean cepBean = getRepository().findByCep(cep);
-        if (cepBean != null) {
+
+        if (nonNull(cepBean)) {
+
             return cepBean;
         }
 
         cepBean = viaCEPClient.buscaEnderecoPor(cep);
 
-        if (cepBean != null && cepBean.getCep() != null) {
-            this.salvar(cepBean);
+        if (nonNull(cepBean) && nonNull(cepBean.getCep())) {
+
+            salvar(cepBean);
+
             return cepBean;
         }
+
         throw new CepNaoEcontradoException();
     }
 }

@@ -35,6 +35,7 @@ public abstract class RelatorioBasePDF {
     private PdfWriter writer;
 
     public RelatorioBasePDF(String titulo, Rectangle orientacao, String diretorio) throws FileNotFoundException, DocumentException {
+
         this.titulo = titulo;
         this.orientacao = orientacao;
         this.fileLocation = diretorio + FileUtils.generateCode() + ".pdf";
@@ -42,14 +43,17 @@ public abstract class RelatorioBasePDF {
     }
 
     public RelatorioBasePDF(String titulo, Rectangle orientacao) throws FileNotFoundException, DocumentException {
+
         this(titulo, orientacao, "/tmp");
     }
 
     public RelatorioBasePDF(String titulo) throws FileNotFoundException, DocumentException {
+
         this(titulo, PageSize.A4.rotate());
     }
 
     private void init(String fileLocation) throws FileNotFoundException, DocumentException {
+
         document = new Document(orientacao);
         writer = PdfWriter.getInstance(document, new FileOutputStream(fileLocation));
         writer.setPageEvent(new HeaderFooterPageEvent(this));
@@ -70,10 +74,12 @@ public abstract class RelatorioBasePDF {
     public abstract void addStartPage(Document document) throws DocumentException;
 
     public void addTable(PdfPTable table) throws DocumentException {
+
         this.document.add(table);
     }
 
     public void newPage() throws DocumentException {
+
         document.newPage();
     }
 
@@ -84,6 +90,7 @@ public abstract class RelatorioBasePDF {
     public void open() { this.document.open(); }
 
     public void printNovaLinha(PdfPTable table, Integer index) {
+
         PdfPCell cell = new PdfPCell(
                 new Paragraph(" "));
         cell.setBorder(Rectangle.NO_BORDER);
@@ -92,6 +99,7 @@ public abstract class RelatorioBasePDF {
     }
 
     public void printCell(PdfPTable table, String text, Integer index){
+
         PdfPCell cell = new PdfPCell(
                 new Paragraph(text + "", FONT_BOLD));
         cell.setBorder(Rectangle.NO_BORDER);
@@ -99,48 +107,64 @@ public abstract class RelatorioBasePDF {
         table.addCell(cell);
     }
 
-    public PdfPCell newCellTitle(String texto, Font font, boolean backgound, int alignment) {
+    public PdfPCell newCellTitle(String texto, Font font, boolean background, int alignment) {
+
         PdfPCell cell = new PdfPCell(new Phrase(texto, font));
         cell.setBorder(Rectangle.NO_BORDER);
         cell.setHorizontalAlignment(alignment);
-        if(backgound){
+
+        if (background) {
             cell.setBackgroundColor(ROW_GRAY);
         }
+
         return cell;
     }
 
     public PdfPCell newCellNoBorder(String texto, Font font, int alignment) {
+
         return this.newCellNoBorder(texto, font, false, alignment);
     }
 
-    public PdfPCell newCellNoBorder(String texto, Font font, boolean backgound, int alignment) {
+    public PdfPCell newCellNoBorder(String texto, Font font, boolean background, int alignment) {
+
         PdfPCell cell = new PdfPCell(new Phrase(texto, font));
         cell.setBorder(Rectangle.NO_BORDER);
         cell.setHorizontalAlignment(alignment);
-        if(backgound){
+
+        if (background) {
+
             cell.setBackgroundColor(ROW_GRAY);
         }
         return cell;
     }
 
-    public PdfPCell newCellNoBorder(String texto, Font font, boolean backgound, int alignment, boolean border) {
+    public PdfPCell newCellNoBorder(String texto, Font font, boolean background, int alignment, boolean border) {
+
         PdfPCell cell = new PdfPCell(new Phrase(texto, font));
         cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM | Rectangle.LEFT | Rectangle.RIGHT);
         cell.setHorizontalAlignment(alignment);
-        if(backgound){
+
+        if (background) {
+
             cell.setBackgroundColor(ROW_GRAY);
         }
+
         return cell;
     }
 
-    public PdfPCell newCellNoBorder(String texto, Font font, boolean backgound, int alignment, int colspan) {
+    public PdfPCell newCellNoBorder(String texto, Font font, boolean background, int alignment, int colspan) {
+
         PdfPCell cell = new PdfPCell(new Phrase(texto, font));
         cell.setBorder(Rectangle.NO_BORDER);
         cell.setHorizontalAlignment(alignment);
-        if(backgound){
+
+        if (background) {
+
             cell.setBackgroundColor(ROW_GRAY);
         }
+
         cell.setColspan(colspan);
+
         return cell;
     }
 }

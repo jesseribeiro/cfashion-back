@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.isNull;
+
 @Getter
 @Setter
 public class UsuarioPrincipal implements UserDetails {
@@ -22,11 +24,13 @@ public class UsuarioPrincipal implements UserDetails {
 
     public UsuarioPrincipal(UsuarioBean usuario,
                          Collection<? extends GrantedAuthority> authorities) {
+
         this.usuario = usuario;
         this.authorities = authorities;
     }
 
     public static UsuarioPrincipal build(UsuarioBean usuario) {
+
         List<GrantedAuthority> authorities = usuario.getRoles().stream().map(usuarioRole ->
                 new SimpleGrantedAuthority(usuarioRole.getNome().name())
         ).collect(Collectors.toList());
@@ -77,10 +81,13 @@ public class UsuarioPrincipal implements UserDetails {
 
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+
+        if (isNull(o) || getClass() != o.getClass()) return false;
 
         UsuarioPrincipal user = (UsuarioPrincipal) o;
+
         return Objects.equals(usuario.getId(), user.getUsuario().getId());
     }
 }

@@ -20,11 +20,13 @@ import java.util.List;
 @Service
 public class ComissaoService extends GenericService<ComissaoBean, ComissaoRepository> {
 
-    public List<ComissaoBean> findAll(){
+    public List<ComissaoBean> findAll() {
+
         return convertIterableToList(getRepository().findAll());
     }
 
     public Page<ComissaoDTO> pagination(PaginationFilterDTO<ComissaoDTO> paginationFilter) {
+
         Pageable paging = PageRequest.of(0, paginationFilter.getPageSize(), Sort.by(paginationFilter.getSortBy()));
 
         Page<ComissaoDTO> comissao = getRepository().pagination(paging);
@@ -37,12 +39,14 @@ public class ComissaoService extends GenericService<ComissaoBean, ComissaoReposi
 
     @Transactional
     public void editarComissao(ComissaoDTO dto) {
+
         ComissaoBean comissaoBean = getById(dto.getId());
         comissaoBean.setComissao(dto.getComissao());
         update(comissaoBean);
     }
 
     public void adicaoComissao(ComissaoDTO dto) {
+
         ComissaoBean comissaoBean = new ComissaoBean();
         comissaoBean.setTipo(EnumTipoPagamento.valueOf(dto.getTipo()));
         comissaoBean.setComissao(dto.getComissao());
@@ -51,6 +55,7 @@ public class ComissaoService extends GenericService<ComissaoBean, ComissaoReposi
     }
 
     public BigDecimal pegaComissao(EnumTipoPagamento tipo) {
+
         return getRepository().findComissao(tipo);
     }
 }

@@ -14,6 +14,8 @@ import javax.persistence.Query;
 import java.util.Calendar;
 import java.util.List;
 
+import static java.util.Objects.nonNull;
+
 @Repository("parcelaRepositoryImpl")
 public class ParcelaRepositoryImpl {
 
@@ -23,23 +25,34 @@ public class ParcelaRepositoryImpl {
     public Page<ParcelaDTO> pagination(Long clienteId, Long lojaId,
                                        EnumStatus status, Calendar dataInicial,
                                        Calendar dataFinal, Pageable paging) {
+
         String filtros = " From Parcela as x " +
                 " JOIN x.loja as l " +
                 " JOIN x.cliente as c " +
                 " WHERE 1 = 1 ";
-        if (lojaId != null) {
+
+        if (nonNull(lojaId)) {
+
             filtros += " and l.id = :lojaId ";
         }
-        if (clienteId != null) {
+
+        if (nonNull(clienteId)) {
+
             filtros += " and c.id = :clienteId ";
         }
-        if (status != null) {
+
+        if (nonNull(status)) {
+
             filtros += " and x.status = :status ";
         }
-        if (dataInicial != null) {
+
+        if (nonNull(dataInicial)) {
+
             filtros += " and x.dataVencimento >=:dataInicial";
         }
-        if (dataFinal != null) {
+
+        if (nonNull(dataFinal)) {
+
             filtros += " and x.dataVencimento <=:dataFinal";
         }
 
@@ -49,29 +62,41 @@ public class ParcelaRepositoryImpl {
 
         Query query = entityManager.createQuery("SELECT new br.com.crista.fashion.dto.ParcelaDTO(x) "
                 + filtros + " order by x.venda.id asc, x.numero asc");
+
         addParamQuery(clienteId, lojaId, status, dataInicial, dataFinal, query);
         query.setFirstResult((paging.getPageNumber()) * paging.getPageSize());
         query.setMaxResults(paging.getPageSize());
 
         List<ParcelaDTO> parcelas = query.getResultList();
+
         return new PageImpl<>(parcelas, paging, countResult);
     }
 
     private void addParamQuery( Long clienteId, Long lojaId, EnumStatus status, Calendar dataInicial, Calendar dataFinal, Query query) {
-        if (lojaId != null) {
+
+        if (nonNull(lojaId)) {
+
             query.setParameter("lojaId", lojaId);
         }
-        if (clienteId != null) {
+
+        if (nonNull(clienteId)) {
+
             query.setParameter("clienteId", clienteId);
         }
-        if (status != null) {
+
+        if (nonNull(status)) {
+
             query.setParameter("status", status);
         }
-        if (dataInicial != null) {
+
+        if (nonNull(dataInicial)) {
+
             dataInicial = DateUtils.zeraHorario(dataInicial);
             query.setParameter("dataInicial", dataInicial);
         }
-        if (dataFinal != null) {
+
+        if (nonNull(dataFinal)) {
+
             dataFinal = DateUtils.setUltimaHoraDoDia(dataFinal);
             query.setParameter("dataFinal", dataFinal);
         }

@@ -16,8 +16,8 @@ public class FilterAuditDTO extends GenericDTO {
     private Long clienteId;
     private Long lojaId;
 
-
     public Class getClassOfEntity() throws ClassNotFoundException {
+
         return Class.forName("br.com.crista.fashion.bean."+entity);
     }
 }

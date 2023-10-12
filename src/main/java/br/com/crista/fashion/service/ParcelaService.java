@@ -21,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Calendar;
 import java.util.List;
 
+import static java.util.Objects.nonNull;
+
 @Slf4j
 @Service
 public class ParcelaService extends GenericService<ParcelaBean, ParcelaRepository> {
@@ -35,19 +37,23 @@ public class ParcelaService extends GenericService<ParcelaBean, ParcelaRepositor
     ClienteService clienteService;
 
     public Page<ParcelaDTO> pagination(PaginationFilterDTO<ParcelaDTO> paginationFilter) {
+
         Pageable paging = PageRequest.of(paginationFilter.getPageNo(), paginationFilter.getPageSize(), Sort.by(paginationFilter.getSortBy()));
         ParcelaDTO filtros = paginationFilter.getFiltros();
 
         Long clienteId = null;
         Long marcaId = null;
-        EnumStatus status = filtros.getStatus() != null ? EnumStatus.valueOf(filtros.getStatus()) : null;
 
-        if (filtros.getCpf() != null && !filtros.getCpf().isEmpty()) {
+        EnumStatus status = nonNull(filtros.getStatus()) ? EnumStatus.valueOf(filtros.getStatus()) : null;
+
+        if (nonNull(filtros.getCpf()) && !filtros.getCpf().isEmpty()) {
+
             ClienteBean cliente = clienteService.findByCpf(StringUtils.desformataCpfCnpj(filtros.getCpf()));
             clienteId = cliente.getId();
         }
 
-        if (filtros.getMarcaId() != null) {
+        if (nonNull(filtros.getMarcaId())) {
+
             LojaBean marca = lojaService.getById(filtros.getMarcaId());
             marcaId = marca.getId();
         }
@@ -61,14 +67,17 @@ public class ParcelaService extends GenericService<ParcelaBean, ParcelaRepositor
                 paging);
 
         if (parcelas.hasContent()) {
+
             return parcelas;
         } else {
+
             return Page.empty();
         }
     }
 
     @Transactional
     public void cancelarParcela(Long parcelaId) {
+
         ParcelaBean parcela = getRepository().findById(parcelaId).get();
         parcela.setStatus(EnumStatus.CANCELADA);
         update(parcela);
@@ -76,14 +85,18 @@ public class ParcelaService extends GenericService<ParcelaBean, ParcelaRepositor
 
     @Transactional
     public void pagarParcela(Long parcelaId) {
+
         ParcelaBean parcela = getRepository().findById(parcelaId).get();
         parcela.setStatus(EnumStatus.PAGA);
         update(parcela);
     }
 
     public void updateParcelasPagas(List<ParcelaBean> parcelas) {
+
         for (ParcelaBean bean : parcelas) {
+
             if (bean.getStatus() != EnumStatus.PAGA) {
+
                 bean.setDataPagto(Calendar.getInstance());
                 bean.setStatus(EnumStatus.PAGA);
                 update(bean);
@@ -92,7 +105,9 @@ public class ParcelaService extends GenericService<ParcelaBean, ParcelaRepositor
     }
 
     public void updateParcelasCanceladas(List<ParcelaBean> parcelas) {
+
         for (ParcelaBean bean : parcelas) {
+
             bean.setStatus(EnumStatus.CANCELADA);
             update(bean);
         }

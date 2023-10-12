@@ -33,6 +33,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
+import static java.util.Objects.isNull;
+
 /**
  * The Class JsonMapperUtil.
  * 
@@ -52,10 +54,14 @@ public class JsonMapperUtil {
 	 * @return the string
 	 */
 	public static String jsonFromObject(Object object) {
+
 		try {
+
 			/* Generating the JSON string for the object. */
 			return mapper.writeValueAsString(object);
+
 		} catch (Exception e) {
+
 			throw new RuntimeException(e);
 		}
 	}
@@ -72,21 +78,33 @@ public class JsonMapperUtil {
 	 * @return Object of the class formed using the JSON string.
 	 */
 	public static <S> S objectFromString(String jsonString, Class<S> targetClass) {
+
 		S object = null;
+
 		try {
+
 			/* Creating the target class object */
 			object = targetClass.newInstance();
+
 		} catch (InstantiationException e) {
+
 			throw new RuntimeException(e);
+
 		} catch (IllegalAccessException e) {
+
 			throw new RuntimeException(e);
 		}
+
 		try {
+
 			/* Populating the object with json string values. */
 			object = mapper.readValue(jsonString, targetClass);
+
 		} catch (Exception e) {
+
 			throw new RuntimeException(e);
 		}
+
 		return object;
 	}
 
@@ -102,14 +120,20 @@ public class JsonMapperUtil {
 	 * @return the s
 	 */
 	public static <S> S objectFromJsonFile(String filePath, Class<S> targetClass) {
+
 		S object = null;
+
 		try {
+
 			File jsonFile = new File(filePath);
 			object = objectFromString(FileUtils.readFileToString(jsonFile),
 					targetClass);
+
 		} catch (IOException e) {
+
 			throw new RuntimeException(e);
 		}
+
 		return object;
 	}
 
@@ -138,6 +162,7 @@ public class JsonMapperUtil {
 			Class<S> targetClass) throws IllegalArgumentException,
 			IllegalAccessException, InstantiationException,
 			InvocationTargetException, Exception {
+
 		// Creating target class object.
 		S mainObject = targetClass.newInstance();
 
@@ -146,17 +171,23 @@ public class JsonMapperUtil {
 		Map<String, Field> fieldMap = new HashMap<String, Field>();
 
 		for (Field field : fields) {
+
 			// Putting fields in fieldMap
 			fieldMap.put(field.getName(), field);
 		}
 
 		// Iterating over the key set in value map.
 		for (String mainKey : values.keySet()) {
+
 			if (values.get(mainKey) instanceof LinkedHashMap) {
+
 				// Creating target object type.
-				if (fieldMap.get(mainKey) == null) {
+
+				if (isNull(fieldMap.get(mainKey))) {
+
 					continue;
 				}
+
 				Object subObject = fieldMap.get(mainKey).getType()
 						.newInstance();
 
@@ -165,17 +196,21 @@ public class JsonMapperUtil {
 
 				// Iterating over the map keys.
 				for (Object subKey : subValues.keySet()) {
+
 					BeanUtils.setProperty(subObject, (String) subKey,
 							subValues.get(subKey));
 				}
 
 				// setting the sub object in bean main object.
 				BeanUtils.setProperty(mainObject, mainKey, subObject);
+
 			} else {
+
 				// setting the value in bean main object.
 				BeanUtils.setProperty(mainObject, mainKey, values.get(mainKey));
 			}
 		}
+
 		return mainObject;
 	}
 
@@ -189,7 +224,9 @@ public class JsonMapperUtil {
 	 *             the exception
 	 */
 	public static Map<String, Object> mapFromObject(Object obj) {
+
 		ObjectMapper mapper = new ObjectMapper();
+
 		return mapper.convertValue(obj, HashMap.class);
 	}
 
@@ -208,7 +245,9 @@ public class JsonMapperUtil {
 	 */
 	public static <S> S objectFromObject(Object obj, Class<S> className)
 			throws Exception {
+
 		ObjectMapper mapper = new ObjectMapper();
+
 		return mapper.convertValue(obj, className);
 	}
 
@@ -231,7 +270,8 @@ public class JsonMapperUtil {
 			Class<S> targetClass) throws Exception {
 
 		// checking if map is null.
-		if (listMapData == null) {
+		if (isNull(listMapData)) {
+
 			return null;
 		}
 
@@ -240,6 +280,7 @@ public class JsonMapperUtil {
 
 		// populating values in the list object from map.
 		for (Map<String, Object> info : listMapData) {
+
 			// creating target class object.
 			S status = targetClass.newInstance();
 			// populating object with map values.
@@ -247,6 +288,7 @@ public class JsonMapperUtil {
 			// adding object in result list.
 			result.add(status);
 		}
+
 		return result;
 	}
 }

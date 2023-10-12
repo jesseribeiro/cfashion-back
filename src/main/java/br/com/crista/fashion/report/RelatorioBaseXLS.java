@@ -16,6 +16,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.util.Objects.isNull;
+
 @Getter
 @Setter
 public abstract class RelatorioBaseXLS {
@@ -54,67 +56,55 @@ public abstract class RelatorioBaseXLS {
     }
 
     private void init() {
+
         workbook = new XSSFWorkbook();
         styles = createStyles(workbook);
         sheet = createSheet("Relatorio");
 
         Row headerRow = createRow();
-        createCell(headerRow, 0,"Prático Administradora - http://crediariopratico.com.br", STYLE_NO_BORDER, totalColunas - 2);
+        createCell(headerRow, 0,"Cristã Fashion - https://cristafashion.com.br/", STYLE_NO_BORDER, totalColunas - 2);
         createCell(headerRow, totalColunas - 1,"Emitido em " + DateUtils.getDiaMesAnoHoraMinutoSegundo(Calendar.getInstance()), STYLE_NO_BORDER);
-        /*
-        Foi retirado a imagem do cabeçalho, pq ela destorcia conforme o conteúdo das celulas abaixo dela fossem ajustados.
-        try {
 
-            createCell(rowImage, 0,"", STYLE_NO_BORDER, 1);
-            // read the image to the stream
-            String inputImagePath = RelatorioBaseXLS.class.getResource("/logo-resize.png").getPath();
-
-            FileInputStream stream = new FileInputStream(inputImagePath);
-
-            CreationHelper helper = workbook.getCreationHelper();
-            Drawing drawing = sheet.createDrawingPatriarch();
-
-            ClientAnchor anchor = helper.createClientAnchor();
-            ///anchor.setAnchorType( ClientAnchor.AnchorType.MOVE_AND_RESIZE);
-            int pictureIndex = workbook.addPicture(IOUtils.toByteArray(stream), Workbook.PICTURE_TYPE_PNG);
-
-            anchor.setCol1( 0 ); // column A
-            anchor.setRow1( 0 ); // row 1
-            anchor.setRow2( 1);  // row 1
-            anchor.setCol2( 1 ); // column A
-            final Picture pict = drawing.createPicture( anchor, pictureIndex );
-            pict.resize();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
         Row titleRow = createRow();
-        createCell(titleRow, 0,"Grupo:", STYLE_TITLE);
-        createCell(titleRow, 1,"Pratico", STYLE_CELL, totalColunas - 1);
+        createCell(titleRow, 0," ", STYLE_TITLE);
+        createCell(titleRow, 1," ", STYLE_CELL, totalColunas - 1);
     }
 
     public void close() throws IOException {
-        for(int i=0;i<totalColunas;i++) {
+
+        for (int i=0;i<totalColunas;i++) {
             sheet.autoSizeColumn(i);
         }
+
         FileOutputStream outputStream = new FileOutputStream(getFileLocation());
         workbook.write(outputStream);
         workbook.close();
     }
 
     public Sheet createSheet(String titulo) {
+
         Sheet sheet = workbook.createSheet(titulo);
         PrintSetup printSetup = sheet.getPrintSetup();
         printSetup.setLandscape(landscape);
-       // sheet.setFitToPage(true);
+        //sheet.setFitToPage(true);
         return sheet;
     }
 
     public Row createRow() {
+
         return sheet.createRow(rownum++);
     }
 
     public Cell createCell(Row row, int index, String value, String style) {
+
+        Cell cell = row.createCell(index);
+        cell.setCellValue(value);
+        cell.setCellStyle(styles.get(style));
+        return cell;
+    }
+
+    public Cell createCell(Row row, int index, double value, String style) {
+
         Cell cell = row.createCell(index);
         cell.setCellValue(value);
         cell.setCellStyle(styles.get(style));
@@ -122,6 +112,7 @@ public abstract class RelatorioBaseXLS {
     }
 
     public Cell createCell(Row row, int index, String value, boolean lineBreak) {
+
         Cell cell = row.createCell(index);
         cell.setCellValue(value);
 
@@ -135,6 +126,7 @@ public abstract class RelatorioBaseXLS {
     }
 
     public Cell createCell(Row row, int index, String value, String style, int indexFim) {
+
         Cell cell = row.createCell(index);
         cell.setCellValue(value);
         cell.setCellStyle(styles.get(style));
@@ -143,6 +135,7 @@ public abstract class RelatorioBaseXLS {
     }
 
     public void printTotal(String titulo) {
+
         Row row = createRow();
         Cell cell = row.createCell(0);
         cell.setCellValue(titulo);
@@ -158,7 +151,8 @@ public abstract class RelatorioBaseXLS {
     /**
      * Create a library of cell styles
      */
-    private static Map<String, CellStyle> createStyles(Workbook wb){
+    private static Map<String, CellStyle> createStyles(Workbook wb) {
+
         Map<String, CellStyle> styles = new HashMap<>();
         CellStyle style;
         Font titleFont = wb.createFont();
@@ -253,6 +247,7 @@ public abstract class RelatorioBaseXLS {
     }
 
     public void printTotal(String titulo, String merge) {
+
         Row row = createRow();
         Cell cell = row.createCell(0);
         cell.setCellValue(titulo);
@@ -261,32 +256,42 @@ public abstract class RelatorioBaseXLS {
     }
 
     public BigDecimal seNullReturnZero(BigDecimal value) {
-        return value == null ? BigDecimal.ZERO : value;
+
+        return isNull(value) ? BigDecimal.ZERO : value;
     }
 
     public Object seZeroRetornaVazio(BigDecimal value) {
+
         return (value.compareTo(BigDecimal.ZERO) == 0) ? "" : ("R$ " + MathUtils.convertBigDecimalToString(value));
     }
 
     public Object seStringVazia(Object texto) {
-        return texto == null? "": texto;
+
+        return isNull(texto) ? "": texto;
     }
 
     public void printNovaLinha(Integer index) {
+
         Row row = createRow();
+
         for (int i = 0; i < index; i++) {
+
             createCell(row, i, "", STYLE_CELL);
         }
     }
 
     public void printNovaLinhaSemBorda(Integer index) {
+
         Row row = createRow();
+
         for (int i = 0; i < index; i++) {
+
             createCell(row, i, "", STYLE_NO_BORDER);
         }
     }
 
     public void printRow(String text, Integer index) {
+
         Row row = createRow();
         createCell(row, 0, text, STYLE_VALOR_BOLD, index);
     }
