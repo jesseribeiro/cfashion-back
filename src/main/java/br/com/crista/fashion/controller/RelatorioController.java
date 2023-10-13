@@ -4,6 +4,8 @@ import br.com.crista.fashion.config.CentralConfig;
 import br.com.crista.fashion.dto.*;
 import br.com.crista.fashion.report.comprasclientes.ComprasClientesPDF;
 import br.com.crista.fashion.report.comprasclientes.ComprasClientesXLS;
+import br.com.crista.fashion.report.compraslojas.ComprasLojasPDF;
+import br.com.crista.fashion.report.compraslojas.ComprasLojasXLS;
 import br.com.crista.fashion.report.listaclientes.ListaClientesPDF;
 import br.com.crista.fashion.report.listaclientes.ListaClientesXLS;
 import br.com.crista.fashion.report.listamovimentacao.ListaMovimentacaoPDF;
@@ -48,6 +50,9 @@ public class RelatorioController {
 
     @Autowired
     ComprasClientesRepositoryImpl comprasClientesRepository;
+
+    @Autowired
+    ComprasLojasRepositoryImpl comprasLojasRepository;
 
     @ResponseBody
     @RequestMapping(value = "/lista-produtos", method = RequestMethod.POST)
@@ -192,6 +197,37 @@ public class RelatorioController {
 
                     default: // PDF
                         ComprasClientesPDF reportPDF = new ComprasClientesPDF(dados,
+                                filtro, centralConfig.getCentralTempPath());
+                        return FileUtils.getFile(reportPDF.print(), true);
+                }
+            }
+
+            return ResponseEntity.badRequest().body(new RespostaErroDTO("Nenhum registro foi encontrado"));
+        } catch (Exception e) {
+
+            return ResponseEntity.badRequest().body(new RespostaErroDTO("Erro encontrado: " + e.getMessage()));
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/compras-lojas", method = RequestMethod.POST)
+    public ResponseEntity getComprasLojas(@RequestBody FiltroRelatorioDTO filtro) {
+
+        try {
+
+            List<ComprasDTO> dados = comprasLojasRepository.getComprasLojas(filtro);
+
+            if (nonNull(dados) && !dados.isEmpty()) {
+
+                switch (filtro.getTipoRel()) {
+
+                    case XLS:
+                        ComprasLojasXLS reportXLS = new ComprasLojasXLS(dados,
+                                filtro, centralConfig.getCentralTempPath());
+                        return FileUtils.getFile(reportXLS.print(), false);
+
+                    default: // PDF
+                        ComprasLojasPDF reportPDF = new ComprasLojasPDF(dados,
                                 filtro, centralConfig.getCentralTempPath());
                         return FileUtils.getFile(reportPDF.print(), true);
                 }

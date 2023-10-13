@@ -31,7 +31,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
     public static String desformataCpfCnpj(String cpfCnpj) {
 
-        if (nonNull(cpfCnpj) || cpfCnpj.isEmpty()) {
+        if (isNull(cpfCnpj) || cpfCnpj.isEmpty()) {
 
             return cpfCnpj;
         }

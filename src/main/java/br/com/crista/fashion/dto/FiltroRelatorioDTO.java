@@ -17,6 +17,7 @@ import java.util.Calendar;
 public class FiltroRelatorioDTO {
 
     Long marcaId;
+    Long lojaId;
 
     @JsonDeserialize(converter = CalendarDeserializerJson.class)
     Calendar dataInicio;

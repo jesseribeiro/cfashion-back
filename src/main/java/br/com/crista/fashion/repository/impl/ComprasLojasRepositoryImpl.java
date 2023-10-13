@@ -3,25 +3,26 @@ package br.com.crista.fashion.repository.impl;
 import br.com.crista.fashion.dto.ComprasDTO;
 import br.com.crista.fashion.dto.FiltroRelatorioDTO;
 import br.com.crista.fashion.utils.DateUtils;
-import br.com.crista.fashion.utils.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Objects.nonNull;
+import static org.apache.commons.lang3.BooleanUtils.isFalse;
 
-@Repository("comprasClientesRepositoryImpl")
-public class ComprasClientesRepositoryImpl {
+@Repository("comprasLojasRepositoryImpl")
+public class ComprasLojasRepositoryImpl {
 
     @PersistenceContext
     EntityManager entityManager;
 
-    public List<ComprasDTO> getComprasClientes(FiltroRelatorioDTO filtro) {
+    public List<ComprasDTO> getComprasLojas(FiltroRelatorioDTO filtro) {
 
         String sql = " " +
                 " SELECT " +
@@ -30,15 +31,14 @@ public class ComprasClientesRepositoryImpl {
                 "   v.valor_total, " +
                 "   v.status, " +
                 "   p.categoria, " +
-                "   c.nome, " +
-                "   c.cpf, " +
-                "   c.cidade_nome " +
+                "   l.nome_fantasia, " +
+                "   l.id " +
                 " FROM " +
                 "   venda v " +
                 " JOIN produto p " +
                 "   ON p.id = v.produto_id " +
-                " JOIN cliente c " +
-                "   ON c.id = v.cliente_id " +
+                " JOIN loja l " +
+                "   ON l.id = v.loja_id " +
                 " WHERE 1=1 ";
 
         if (nonNull(filtro.getDataInicio())) {
@@ -51,24 +51,28 @@ public class ComprasClientesRepositoryImpl {
             sql += " AND v.data_venda <= :data_final ";
         }
 
-        if (nonNull(filtro.getTipo()) && !filtro.getTipo().equalsIgnoreCase("TODAS")) {
+        if (nonNull(filtro.getTipo()) && isFalse(filtro.getTipo().equalsIgnoreCase("TODAS"))) {
 
             sql += " AND v.tipo =:tipo ";
         }
 
-        if (nonNull(filtro.getCategoria()) && !filtro.getCategoria().equalsIgnoreCase("TODAS")) {
+        if (nonNull(filtro.getCategoria()) && isFalse(filtro.getCategoria().equalsIgnoreCase("TODAS"))) {
 
             sql += " AND p.categoria =:categoria ";
         }
 
-        if (nonNull(filtro.getStatus()) && !filtro.getStatus().equalsIgnoreCase("TODAS")) {
+        if (nonNull(filtro.getStatus()) && isFalse(filtro.getStatus().equalsIgnoreCase("TODAS"))) {
 
             sql += " AND v.status =:status ";
         }
 
-        sql += " AND (:cpf is null OR c.cpf LIKE CONCAT('%',:cpf, '%')) " +
-               " AND (:nome is null OR LOWER(c.nome) LIKE LOWER(CONCAT('%',:nome, '%'))) " +
-               " ORDER BY c.nome ASC, v.data_venda DESC";
+        if (nonNull(filtro.getLojaId()) && isFalse(filtro.getLojaId() == -1)) {
+
+            sql += " AND l.id =:loja_id ";
+        }
+
+
+        sql += " ORDER BY l.id ASC, v.data_venda DESC";
 
         Query query = entityManager.createNativeQuery(sql);
         addFilters(filtro, query);
@@ -87,9 +91,8 @@ public class ComprasClientesRepositoryImpl {
                 compras.setValor((BigDecimal) line[2]);
                 compras.setStatus((String) line[3]);
                 compras.setCategoria((String) line[4]);
-                compras.setNomeCliente((String) line[5]);
-                compras.setCpf((String) line[6]);
-                compras.setCidade((String) line[7]);
+                compras.setNomeLoja((String) line[5]);
+                compras.setLojaId(((BigInteger) line[6]).longValue());
 
                 listaResultados.add(compras);
 
@@ -114,22 +117,24 @@ public class ComprasClientesRepositoryImpl {
             query.setParameter("data_final", DateUtils.setUltimaHoraDoDia(filtro.getDataFim()));
         }
 
-        if (nonNull(filtro.getTipo()) && !filtro.getTipo().equalsIgnoreCase("TODAS")) {
+        if (nonNull(filtro.getTipo()) && isFalse(filtro.getTipo().equalsIgnoreCase("TODAS"))) {
 
             query.setParameter("tipo", filtro.getTipo());
         }
 
-        if (nonNull(filtro.getCategoria()) && !filtro.getCategoria().equalsIgnoreCase("TODAS")) {
+        if (nonNull(filtro.getCategoria()) && isFalse(filtro.getCategoria().equalsIgnoreCase("TODAS"))) {
 
             query.setParameter("categoria", filtro.getCategoria());
         }
 
-        if (nonNull(filtro.getStatus()) && !filtro.getStatus().equalsIgnoreCase("TODAS")) {
+        if (nonNull(filtro.getStatus()) && isFalse(filtro.getStatus().equalsIgnoreCase("TODAS"))) {
 
             query.setParameter("status", filtro.getStatus());
         }
 
-        query.setParameter("cpf", nonNull(filtro.getCpf()) ? StringUtils.removePontos(filtro.getCpf()) : null);
-        query.setParameter("nome", filtro.getNomeCliente());
+        if (nonNull(filtro.getLojaId()) && isFalse(filtro.getLojaId() == -1)) {
+
+            query.setParameter("loja_id", filtro.getLojaId());
+        }
     }
 }

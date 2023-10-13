@@ -20,7 +20,9 @@ public class ComprasDTO {
     private String status;
     private String categoria;
     private String nomeCliente;
+    private String nomeLoja;
     private String cpf;
     private String cidade;
+    private Long lojaId;
 
 }
