@@ -1,4 +1,4 @@
-package br.com.crista.fashion.report.comprasclientes;
+package br.com.crista.fashion.report.parcelasclientes;
 
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.BooleanUtils.isFalse;
@@ -27,18 +27,18 @@ import br.com.crista.fashion.utils.DateUtils;
 import br.com.crista.fashion.utils.MathUtils;
 import br.com.crista.fashion.utils.StringUtils;
 
-public class ComprasClientesPDF extends RelatorioBasePDF {
+public class ParcelasClientesPDF extends RelatorioBasePDF {
 
     private final List<ComprasDTO> dados;
     FiltroRelatorioDTO filtro;
-    private static final float[] columnWidths = {20f,20f,20f,20f,20f};
+    private static final float[] columnWidths = {15f,15f,10f,15f,15f,15f,15f};
     private static final String[] titles = {
-            "Data", "Categoria", "Valor", "Pagamento", "Status"
+            "Vencimento", "Categoria", "Parcela", "Valor", "Status", "Pagamento", "Venda"
     };
 
-    public ComprasClientesPDF(List<ComprasDTO> dados, FiltroRelatorioDTO filtro, String diretorio) throws FileNotFoundException, DocumentException {
+    public ParcelasClientesPDF(List<ComprasDTO> dados, FiltroRelatorioDTO filtro, String diretorio) throws FileNotFoundException, DocumentException {
 
-        super("Relatório - Lista de Compras por Clientes", PageSize.A4.rotate(), diretorio);
+        super("Relatório - Lista de Parcelas por Clientes", PageSize.A4.rotate(), diretorio);
         this.dados = dados;
         this.filtro = filtro;
     }
@@ -59,12 +59,12 @@ public class ComprasClientesPDF extends RelatorioBasePDF {
             if (isNull(nome)) {
 
                 nome = dto.getNomeCliente();
-                printCell(table, nome + " - " + StringUtils.inserirMascaraCpfCnpj(dto.getCpf()) + " - " + dto.getCidade(), titles.length);
+                printCell(table, nome + " - " + StringUtils.inserirMascaraCpfCnpj(dto.getCpf()), titles.length);
             }
 
             if (isFalse(nome.equalsIgnoreCase(dto.getNomeCliente()))) {
 
-                printCell(table, total + " venda(s) com valor de R$ " + MathUtils.convertBigDecimalToString(soma) + " para o cliente " + nome, titles.length);
+                printCell(table, total + " parcela(s) com valor de R$ " + MathUtils.convertBigDecimalToString(soma) + " para o cliente " + nome, titles.length);
 
                 soma = BigDecimal.ZERO;
                 total = 0;
@@ -73,7 +73,7 @@ public class ComprasClientesPDF extends RelatorioBasePDF {
                 printNovaLinha(table,titles.length);
 
                 nome = dto.getNomeCliente();
-                printCell(table, nome + " - " + StringUtils.inserirMascaraCpfCnpj(dto.getCpf()) + " - " + dto.getCidade(), titles.length);
+                printCell(table, nome + " - " + StringUtils.inserirMascaraCpfCnpj(dto.getCpf()), titles.length);
 
             }
 
@@ -82,7 +82,7 @@ public class ComprasClientesPDF extends RelatorioBasePDF {
             soma = soma.add(dto.getValor());
         }
 
-        printCell(table, total + " venda(s) com valor de R$ " + MathUtils.convertBigDecimalToString(soma) + " para o cliente " + nome, titles.length);
+        printCell(table, total + " parcela(s) com valor de R$ " + MathUtils.convertBigDecimalToString(soma) + " para o cliente " + nome, titles.length);
         addTable(table);
 
         close();
@@ -125,10 +125,12 @@ public class ComprasClientesPDF extends RelatorioBasePDF {
 
     private void addCell(PdfPTable table, ComprasDTO dto) {
 
-        table.addCell(newCellNoBorder(DateUtils.getDiaMesAnoPortugues(dto.getDataVenda()), FONT_NORMAL, Element.ALIGN_CENTER));
+        table.addCell(newCellNoBorder(DateUtils.getDiaMesAnoPortugues(dto.getVencimento()), FONT_NORMAL, Element.ALIGN_CENTER));
         table.addCell(newCellNoBorder(EnumCategoria.valueOf(dto.getCategoria()).getLabel(), FONT_NORMAL, Element.ALIGN_CENTER));
+        table.addCell(newCellNoBorder(dto.getNumero().toString(), FONT_NORMAL, Element.ALIGN_CENTER));
         table.addCell(newCellNoBorder("R$ " + MathUtils.convertBigDecimalToString(dto.getValor()), FONT_NORMAL, Element.ALIGN_CENTER));
-        table.addCell(newCellNoBorder(EnumTipoPagamento.valueOf(dto.getTipo()).getLabel(), FONT_NORMAL, Element.ALIGN_CENTER));
         table.addCell(newCellNoBorder(EnumStatus.valueOf(dto.getStatus()).getLabel(), FONT_NORMAL, Element.ALIGN_CENTER));
+        table.addCell(newCellNoBorder(EnumTipoPagamento.valueOf(dto.getTipo()).getLabel(), FONT_NORMAL, Element.ALIGN_CENTER));
+        table.addCell(newCellNoBorder(DateUtils.getDiaMesAnoPortugues(dto.getDataVenda()), FONT_NORMAL, Element.ALIGN_CENTER));
     }
 }

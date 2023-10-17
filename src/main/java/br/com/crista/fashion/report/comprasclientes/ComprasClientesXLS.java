@@ -1,5 +1,15 @@
 package br.com.crista.fashion.report.comprasclientes;
 
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+import static org.apache.commons.lang3.BooleanUtils.isFalse;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+
+import org.apache.poi.ss.usermodel.Row;
+
 import br.com.crista.fashion.dto.ComprasDTO;
 import br.com.crista.fashion.dto.FiltroRelatorioDTO;
 import br.com.crista.fashion.enumeration.EnumCategoria;
@@ -8,15 +18,6 @@ import br.com.crista.fashion.enumeration.EnumTipoPagamento;
 import br.com.crista.fashion.report.RelatorioBaseXLS;
 import br.com.crista.fashion.utils.DateUtils;
 import br.com.crista.fashion.utils.StringUtils;
-import org.apache.poi.ss.usermodel.Row;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
-
 
 public class ComprasClientesXLS extends RelatorioBaseXLS {
 
@@ -59,7 +60,7 @@ public class ComprasClientesXLS extends RelatorioBaseXLS {
                 printRow(nome + " - " + StringUtils.inserirMascaraCpfCnpj(dto.getCpf()) + " - " + dto.getCidade(), titles.length -1);
             }
 
-            if (!nome.equalsIgnoreCase(dto.getNomeCliente())) {
+            if (isFalse(nome.equalsIgnoreCase(dto.getNomeCliente()))) {
 
                 printRow(total + " venda(s) com valor de R$ " + soma + " para o cliente " + nome, titles.length -1);
 

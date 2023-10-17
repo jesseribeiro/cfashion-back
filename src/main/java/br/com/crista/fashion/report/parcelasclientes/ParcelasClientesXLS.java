@@ -1,4 +1,4 @@
-package br.com.crista.fashion.report.compraslojas;
+package br.com.crista.fashion.report.parcelasclientes;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -17,18 +17,19 @@ import br.com.crista.fashion.enumeration.EnumStatus;
 import br.com.crista.fashion.enumeration.EnumTipoPagamento;
 import br.com.crista.fashion.report.RelatorioBaseXLS;
 import br.com.crista.fashion.utils.DateUtils;
+import br.com.crista.fashion.utils.StringUtils;
 
-public class ComprasLojasXLS extends RelatorioBaseXLS {
+public class ParcelasClientesXLS extends RelatorioBaseXLS {
 
     private final List<ComprasDTO> dados;
     FiltroRelatorioDTO filtro;
     private static final String[] titles = {
-            "Data", "Categoria", "Valor", "Pagamento", "Status"
+            "Vencimento", "Categoria", "Parcela", "Valor", "Status", "Pagamento", "Venda"
     };
 
-    public ComprasLojasXLS(List<ComprasDTO> dados, FiltroRelatorioDTO filtro, String diretorio) {
+    public ParcelasClientesXLS(List<ComprasDTO> dados, FiltroRelatorioDTO filtro, String diretorio) {
 
-        super("Relatório - Lista de Compras por Lojas", true, diretorio, titles.length);
+        super("Relatório - Lista de Parcelas por Clientes", true, diretorio, titles.length);
         this.dados = dados;
         this.filtro = filtro;
     }
@@ -49,22 +50,19 @@ public class ComprasLojasXLS extends RelatorioBaseXLS {
 
         Integer total = 0;
         BigDecimal soma = BigDecimal.ZERO;
-        Long lojaId = null;
-        String nomeLoja = null;
+        String nome = null;
 
         for (ComprasDTO dto : dados) {
 
-            if (isNull(lojaId)) {
+            if (isNull(nome)) {
 
-                lojaId = dto.getLojaId();
-                nomeLoja = dto.getNomeLoja();
-
-                printRow(nomeLoja, titles.length -1);
+                nome = dto.getNomeCliente();
+                printRow(nome + " - " + StringUtils.inserirMascaraCpfCnpj(dto.getCpf()), titles.length -1);
             }
 
-            if (isFalse(lojaId.equals(dto.getLojaId()))) {
+            if (isFalse(nome.equalsIgnoreCase(dto.getNomeCliente()))) {
 
-                printRow(total + " venda(s) com valor de R$ " + soma + " para a loja " + nomeLoja, titles.length -1);
+                printRow(total + " parcela(s) com valor de R$ " + soma + " para o cliente " + nome, titles.length -1);
 
                 soma = BigDecimal.ZERO;
                 total = 0;
@@ -72,9 +70,8 @@ public class ComprasLojasXLS extends RelatorioBaseXLS {
                 printNovaLinha(titles.length -1);
                 printNovaLinha(titles.length -1);
 
-                lojaId = dto.getLojaId();
-                nomeLoja = dto.getNomeLoja();
-                printRow(nomeLoja, titles.length -1);
+                nome = dto.getNomeCliente();
+                printRow(nome + " - " + StringUtils.inserirMascaraCpfCnpj(dto.getCpf()), titles.length -1);
             }
 
             addRow(dto);
@@ -82,7 +79,7 @@ public class ComprasLojasXLS extends RelatorioBaseXLS {
             soma = soma.add(dto.getValor());
         }
 
-        printRow(total + " venda(s) com valor de R$ " + soma + " para a loja " + nomeLoja, titles.length -1);
+        printRow(total + " parcela(s) com valor de R$ " + soma + " para o cliente " + nome, titles.length -1);
 
         close();
         return getFileLocation();
@@ -91,10 +88,12 @@ public class ComprasLojasXLS extends RelatorioBaseXLS {
     private void addRow(ComprasDTO dto) {
 
         Row row = createRow();
-        createCell(row, 0, DateUtils.getDiaMesAnoPortugues(dto.getDataVenda()), STYLE_VALOR);
+        createCell(row, 0, DateUtils.getDiaMesAnoPortugues(dto.getVencimento()), STYLE_VALOR);
         createCell(row, 1, EnumCategoria.valueOf(dto.getCategoria()).getLabel(), STYLE_VALOR);
-        createCell(row, 2, (nonNull(dto.getValor()) ? dto.getValor().doubleValue() : 0D), STYLE_VALOR);
-        createCell(row, 3, EnumTipoPagamento.valueOf(dto.getTipo()).getLabel(), STYLE_VALOR);
+        createCell(row, 2, dto.getNumero().toString(), STYLE_VALOR);
+        createCell(row, 3, (nonNull(dto.getValor()) ? dto.getValor().doubleValue() : 0D), STYLE_VALOR);
         createCell(row, 4, EnumStatus.valueOf(dto.getStatus()).getLabel(), STYLE_VALOR);
+        createCell(row, 5, EnumTipoPagamento.valueOf(dto.getTipo()).getLabel(), STYLE_VALOR);
+        createCell(row, 6, DateUtils.getDiaMesAnoPortugues(dto.getDataVenda()), STYLE_VALOR);
     }
 }

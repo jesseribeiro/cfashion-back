@@ -31,4 +31,9 @@ public enum EnumTipoPagamento {
                 .map(tipo -> new LabelDescricaoDTO(tipo.name(), tipo.getLabel()))
                 .collect(Collectors.toList());
     }
+
+    public String getLabel() {
+
+        return label;
+    }
 }

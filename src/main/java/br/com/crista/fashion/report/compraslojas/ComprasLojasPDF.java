@@ -1,5 +1,22 @@
 package br.com.crista.fashion.report.compraslojas;
 
+import static java.util.Objects.isNull;
+import static org.apache.commons.lang3.BooleanUtils.isFalse;
+
+import java.io.FileNotFoundException;
+import java.math.BigDecimal;
+import java.util.List;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+
 import br.com.crista.fashion.dto.ComprasDTO;
 import br.com.crista.fashion.dto.FiltroRelatorioDTO;
 import br.com.crista.fashion.enumeration.EnumCategoria;
@@ -8,15 +25,6 @@ import br.com.crista.fashion.enumeration.EnumTipoPagamento;
 import br.com.crista.fashion.report.RelatorioBasePDF;
 import br.com.crista.fashion.utils.DateUtils;
 import br.com.crista.fashion.utils.MathUtils;
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-
-import java.io.FileNotFoundException;
-import java.math.BigDecimal;
-import java.util.List;
-
-import static java.util.Objects.isNull;
 
 public class ComprasLojasPDF extends RelatorioBasePDF {
 
@@ -55,7 +63,7 @@ public class ComprasLojasPDF extends RelatorioBasePDF {
                 printCell(table, nomeLoja, titles.length);
             }
 
-            if (!lojaId.equals(dto.getLojaId())) {
+            if (isFalse(lojaId.equals(dto.getLojaId()))) {
 
                 printCell(table, total + " venda(s) com valor de R$ " + MathUtils.convertBigDecimalToString(soma) + " para a loja " + nomeLoja, titles.length);
 

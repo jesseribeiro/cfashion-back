@@ -1,4 +1,4 @@
-package br.com.crista.fashion.report.comprasclientes;
+package br.com.crista.fashion.report.comprasorigem;
 
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.BooleanUtils.isFalse;
@@ -25,20 +25,19 @@ import br.com.crista.fashion.enumeration.EnumTipoPagamento;
 import br.com.crista.fashion.report.RelatorioBasePDF;
 import br.com.crista.fashion.utils.DateUtils;
 import br.com.crista.fashion.utils.MathUtils;
-import br.com.crista.fashion.utils.StringUtils;
 
-public class ComprasClientesPDF extends RelatorioBasePDF {
+public class ComprasOrigemPDF extends RelatorioBasePDF {
 
     private final List<ComprasDTO> dados;
     FiltroRelatorioDTO filtro;
-    private static final float[] columnWidths = {20f,20f,20f,20f,20f};
+    private static final float[] columnWidths = {20f,20f,15f,15f,15f,15f};
     private static final String[] titles = {
-            "Data", "Categoria", "Valor", "Pagamento", "Status"
+            "Data", "Categoria", "Valor", "Status", "Comissão", "Tarifa"
     };
 
-    public ComprasClientesPDF(List<ComprasDTO> dados, FiltroRelatorioDTO filtro, String diretorio) throws FileNotFoundException, DocumentException {
+    public ComprasOrigemPDF(List<ComprasDTO> dados, FiltroRelatorioDTO filtro, String diretorio) throws FileNotFoundException, DocumentException {
 
-        super("Relatório - Lista de Compras por Clientes", PageSize.A4.rotate(), diretorio);
+        super("Relatório - Lista de Compras por Origem", PageSize.A4.rotate(), diretorio);
         this.dados = dados;
         this.filtro = filtro;
     }
@@ -52,19 +51,19 @@ public class ComprasClientesPDF extends RelatorioBasePDF {
 
         Integer total = 0;
         BigDecimal soma = BigDecimal.ZERO;
-        String nome = null;
+        String origem = null;
 
         for (ComprasDTO dto : dados) {
 
-            if (isNull(nome)) {
+            if (isNull(origem)) {
 
-                nome = dto.getNomeCliente();
-                printCell(table, nome + " - " + StringUtils.inserirMascaraCpfCnpj(dto.getCpf()) + " - " + dto.getCidade(), titles.length);
+                origem = dto.getTipo();
+                printCell(table, EnumTipoPagamento.valueOf(origem).getLabel(), titles.length);
             }
 
-            if (isFalse(nome.equalsIgnoreCase(dto.getNomeCliente()))) {
+            if (isFalse(origem.equals(dto.getTipo()))) {
 
-                printCell(table, total + " venda(s) com valor de R$ " + MathUtils.convertBigDecimalToString(soma) + " para o cliente " + nome, titles.length);
+                printCell(table, total + " venda(s) com valor de R$ " + MathUtils.convertBigDecimalToString(soma), titles.length);
 
                 soma = BigDecimal.ZERO;
                 total = 0;
@@ -72,9 +71,8 @@ public class ComprasClientesPDF extends RelatorioBasePDF {
                 printNovaLinha(table,titles.length);
                 printNovaLinha(table,titles.length);
 
-                nome = dto.getNomeCliente();
-                printCell(table, nome + " - " + StringUtils.inserirMascaraCpfCnpj(dto.getCpf()) + " - " + dto.getCidade(), titles.length);
-
+                origem = dto.getTipo();
+                printCell(table, EnumTipoPagamento.valueOf(origem).getLabel(), titles.length);
             }
 
             addCell(table, dto);
@@ -82,7 +80,7 @@ public class ComprasClientesPDF extends RelatorioBasePDF {
             soma = soma.add(dto.getValor());
         }
 
-        printCell(table, total + " venda(s) com valor de R$ " + MathUtils.convertBigDecimalToString(soma) + " para o cliente " + nome, titles.length);
+        printCell(table, total + " venda(s) com valor de R$ " + MathUtils.convertBigDecimalToString(soma), titles.length);
         addTable(table);
 
         close();
@@ -110,7 +108,6 @@ public class ComprasClientesPDF extends RelatorioBasePDF {
             }
 
             document.add(table);
-
         } catch (DocumentException e) {
 
             e.printStackTrace();
@@ -128,7 +125,8 @@ public class ComprasClientesPDF extends RelatorioBasePDF {
         table.addCell(newCellNoBorder(DateUtils.getDiaMesAnoPortugues(dto.getDataVenda()), FONT_NORMAL, Element.ALIGN_CENTER));
         table.addCell(newCellNoBorder(EnumCategoria.valueOf(dto.getCategoria()).getLabel(), FONT_NORMAL, Element.ALIGN_CENTER));
         table.addCell(newCellNoBorder("R$ " + MathUtils.convertBigDecimalToString(dto.getValor()), FONT_NORMAL, Element.ALIGN_CENTER));
-        table.addCell(newCellNoBorder(EnumTipoPagamento.valueOf(dto.getTipo()).getLabel(), FONT_NORMAL, Element.ALIGN_CENTER));
         table.addCell(newCellNoBorder(EnumStatus.valueOf(dto.getStatus()).getLabel(), FONT_NORMAL, Element.ALIGN_CENTER));
+        table.addCell(newCellNoBorder("R$ " + MathUtils.convertBigDecimalToString(dto.getComissao()), FONT_NORMAL, Element.ALIGN_CENTER));
+        table.addCell(newCellNoBorder("R$ " + MathUtils.convertBigDecimalToString(dto.getTarifa()), FONT_NORMAL, Element.ALIGN_CENTER));
     }
 }

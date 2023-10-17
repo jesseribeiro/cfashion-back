@@ -16,8 +16,11 @@ import lombok.Setter;
 public class ComprasDTO {
 
     private String dataVenda;
+    private String vencimento;
     private String tipo;
     private BigDecimal valor;
+    private BigDecimal comissao;
+    private BigDecimal tarifa;
     private String status;
     private String categoria;
     private String nomeCliente;
@@ -25,5 +28,6 @@ public class ComprasDTO {
     private String cpf;
     private String cidade;
     private Long lojaId;
+    private Integer numero;
 
 }

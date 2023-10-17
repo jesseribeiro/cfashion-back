@@ -1,4 +1,4 @@
-package br.com.crista.fashion.report.compraslojas;
+package br.com.crista.fashion.report.comprasorigem;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -18,17 +18,18 @@ import br.com.crista.fashion.enumeration.EnumTipoPagamento;
 import br.com.crista.fashion.report.RelatorioBaseXLS;
 import br.com.crista.fashion.utils.DateUtils;
 
-public class ComprasLojasXLS extends RelatorioBaseXLS {
+
+public class ComprasOrigemXLS extends RelatorioBaseXLS {
 
     private final List<ComprasDTO> dados;
     FiltroRelatorioDTO filtro;
     private static final String[] titles = {
-            "Data", "Categoria", "Valor", "Pagamento", "Status"
+            "Data", "Categoria", "Valor", "Status", "Comissão", "Tarifa"
     };
 
-    public ComprasLojasXLS(List<ComprasDTO> dados, FiltroRelatorioDTO filtro, String diretorio) {
+    public ComprasOrigemXLS(List<ComprasDTO> dados, FiltroRelatorioDTO filtro, String diretorio) {
 
-        super("Relatório - Lista de Compras por Lojas", true, diretorio, titles.length);
+        super("Relatório - Lista de Compras por Origem", true, diretorio, titles.length);
         this.dados = dados;
         this.filtro = filtro;
     }
@@ -49,22 +50,19 @@ public class ComprasLojasXLS extends RelatorioBaseXLS {
 
         Integer total = 0;
         BigDecimal soma = BigDecimal.ZERO;
-        Long lojaId = null;
-        String nomeLoja = null;
+        String origem = null;
 
         for (ComprasDTO dto : dados) {
 
-            if (isNull(lojaId)) {
+            if (isNull(origem)) {
 
-                lojaId = dto.getLojaId();
-                nomeLoja = dto.getNomeLoja();
-
-                printRow(nomeLoja, titles.length -1);
+                origem = dto.getTipo();
+                printRow(EnumTipoPagamento.valueOf(origem).getLabel(), titles.length -1);
             }
 
-            if (isFalse(lojaId.equals(dto.getLojaId()))) {
+            if (isFalse(origem.equals(dto.getTipo()))) {
 
-                printRow(total + " venda(s) com valor de R$ " + soma + " para a loja " + nomeLoja, titles.length -1);
+                printRow(total + " venda(s) com valor de R$ " + soma, titles.length -1);
 
                 soma = BigDecimal.ZERO;
                 total = 0;
@@ -72,9 +70,8 @@ public class ComprasLojasXLS extends RelatorioBaseXLS {
                 printNovaLinha(titles.length -1);
                 printNovaLinha(titles.length -1);
 
-                lojaId = dto.getLojaId();
-                nomeLoja = dto.getNomeLoja();
-                printRow(nomeLoja, titles.length -1);
+                origem = dto.getTipo();
+                printRow(EnumTipoPagamento.valueOf(origem).getLabel(), titles.length -1);
             }
 
             addRow(dto);
@@ -82,7 +79,7 @@ public class ComprasLojasXLS extends RelatorioBaseXLS {
             soma = soma.add(dto.getValor());
         }
 
-        printRow(total + " venda(s) com valor de R$ " + soma + " para a loja " + nomeLoja, titles.length -1);
+        printRow(total + " venda(s) com valor de R$ " + soma, titles.length -1);
 
         close();
         return getFileLocation();
@@ -94,7 +91,8 @@ public class ComprasLojasXLS extends RelatorioBaseXLS {
         createCell(row, 0, DateUtils.getDiaMesAnoPortugues(dto.getDataVenda()), STYLE_VALOR);
         createCell(row, 1, EnumCategoria.valueOf(dto.getCategoria()).getLabel(), STYLE_VALOR);
         createCell(row, 2, (nonNull(dto.getValor()) ? dto.getValor().doubleValue() : 0D), STYLE_VALOR);
-        createCell(row, 3, EnumTipoPagamento.valueOf(dto.getTipo()).getLabel(), STYLE_VALOR);
-        createCell(row, 4, EnumStatus.valueOf(dto.getStatus()).getLabel(), STYLE_VALOR);
+        createCell(row, 3, EnumStatus.valueOf(dto.getStatus()).getLabel(), STYLE_VALOR);
+        createCell(row, 4, (nonNull(dto.getComissao()) ? dto.getComissao().doubleValue() : 0D), STYLE_VALOR);
+        createCell(row, 5, (nonNull(dto.getTarifa()) ? dto.getTarifa().doubleValue() : 0D), STYLE_VALOR);
     }
 }
