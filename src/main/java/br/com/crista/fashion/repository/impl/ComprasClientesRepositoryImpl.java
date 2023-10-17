@@ -1,19 +1,22 @@
 package br.com.crista.fashion.repository.impl;
 
-import br.com.crista.fashion.dto.ComprasDTO;
-import br.com.crista.fashion.dto.FiltroRelatorioDTO;
-import br.com.crista.fashion.utils.DateUtils;
-import br.com.crista.fashion.utils.StringUtils;
-import org.springframework.stereotype.Repository;
+import static br.com.crista.fashion.utils.Constants.TODAS;
+import static java.util.Objects.nonNull;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Objects.nonNull;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import org.springframework.stereotype.Repository;
+
+import br.com.crista.fashion.dto.ComprasDTO;
+import br.com.crista.fashion.dto.FiltroRelatorioDTO;
+import br.com.crista.fashion.utils.DateUtils;
+import br.com.crista.fashion.utils.StringUtils;
 
 @Repository("comprasClientesRepositoryImpl")
 public class ComprasClientesRepositoryImpl {
@@ -51,17 +54,17 @@ public class ComprasClientesRepositoryImpl {
             sql += " AND v.data_venda <= :data_final ";
         }
 
-        if (nonNull(filtro.getTipo()) && !filtro.getTipo().equalsIgnoreCase("TODAS")) {
+        if (nonNull(filtro.getTipo()) && !filtro.getTipo().equalsIgnoreCase(TODAS)) {
 
             sql += " AND v.tipo =:tipo ";
         }
 
-        if (nonNull(filtro.getCategoria()) && !filtro.getCategoria().equalsIgnoreCase("TODAS")) {
+        if (nonNull(filtro.getCategoria()) && !filtro.getCategoria().equalsIgnoreCase(TODAS)) {
 
             sql += " AND p.categoria =:categoria ";
         }
 
-        if (nonNull(filtro.getStatus()) && !filtro.getStatus().equalsIgnoreCase("TODAS")) {
+        if (nonNull(filtro.getStatus()) && !filtro.getStatus().equalsIgnoreCase(TODAS)) {
 
             sql += " AND v.status =:status ";
         }
@@ -114,17 +117,17 @@ public class ComprasClientesRepositoryImpl {
             query.setParameter("data_final", DateUtils.setUltimaHoraDoDia(filtro.getDataFim()));
         }
 
-        if (nonNull(filtro.getTipo()) && !filtro.getTipo().equalsIgnoreCase("TODAS")) {
+        if (nonNull(filtro.getTipo()) && !filtro.getTipo().equalsIgnoreCase(TODAS)) {
 
             query.setParameter("tipo", filtro.getTipo());
         }
 
-        if (nonNull(filtro.getCategoria()) && !filtro.getCategoria().equalsIgnoreCase("TODAS")) {
+        if (nonNull(filtro.getCategoria()) && !filtro.getCategoria().equalsIgnoreCase(TODAS)) {
 
             query.setParameter("categoria", filtro.getCategoria());
         }
 
-        if (nonNull(filtro.getStatus()) && !filtro.getStatus().equalsIgnoreCase("TODAS")) {
+        if (nonNull(filtro.getStatus()) && !filtro.getStatus().equalsIgnoreCase(TODAS)) {
 
             query.setParameter("status", filtro.getStatus());
         }

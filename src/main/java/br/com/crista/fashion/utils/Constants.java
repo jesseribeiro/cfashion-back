@@ -4,6 +4,11 @@ public interface Constants {
 
     Integer SELECT_TODAS = -1;
 
+    String TODAS = "TODAS";
+
+    String ERRO_ENCONTRADO = "Erro encontrado: ";
+    String SEM_REGISTRO = "Nenhum registro foi encontrado";
+
     String TYPE_TEXT = "text";
     String TYPE_DATE = "date";
     String TYPE_BOOLEAN = "boolean";

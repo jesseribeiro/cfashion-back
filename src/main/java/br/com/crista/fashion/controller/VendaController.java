@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.crista.fashion.dto.CalcularVendaDTO;
@@ -48,7 +48,7 @@ public class VendaController {
         }
     }
 
-    @RequestMapping(path = "/cancelar-venda/{id}", method = RequestMethod.GET)
+    @GetMapping(path = "/cancelar-venda/{id}")
     public ResponseEntity cancelarVenda(@PathVariable("id") Long vendaId) {
 
         try {

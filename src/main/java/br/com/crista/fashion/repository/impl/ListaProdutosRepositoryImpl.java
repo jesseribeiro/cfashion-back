@@ -1,19 +1,22 @@
 package br.com.crista.fashion.repository.impl;
 
-import br.com.crista.fashion.dto.FiltroRelatorioDTO;
-import br.com.crista.fashion.dto.ProdutoDTO;
-import br.com.crista.fashion.utils.Constants;
-import br.com.crista.fashion.utils.DateUtils;
-import org.springframework.stereotype.Repository;
+import static br.com.crista.fashion.utils.Constants.TODAS;
+import static java.util.Objects.nonNull;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Objects.nonNull;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import org.springframework.stereotype.Repository;
+
+import br.com.crista.fashion.dto.FiltroRelatorioDTO;
+import br.com.crista.fashion.dto.ProdutoDTO;
+import br.com.crista.fashion.utils.Constants;
+import br.com.crista.fashion.utils.DateUtils;
 
 @Repository("listaProdutosRepositoryImpl")
 public class ListaProdutosRepositoryImpl {
@@ -45,7 +48,7 @@ public class ListaProdutosRepositoryImpl {
             sql += " AND p.marca_id =:loja_id ";
         }
 
-        if (nonNull(filtro.getCategoria()) && !filtro.getCategoria().equalsIgnoreCase("TODAS")) {
+        if (nonNull(filtro.getCategoria()) && !filtro.getCategoria().equalsIgnoreCase(TODAS)) {
 
             sql += " AND p.categoria =:categoria ";
         }
@@ -115,7 +118,7 @@ public class ListaProdutosRepositoryImpl {
             query.setParameter("data_final", DateUtils.setUltimaHoraDoDia(filtro.getDataFim()));
         }
 
-        if (nonNull(filtro.getCategoria()) && !filtro.getCategoria().equalsIgnoreCase("TODAS")) {
+        if (nonNull(filtro.getCategoria()) && !filtro.getCategoria().equalsIgnoreCase(TODAS)) {
 
             query.setParameter("categoria", filtro.getCategoria());
         }
