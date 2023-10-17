@@ -1,6 +1,5 @@
 package br.com.crista.fashion.dto;
 
-
 import lombok.Data;
 
 @Data

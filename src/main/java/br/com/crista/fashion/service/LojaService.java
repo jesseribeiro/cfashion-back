@@ -1,20 +1,24 @@
 package br.com.crista.fashion.service;
 
-import br.com.crista.fashion.bean.LojaBean;
-import br.com.crista.fashion.dto.LojaDTO;
-import br.com.crista.fashion.dto.PaginationFilterDTO;
-import br.com.crista.fashion.repository.LojaRepository;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import br.com.crista.fashion.bean.LojaBean;
+import br.com.crista.fashion.dto.LojaDTO;
+import br.com.crista.fashion.dto.PaginationFilterDTO;
+import br.com.crista.fashion.repository.LojaRepository;
 
-@Slf4j
+import lombok.RequiredArgsConstructor;
+
+
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class LojaService extends GenericService<LojaBean, LojaRepository> {
 
     public List<LojaBean> findAll() {
@@ -26,6 +30,7 @@ public class LojaService extends GenericService<LojaBean, LojaRepository> {
 
         LojaBean loja = new LojaBean();
         loja = lojaDTO.converter(loja);
+
         save(loja);
 
         return new LojaDTO(loja);
@@ -69,17 +74,14 @@ public class LojaService extends GenericService<LojaBean, LojaRepository> {
 
     public LojaBean getLojaById(Long id) {
 
-        return getRepository().findById(id).orElse(null);
+        return getRepository().findById(id)
+                .orElse(null);
     }
 
     public void delete(Long id) {
 
         LojaBean loja = getLojaById(id);
+
         delete(loja);
-    }
-
-    public LojaBean lojaByNomeFantasia (String nomeLoja) {
-
-        return getRepository().findLojaByNomeFantasia(nomeLoja);
     }
 }

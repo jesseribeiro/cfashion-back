@@ -1,14 +1,15 @@
 package br.com.crista.fashion.report.listaclientes;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+
+import org.apache.poi.ss.usermodel.Row;
+
 import br.com.crista.fashion.dto.ClienteDTO;
 import br.com.crista.fashion.dto.FiltroRelatorioDTO;
 import br.com.crista.fashion.report.RelatorioBaseXLS;
 import br.com.crista.fashion.utils.StringUtils;
-import org.apache.poi.ss.usermodel.Row;
-
-import java.io.IOException;
-import java.util.List;
-
 
 public class ListaClientesXLS extends RelatorioBaseXLS {
 
@@ -39,15 +40,15 @@ public class ListaClientesXLS extends RelatorioBaseXLS {
             createCell(headerRow, i, titles[i], STYLE_HEADER);
         }
 
-        Integer total = 0;
-        Integer clientes = 0;
+        AtomicReference<Integer> total = new AtomicReference<>(0);
+        AtomicReference<Integer> clientes = new AtomicReference<>(0);
 
-        for (ClienteDTO dto : dados){
+        dados.forEach(clienteDTO -> {
 
-            addRow(dto);
-            total += dto.getQtd().intValue();
-            clientes++;
-        }
+            addRow(clienteDTO);
+            total.updateAndGet(v -> v + clienteDTO.getQtd().intValue());
+            clientes.getAndSet(clientes.get() + 1);
+        });
 
         printNovaLinha(titles.length -1);
 

@@ -1,5 +1,19 @@
 package br.com.crista.fashion.service;
 
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+
+import java.util.Calendar;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
 import br.com.crista.fashion.bean.ClienteBean;
 import br.com.crista.fashion.dto.ClienteDTO;
 import br.com.crista.fashion.dto.PaginationFilterDTO;
@@ -9,29 +23,18 @@ import br.com.crista.fashion.enumeration.EnumStatus;
 import br.com.crista.fashion.repository.ClienteRepository;
 import br.com.crista.fashion.repository.impl.VendaRepositoryImpl;
 import br.com.crista.fashion.utils.StringUtils;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.List;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
-
-@Slf4j
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ClienteService extends GenericService<ClienteBean, ClienteRepository> {
 
-    @Autowired
+    private final @NonNull
     CidadeService cidadeService;
 
-    @Autowired
+    private final @NonNull
     VendaRepositoryImpl vendaRepository;
 
     public ClienteDTO salvar(ClienteDTO dto) {

@@ -1,17 +1,20 @@
 package br.com.crista.fashion.dto;
 
+import static java.util.Objects.isNull;
+
+import org.springframework.data.domain.Sort;
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.domain.Sort;
 
-import static java.util.Objects.isNull;
-
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class PaginationFilterDTO<T extends GenericDTO> {
 
     // variáveis utilizadas na paginação

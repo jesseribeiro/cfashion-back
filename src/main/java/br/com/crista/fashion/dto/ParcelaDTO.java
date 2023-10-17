@@ -1,19 +1,20 @@
 package br.com.crista.fashion.dto;
 
+import static java.util.Objects.nonNull;
+
+import java.math.BigDecimal;
+import java.util.Calendar;
+
 import br.com.crista.fashion.bean.ParcelaBean;
 import br.com.crista.fashion.utils.StringUtils;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-import java.util.Calendar;
-
-import static java.util.Objects.nonNull;
-
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ParcelaDTO extends GenericDTO<ParcelaBean> {

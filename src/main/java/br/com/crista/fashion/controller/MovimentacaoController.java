@@ -1,27 +1,37 @@
 package br.com.crista.fashion.controller;
 
-import br.com.crista.fashion.bean.MovimentacaoBean;
-import br.com.crista.fashion.dto.MovimentacaoDTO;
-import br.com.crista.fashion.dto.PaginationFilterDTO;
-import br.com.crista.fashion.service.MovimentacaoService;
+import java.util.List;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import java.util.List;
+import br.com.crista.fashion.bean.MovimentacaoBean;
+import br.com.crista.fashion.dto.MovimentacaoDTO;
+import br.com.crista.fashion.dto.PaginationFilterDTO;
+import br.com.crista.fashion.service.MovimentacaoService;
 
-@PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR', 'COMERCIAL', 'NEGOCIADOR', 'PROPRIETARIO', 'CREDIARISTA')")
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping(path = "/v1/movimentacao", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MovimentacaoController {
 
-    @Autowired
+    private final @NonNull
     MovimentacaoService movimentacaoService;
 
     @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)

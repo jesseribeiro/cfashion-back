@@ -1,22 +1,26 @@
 package br.com.crista.fashion.service;
 
-import br.com.crista.fashion.bean.CidadeBean;
-import br.com.crista.fashion.utils.StringUtils;
-import br.com.crista.fashion.repository.CidadeRepository;
-import lombok.extern.slf4j.Slf4j;
+import static java.util.Objects.nonNull;
+
+import java.util.List;
+
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
-import java.util.List;
+import br.com.crista.fashion.bean.CidadeBean;
+import br.com.crista.fashion.repository.CidadeRepository;
+import br.com.crista.fashion.utils.StringUtils;
 
-import static java.util.Objects.nonNull;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
-@Slf4j
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CidadeService extends GenericService<CidadeBean, CidadeRepository> {
 
-    @Autowired
+    private final @NonNull
     CidadeRepository cidadeRepository;
 
     public List<CidadeBean> findAll() {
@@ -39,6 +43,7 @@ public class CidadeService extends GenericService<CidadeBean, CidadeRepository> 
         if (nonNull(cidadeIbge)) {
 
             CidadeBean cidade = cidadeRepository.findByIbge(cidadeIbge);
+
             return cidade.getNome();
         }
 
@@ -49,13 +54,10 @@ public class CidadeService extends GenericService<CidadeBean, CidadeRepository> 
 
         List<CidadeBean> cidades = findAll();
 
-        for (CidadeBean bean : cidades) {
+        cidades.forEach(cidadeBean -> {
 
-            bean.setNomeSemAcento(StringUtils.removeAcentos(bean.getNome()));
-            update(bean);
-        }
-
-        log.info("Finalização!!");
+            cidadeBean.setNomeSemAcento(StringUtils.removeAcentos(cidadeBean.getNome()));
+            update(cidadeBean);
+        });
     }
-
 }

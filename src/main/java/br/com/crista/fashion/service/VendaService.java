@@ -1,16 +1,11 @@
 package br.com.crista.fashion.service;
 
-import br.com.crista.fashion.bean.*;
-import br.com.crista.fashion.dto.CalcularVendaDTO;
-import br.com.crista.fashion.dto.PaginationFilterDTO;
-import br.com.crista.fashion.dto.VendaDTO;
-import br.com.crista.fashion.enumeration.EnumStatus;
-import br.com.crista.fashion.enumeration.EnumTipoPagamento;
-import br.com.crista.fashion.repository.VendaRepository;
-import br.com.crista.fashion.repository.impl.VendaRepositoryImpl;
-import br.com.crista.fashion.utils.DateUtils;
-import br.com.crista.fashion.utils.StringUtils;
-import lombok.extern.slf4j.Slf4j;
+import static java.util.Objects.nonNull;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Calendar;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,31 +15,44 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.util.Calendar;
+import br.com.crista.fashion.bean.ClienteBean;
+import br.com.crista.fashion.bean.LojaBean;
+import br.com.crista.fashion.bean.ParcelaBean;
+import br.com.crista.fashion.bean.ProdutoBean;
+import br.com.crista.fashion.bean.VendaBean;
+import br.com.crista.fashion.dto.CalcularVendaDTO;
+import br.com.crista.fashion.dto.PaginationFilterDTO;
+import br.com.crista.fashion.dto.VendaDTO;
+import br.com.crista.fashion.enumeration.EnumStatus;
+import br.com.crista.fashion.enumeration.EnumTipoPagamento;
+import br.com.crista.fashion.repository.VendaRepository;
+import br.com.crista.fashion.repository.impl.VendaRepositoryImpl;
+import br.com.crista.fashion.utils.DateUtils;
+import br.com.crista.fashion.utils.StringUtils;
 
-import static java.util.Objects.nonNull;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
-@Slf4j
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class VendaService extends GenericService<VendaBean, VendaRepository> {
 
-    @Autowired
+    private final @NonNull
     ClienteService clienteService;
 
-    @Autowired
+    private final @NonNull
     LojaService lojaService;
 
-    @Autowired
+    private final @NonNull
     ComissaoService comissaoService;
 
-    @Autowired
+    private final @NonNull
     ProdutoService produtoService;
 
-    @Autowired
+    private final @NonNull
     VendaRepositoryImpl vendaRepository;
 
-    @Autowired
+    private final @NonNull
     ParcelaService parcelaService;
 
     public Page<VendaDTO> pagination(PaginationFilterDTO<VendaDTO> paginationFilter) {
@@ -122,6 +130,15 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
 
         Calendar dataVencimento = dto.getDataVenda();
 
+        calculaParcelas(dto, cliente, marca, produto, venda, dataVencimento);
+
+        produtoService.atualizaProduto(dto.getProdutoId());
+
+        return ResponseEntity.ok().body("Sucesso");
+    }
+
+    private void calculaParcelas(CalcularVendaDTO dto, ClienteBean cliente, LojaBean marca, ProdutoBean produto, VendaBean venda, Calendar dataVencimento) {
+
         for (int x = 1; x <= dto.getQtdParcela(); x++) {
 
             ParcelaBean parcela = new ParcelaBean();
@@ -162,12 +179,9 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
             }
 
             parcela.setVenda(venda);
+
             parcelaService.save(parcela);
         }
-
-        produtoService.atualizaProduto(dto.getProdutoId());
-
-        return ResponseEntity.ok().body("Sucesso");
     }
 
     @Transactional
@@ -203,25 +217,25 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
 
     public CalcularVendaDTO calcularParcela(CalcularVendaDTO dto) {
 
-        BigDecimal valorTarifa = BigDecimal.ZERO;
+        BigDecimal valorTarifa;
 
         if (dto.getQtdParcela() == 1) {
 
-            valorTarifa = dto.getValorVenda().multiply(new BigDecimal(0.0449)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+            valorTarifa = dto.getValorVenda().multiply(BigDecimal.valueOf(0.0449)).setScale(2, RoundingMode.HALF_EVEN);
 
         } else if (dto.getQtdParcela() <= 6) {
 
-            valorTarifa = dto.getValorVenda().multiply(new BigDecimal(0.0520)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+            valorTarifa = dto.getValorVenda().multiply(BigDecimal.valueOf(0.0520)).setScale(2, RoundingMode.HALF_EVEN);
 
-        } else if (dto.getQtdParcela() > 6) {
+        } else {
 
-            valorTarifa = dto.getValorVenda().multiply(new BigDecimal(0.0570)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+            valorTarifa = dto.getValorVenda().multiply(BigDecimal.valueOf(0.0570)).setScale(2, RoundingMode.HALF_EVEN);
         }
 
         dto.setValorTarifa(valorTarifa);
         BigDecimal valorParcela = dto.getValorVenda().subtract(valorTarifa);
 
-        valorParcela = valorParcela.divide(new BigDecimal(dto.getQtdParcela()), 2, BigDecimal.ROUND_HALF_EVEN);
+        valorParcela = valorParcela.divide(new BigDecimal(dto.getQtdParcela()), 2, RoundingMode.HALF_EVEN);
         dto.setValorParcela(valorParcela);
 
         return dto;
@@ -232,7 +246,7 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
         EnumTipoPagamento tipo = EnumTipoPagamento.valueOf(dto.getTipo());
 
         BigDecimal comissao = dto.getValorVenda().multiply(
-                comissaoService.pegaComissao(tipo)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+                comissaoService.pegaComissao(tipo)).setScale(2, RoundingMode.HALF_EVEN);
 
         dto.setComissao(comissao);
         return dto;

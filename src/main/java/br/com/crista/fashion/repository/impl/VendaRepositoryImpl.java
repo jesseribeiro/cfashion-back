@@ -1,20 +1,22 @@
 package br.com.crista.fashion.repository.impl;
 
-import br.com.crista.fashion.dto.VendaDTO;
-import br.com.crista.fashion.enumeration.EnumStatus;
-import br.com.crista.fashion.utils.DateUtils;
+import static java.util.Objects.nonNull;
+
+import java.util.Calendar;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import java.util.Calendar;
-import java.util.List;
-
-import static java.util.Objects.nonNull;
+import br.com.crista.fashion.dto.VendaDTO;
+import br.com.crista.fashion.enumeration.EnumStatus;
+import br.com.crista.fashion.utils.DateUtils;
 
 @Repository("vendaRepositoryImpl")
 public class VendaRepositoryImpl {
@@ -55,7 +57,7 @@ public class VendaRepositoryImpl {
             filtros += " and x.dataVenda <=:dataFinal";
         }
 
-        Query queryTotal = entityManager.createQuery("Select count(1) " + "" + filtros);
+        Query queryTotal = entityManager.createQuery("Select count(1) " + filtros);
         addParamQuery(clienteId, lojaId, status, dataInicial, dataFinal, queryTotal);
         long countResult = (long) queryTotal.getSingleResult();
 

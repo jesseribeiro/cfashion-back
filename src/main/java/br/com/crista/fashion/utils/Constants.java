@@ -2,13 +2,7 @@ package br.com.crista.fashion.utils;
 
 public interface Constants {
 
-    Integer PARCELA_ENTRADA = 0;
-    Integer PRIMEIRA_PARCELA = 1;
-    Integer QTD_DIAS_MES_COMERCIAL = 30;
     Integer SELECT_TODAS = -1;
-    int BOLETO_ENTRADA = 2;
-    int BOLETO_LIQUIDACAO = 6;
-    int BOLETO_BAIXA = 9;
 
     String TYPE_TEXT = "text";
     String TYPE_DATE = "date";

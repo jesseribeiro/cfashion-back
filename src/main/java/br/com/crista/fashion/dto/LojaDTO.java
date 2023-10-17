@@ -1,16 +1,17 @@
 package br.com.crista.fashion.dto;
 
+import static java.util.Objects.isNull;
+
 import br.com.crista.fashion.bean.LojaBean;
 import br.com.crista.fashion.utils.DateUtils;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import static java.util.Objects.isNull;
-
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class LojaDTO extends GenericDTO<LojaBean> {

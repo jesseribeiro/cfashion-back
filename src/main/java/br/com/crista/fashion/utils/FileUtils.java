@@ -1,16 +1,14 @@
 package br.com.crista.fashion.utils;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.codec.binary.Base64;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.multipart.MultipartFile;
+import static java.util.Objects.nonNull;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
@@ -20,7 +18,16 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import static java.util.Objects.nonNull;
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class FileUtils extends org.apache.commons.io.FileUtils {
@@ -164,9 +171,7 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
     private static String getFileType(MultipartFile file) {
 
         String multipartFileName = file.getOriginalFilename();
-        String type = multipartFileName.substring(multipartFileName.indexOf("."), multipartFileName.length());
-
-        return type;
+        return multipartFileName.substring(multipartFileName.indexOf("."), multipartFileName.length());
     }
 
     public static String getFileType(String strBase64) {
@@ -191,9 +196,8 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
         try {
 
             byte[] fileContent = FileUtils.readFileToByteArray(new File(path));
-            String encodedString = Base64.encodeBase64String(fileContent);
 
-            return encodedString;
+            return Base64.encodeBase64String(fileContent);
 
         } catch (IOException e) {
 

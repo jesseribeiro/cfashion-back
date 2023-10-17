@@ -1,19 +1,23 @@
 package br.com.crista.fashion.dto;
 
+import java.util.Calendar;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import br.com.crista.fashion.enumeration.EnumTipoRelatorio;
 import br.com.crista.fashion.json.CalendarDeserializerJson;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Calendar;
-
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class FiltroRelatorioDTO {
 
     Long marcaId;

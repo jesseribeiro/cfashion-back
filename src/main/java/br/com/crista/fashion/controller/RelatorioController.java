@@ -1,7 +1,26 @@
 package br.com.crista.fashion.controller;
 
+import static java.util.Objects.nonNull;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import br.com.crista.fashion.config.CentralConfig;
-import br.com.crista.fashion.dto.*;
+import br.com.crista.fashion.dto.ClienteDTO;
+import br.com.crista.fashion.dto.ComprasDTO;
+import br.com.crista.fashion.dto.FiltroRelatorioDTO;
+import br.com.crista.fashion.dto.MovimentacaoDTO;
+import br.com.crista.fashion.dto.ProdutoDTO;
+import br.com.crista.fashion.dto.RespostaErroDTO;
+import br.com.crista.fashion.dto.VendaDTO;
 import br.com.crista.fashion.report.comprasclientes.ComprasClientesPDF;
 import br.com.crista.fashion.report.comprasclientes.ComprasClientesXLS;
 import br.com.crista.fashion.report.compraslojas.ComprasLojasPDF;
@@ -14,44 +33,41 @@ import br.com.crista.fashion.report.listaprodutos.ListaProdutosPDF;
 import br.com.crista.fashion.report.listaprodutos.ListaProdutosXLS;
 import br.com.crista.fashion.report.listavendas.ListaVendasPDF;
 import br.com.crista.fashion.report.listavendas.ListaVendasXLS;
-import br.com.crista.fashion.repository.impl.*;
+import br.com.crista.fashion.repository.impl.ComprasClientesRepositoryImpl;
+import br.com.crista.fashion.repository.impl.ComprasLojasRepositoryImpl;
+import br.com.crista.fashion.repository.impl.ListaClientesRepositoryImpl;
+import br.com.crista.fashion.repository.impl.ListaMovimentacaoRepositoryImpl;
+import br.com.crista.fashion.repository.impl.ListaProdutosRepositoryImpl;
+import br.com.crista.fashion.repository.impl.ListaVendasRepositoryImpl;
 import br.com.crista.fashion.utils.FileUtils;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
-import static java.util.Objects.nonNull;
-
-@PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR', 'COMERCIAL', 'NEGOCIADOR', 'PROPRIETARIO', 'CREDIARISTA')")
-@Slf4j
 @RestController
 @RequestMapping(path = "/v1/relatorio", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class RelatorioController {
 
-    @Autowired
+    private final @NonNull
     CentralConfig centralConfig;
 
-    @Autowired
+    private final @NonNull
     ListaProdutosRepositoryImpl listaProdutosRepository;
 
-    @Autowired
+    private final @NonNull
     ListaClientesRepositoryImpl listaClientesRepository;
 
-    @Autowired
+    private final @NonNull
     ListaMovimentacaoRepositoryImpl listaMovimentacaoRepository;
 
-    @Autowired
+    private final @NonNull
     ListaVendasRepositoryImpl listaVendasRepository;
 
-    @Autowired
+    private final @NonNull
     ComprasClientesRepositoryImpl comprasClientesRepository;
 
-    @Autowired
+    private final @NonNull
     ComprasLojasRepositoryImpl comprasLojasRepository;
 
     @ResponseBody

@@ -1,29 +1,37 @@
 package br.com.crista.fashion.controller;
 
+import java.util.List;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import br.com.crista.fashion.dto.ClienteDTO;
 import br.com.crista.fashion.dto.PaginationFilterDTO;
 import br.com.crista.fashion.dto.ParcelaDTO;
 import br.com.crista.fashion.dto.VendaDTO;
 import br.com.crista.fashion.service.ClienteService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import java.util.List;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
-@PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR', 'COMERCIAL', 'NEGOCIADOR', 'PROPRIETARIO', 'CREDIARISTA')")
-@Slf4j
 @RestController
 @RequestMapping(path = "/v1/cliente", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ClienteController extends GenericController {
 
-    @Autowired
+    private final @NonNull
     ClienteService clienteService;
 
     @PostMapping
@@ -62,9 +70,7 @@ public class ClienteController extends GenericController {
         try {
 
             return ResponseEntity.ok(clienteService.update(id, dto));
-        } catch(Exception e){
-
-            log.info(e.getMessage());
+        } catch(Exception e) {
 
             return ResponseEntity.badRequest().body("Erro ao atualizar: - " + e.getMessage());
         }

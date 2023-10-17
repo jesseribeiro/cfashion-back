@@ -1,5 +1,18 @@
 package br.com.crista.fashion.report.listavendas;
 
+import java.io.FileNotFoundException;
+import java.util.List;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+
 import br.com.crista.fashion.dto.FiltroRelatorioDTO;
 import br.com.crista.fashion.dto.VendaDTO;
 import br.com.crista.fashion.enumeration.EnumCategoria;
@@ -8,12 +21,6 @@ import br.com.crista.fashion.enumeration.EnumTipoPagamento;
 import br.com.crista.fashion.report.RelatorioBasePDF;
 import br.com.crista.fashion.utils.DateUtils;
 import br.com.crista.fashion.utils.MathUtils;
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-
-import java.io.FileNotFoundException;
-import java.util.List;
 
 public class ListaVendasPDF extends RelatorioBasePDF {
 
@@ -38,10 +45,7 @@ public class ListaVendasPDF extends RelatorioBasePDF {
         table.setWidthPercentage(100);
         table.setWidths(columnWidths);
 
-        for (VendaDTO dto : dados) {
-
-            addCell(table, dto);
-        }
+        dados.forEach(vendaDTO -> addCell(table, vendaDTO));
 
         printNovaLinha(table,titles.length);
 
@@ -61,6 +65,7 @@ public class ListaVendasPDF extends RelatorioBasePDF {
             table.setWidths(columnWidths);
 
             for (String title : titles) {
+
                 PdfPCell header = new PdfPCell();
                 header.setBackgroundColor(BaseColor.LIGHT_GRAY);
                 header.setBorderWidth(1);
@@ -71,7 +76,6 @@ public class ListaVendasPDF extends RelatorioBasePDF {
             }
 
             document.add(table);
-
         } catch (DocumentException e) {
 
             e.printStackTrace();

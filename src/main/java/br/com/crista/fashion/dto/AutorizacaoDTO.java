@@ -1,17 +1,17 @@
 package br.com.crista.fashion.dto;
 
+import java.math.BigDecimal;
+import java.util.Calendar;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-import java.util.Calendar;
-
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 public class AutorizacaoDTO extends GenericDTO {
 
     private String dataInicial;

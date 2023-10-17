@@ -1,16 +1,17 @@
 package br.com.crista.fashion.report.listamovimentacao;
 
+import static java.util.Objects.nonNull;
+
+import java.io.IOException;
+import java.util.List;
+
+import org.apache.poi.ss.usermodel.Row;
+
 import br.com.crista.fashion.dto.FiltroRelatorioDTO;
 import br.com.crista.fashion.dto.MovimentacaoDTO;
 import br.com.crista.fashion.enumeration.EnumMovimentacao;
 import br.com.crista.fashion.report.RelatorioBaseXLS;
 import br.com.crista.fashion.utils.DateUtils;
-import org.apache.poi.ss.usermodel.Row;
-
-import java.io.IOException;
-import java.util.List;
-
-import static java.util.Objects.nonNull;
 
 public class ListaMovimentacaoXLS extends RelatorioBaseXLS {
 
@@ -41,10 +42,7 @@ public class ListaMovimentacaoXLS extends RelatorioBaseXLS {
             createCell(headerRow, i, titles[i], STYLE_HEADER);
         }
 
-        for (MovimentacaoDTO dto : dados){
-
-            addRow(dto);
-        }
+        dados.forEach(this::addRow);
 
         printNovaLinha(titles.length -1);
 

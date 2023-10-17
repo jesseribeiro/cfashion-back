@@ -1,5 +1,12 @@
 package br.com.crista.fashion.report.listavendas;
 
+import static java.util.Objects.nonNull;
+
+import java.io.IOException;
+import java.util.List;
+
+import org.apache.poi.ss.usermodel.Row;
+
 import br.com.crista.fashion.dto.FiltroRelatorioDTO;
 import br.com.crista.fashion.dto.VendaDTO;
 import br.com.crista.fashion.enumeration.EnumCategoria;
@@ -7,12 +14,6 @@ import br.com.crista.fashion.enumeration.EnumStatus;
 import br.com.crista.fashion.enumeration.EnumTipoPagamento;
 import br.com.crista.fashion.report.RelatorioBaseXLS;
 import br.com.crista.fashion.utils.DateUtils;
-import org.apache.poi.ss.usermodel.Row;
-
-import java.io.IOException;
-import java.util.List;
-
-import static java.util.Objects.nonNull;
 
 public class ListaVendasXLS extends RelatorioBaseXLS {
 
@@ -43,10 +44,7 @@ public class ListaVendasXLS extends RelatorioBaseXLS {
             createCell(headerRow, i, titles[i], STYLE_HEADER);
         }
 
-        for (VendaDTO dto : dados) {
-
-            addRow(dto);
-        }
+        dados.forEach(this::addRow);
 
         printNovaLinha(titles.length -1);
 
@@ -57,6 +55,7 @@ public class ListaVendasXLS extends RelatorioBaseXLS {
     private void addRow(VendaDTO dto) {
 
         Row row = createRow();
+
         createCell(row, 0, EnumCategoria.valueOf(dto.getCategoria()).getLabel(), STYLE_VALOR);
         createCell(row, 1, DateUtils.getDiaMesAnoPortugues(dto.getData()), STYLE_VALOR);
         createCell(row, 2, (nonNull(dto.getVlProduto()) ? dto.getVlProduto().doubleValue() : 0D), STYLE_VALOR);

@@ -1,21 +1,24 @@
 package br.com.crista.fashion.service;
 
-import br.com.crista.fashion.bean.CepBean;
-import br.com.crista.fashion.feign.ViaCEPClient;
-import br.com.crista.fashion.exception.CepNaoEcontradoException;
-import br.com.crista.fashion.repository.CepRepository;
-import lombok.extern.slf4j.Slf4j;
+import static java.util.Objects.nonNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import static java.util.Objects.nonNull;
+import br.com.crista.fashion.bean.CepBean;
+import br.com.crista.fashion.exception.CepNaoEcontradoException;
+import br.com.crista.fashion.feign.ViaCEPClient;
+import br.com.crista.fashion.repository.CepRepository;
 
-@Slf4j
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CEPService extends GenericService<CepBean, CepRepository> {
 
-    @Autowired
+    private final @NonNull
     ViaCEPClient viaCEPClient;
 
     public ResponseEntity salvar(CepBean cep) {
@@ -23,6 +26,7 @@ public class CEPService extends GenericService<CepBean, CepRepository> {
         CepBean cepBean = getRepository().findByCep(cep.getCep());
 
         if (nonNull(cepBean)) {
+
             cep.setCep(cep.getCep().replaceAll("\\D+", ""));
             getRepository().save(cep);
         }

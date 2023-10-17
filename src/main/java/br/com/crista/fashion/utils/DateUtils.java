@@ -1,6 +1,10 @@
 package br.com.crista.fashion.utils;
 
-import org.springframework.stereotype.Component;
+import static java.util.Calendar.HOUR_OF_DAY;
+import static java.util.Calendar.MILLISECOND;
+import static java.util.Calendar.MINUTE;
+import static java.util.Calendar.SECOND;
+import static java.util.Objects.nonNull;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,8 +12,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import static java.util.Calendar.*;
-import static java.util.Objects.nonNull;
+import org.springframework.stereotype.Component;
 
 @Component("dateUtils")
 public class DateUtils {
@@ -30,6 +33,7 @@ public class DateUtils {
         if (nonNull(date)) {
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd");
+
             return sdf.format(date.getTime());
         }
 
@@ -41,8 +45,8 @@ public class DateUtils {
         if (nonNull(date)) {
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            return sdf.format(date.getTime());
 
+            return sdf.format(date.getTime());
         } else {
 
             return null;
@@ -64,14 +68,13 @@ public class DateUtils {
     public static Calendar getDiaMesAno(String time) {
 
         try {
-
             if (nonNull(time) && !time.isEmpty()) {
 
                 Calendar calendar = Calendar.getInstance();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 calendar.setTime(sdf.parse(time));
-                return zeraHorario(calendar);
 
+                return zeraHorario(calendar);
             } else {
 
                 return null;
@@ -86,11 +89,10 @@ public class DateUtils {
     public static Calendar getDiaMesAno(Date date) {
 
         if (nonNull(date)) {
-
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
-            return calendar;
 
+            return calendar;
         } else {
 
             return null;
@@ -102,8 +104,8 @@ public class DateUtils {
         if (nonNull(date)) {
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            return sdf.format(date.getTime());
 
+            return sdf.format(date.getTime());
         } else {
 
             return null;
@@ -113,21 +115,15 @@ public class DateUtils {
     public static long diffDateInDays(Calendar b, Calendar a) {
 
         try {
-
             b = zeraHorario(b);
             a = zeraHorario(a);
             long diff = a.getTimeInMillis() - b.getTimeInMillis();
-            return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 
+            return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
         } catch (Exception e){
 
             return 0;
         }
-    }
-
-    public static boolean equalsDate(Calendar date1, Calendar date2) {
-
-        return diffDateInDays(date1, date2) == 0;
     }
 
     public static Calendar zeraHorario(Calendar time) {
@@ -137,6 +133,7 @@ public class DateUtils {
         tempo.set(MINUTE, 0);
         tempo.set(SECOND, 0);
         tempo.set(MILLISECOND, 0);
+
         return tempo;
     }
 
@@ -147,6 +144,7 @@ public class DateUtils {
         tempo.set(MINUTE, 59);
         tempo.set(SECOND, 59);
         tempo.set(MILLISECOND, 999);
+
         return tempo;
     }
 

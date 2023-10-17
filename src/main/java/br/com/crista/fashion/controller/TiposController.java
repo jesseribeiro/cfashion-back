@@ -1,24 +1,34 @@
 package br.com.crista.fashion.controller;
 
-import br.com.crista.fashion.dto.CodigoDescricaoDTO;
-import br.com.crista.fashion.dto.LabelDescricaoDTO;
-import br.com.crista.fashion.enumeration.*;
-import br.com.crista.fashion.repository.TiposRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import br.com.crista.fashion.dto.CodigoDescricaoDTO;
+import br.com.crista.fashion.dto.LabelDescricaoDTO;
+import br.com.crista.fashion.enumeration.EnumBalanco;
+import br.com.crista.fashion.enumeration.EnumCategoria;
+import br.com.crista.fashion.enumeration.EnumRole;
+import br.com.crista.fashion.enumeration.EnumSexo;
+import br.com.crista.fashion.enumeration.EnumStatus;
+import br.com.crista.fashion.enumeration.EnumTamanho;
+import br.com.crista.fashion.enumeration.EnumTipoPagamento;
+import br.com.crista.fashion.enumeration.EnumTipoRelatorio;
+import br.com.crista.fashion.repository.TiposRepository;
 
-@PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR', 'COMERCIAL', 'NEGOCIADOR', 'PROPRIETARIO', 'CREDIARISTA')")
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping(path = "/v1/tipos", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TiposController {
 
-    @Autowired
+    private final @NonNull
     TiposRepository tiposRepository;
 
     @GetMapping( path = "/sexo")

@@ -1,17 +1,23 @@
 package br.com.crista.fashion.dto;
 
-import br.com.crista.fashion.json.MoneyDeserializerJson;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.*;
-
 import java.math.BigDecimal;
 import java.util.Calendar;
 
-@Getter
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import br.com.crista.fashion.json.MoneyDeserializerJson;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Setter
-@Builder
-@NoArgsConstructor
+@Getter
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class CalcularVendaDTO {
 
     private Long clienteId;

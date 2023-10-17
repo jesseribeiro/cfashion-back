@@ -1,18 +1,20 @@
 package br.com.crista.fashion.repository.impl;
 
-import br.com.crista.fashion.dto.FiltroRelatorioDTO;
-import br.com.crista.fashion.dto.MovimentacaoDTO;
-import br.com.crista.fashion.utils.DateUtils;
-import org.springframework.stereotype.Repository;
+import static java.util.Objects.nonNull;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Objects.nonNull;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import org.springframework.stereotype.Repository;
+
+import br.com.crista.fashion.dto.FiltroRelatorioDTO;
+import br.com.crista.fashion.dto.MovimentacaoDTO;
+import br.com.crista.fashion.utils.DateUtils;
 
 @Repository("listaMovimentacaoRepositoryImpl")
 public class ListaMovimentacaoRepositoryImpl {
@@ -34,6 +36,8 @@ public class ListaMovimentacaoRepositoryImpl {
                 "       m.descricao " +
                 "   FROM " +
                 "       movimentacao m " +
+                "   WHERE " +
+                "       m.is_excluido IS NULL OR m.is_excluido IS FALSE " +
 
                 "   UNION ALL " +
 

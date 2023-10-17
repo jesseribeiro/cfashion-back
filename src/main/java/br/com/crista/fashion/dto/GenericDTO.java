@@ -1,15 +1,18 @@
 package br.com.crista.fashion.dto;
 
+import static java.util.Objects.isNull;
+
 import br.com.crista.fashion.bean.GenericBean;
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import static java.util.Objects.isNull;
-
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
+@Builder
 public class GenericDTO<T extends GenericBean> {
 
     protected Long id;

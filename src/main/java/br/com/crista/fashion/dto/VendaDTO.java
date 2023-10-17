@@ -1,24 +1,28 @@
 package br.com.crista.fashion.dto;
 
-import br.com.crista.fashion.bean.ParcelaBean;
-import br.com.crista.fashion.bean.VendaBean;
-import br.com.crista.fashion.json.MoneyDeserializerJson;
-import br.com.crista.fashion.utils.StringUtils;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.*;
+import static java.util.Objects.nonNull;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static java.util.Objects.nonNull;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-@Getter
+import br.com.crista.fashion.bean.ParcelaBean;
+import br.com.crista.fashion.bean.VendaBean;
+import br.com.crista.fashion.json.MoneyDeserializerJson;
+import br.com.crista.fashion.utils.StringUtils;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class VendaDTO extends GenericDTO<VendaBean> {
 
     private Calendar dataInicial;

@@ -1,22 +1,26 @@
 package br.com.crista.fashion.dto;
 
-import br.com.crista.fashion.bean.ProdutoBean;
-import br.com.crista.fashion.enumeration.EnumCategoria;
-import br.com.crista.fashion.enumeration.EnumTamanho;
-import br.com.crista.fashion.json.MoneyDeserializerJson;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.*;
+import static java.util.Objects.nonNull;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
 
-import static java.util.Objects.nonNull;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-@Getter
+import br.com.crista.fashion.bean.ProdutoBean;
+import br.com.crista.fashion.enumeration.EnumCategoria;
+import br.com.crista.fashion.enumeration.EnumTamanho;
+import br.com.crista.fashion.json.MoneyDeserializerJson;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class ProdutoDTO extends GenericDTO<ProdutoBean> {
 
     private String dataInicial;

@@ -1,16 +1,18 @@
 package br.com.crista.fashion.report.listaprodutos;
 
+import static java.util.Objects.nonNull;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+
+import org.apache.poi.ss.usermodel.Row;
+
 import br.com.crista.fashion.dto.FiltroRelatorioDTO;
 import br.com.crista.fashion.dto.ProdutoDTO;
 import br.com.crista.fashion.enumeration.EnumCategoria;
 import br.com.crista.fashion.enumeration.EnumTamanho;
 import br.com.crista.fashion.report.RelatorioBaseXLS;
-import org.apache.poi.ss.usermodel.Row;
-
-import java.io.IOException;
-import java.util.List;
-
-import static java.util.Objects.nonNull;
 
 public class ListaProdutosXLS extends RelatorioBaseXLS {
 
@@ -41,13 +43,13 @@ public class ListaProdutosXLS extends RelatorioBaseXLS {
             createCell(headerRow, i, titles[i], STYLE_HEADER);
         }
 
-        Integer total = 0;
+        AtomicReference<Integer> total = new AtomicReference<>(0);
 
-        for (ProdutoDTO dto : dados){
+        dados.forEach(produtoDTO -> {
 
-            addRow(dto);
-            total += dto.getQtd();
-        }
+            addRow(produtoDTO);
+            total.updateAndGet(v -> v + produtoDTO.getQtd());
+        });
 
         printNovaLinha(titles.length -1);
 

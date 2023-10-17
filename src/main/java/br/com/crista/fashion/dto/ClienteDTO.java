@@ -1,18 +1,21 @@
 package br.com.crista.fashion.dto;
 
-import br.com.crista.fashion.bean.ClienteBean;
-import br.com.crista.fashion.bean.EnderecoBean;
-import br.com.crista.fashion.utils.StringUtils;
-import lombok.*;
-
 import java.math.BigInteger;
 import java.util.Calendar;
 
-@Getter
+import br.com.crista.fashion.bean.ClienteBean;
+import br.com.crista.fashion.bean.EnderecoBean;
+import br.com.crista.fashion.utils.StringUtils;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class ClienteDTO extends GenericDTO<ClienteBean> {
 
     // filtros

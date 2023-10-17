@@ -1,17 +1,22 @@
 package br.com.crista.fashion.bean;
 
-import br.com.crista.fashion.enumeration.EnumRole;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.envers.Audited;
-
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
-@Audited
-@Getter
+import br.com.crista.fashion.enumeration.EnumRole;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity ( name = "Role")
 public class RoleBean extends GenericBean {
 

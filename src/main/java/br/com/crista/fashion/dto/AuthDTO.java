@@ -2,12 +2,12 @@ package br.com.crista.fashion.dto;
 
 import lombok.*;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
 @Setter
-@ToString
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
+@ToString
 public class AuthDTO {
 
     private String username;

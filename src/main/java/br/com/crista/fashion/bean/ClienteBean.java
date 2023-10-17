@@ -1,21 +1,26 @@
 package br.com.crista.fashion.bean;
 
+import java.util.Calendar;
+
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-import org.hibernate.envers.Audited;
 
-import javax.persistence.*;
-import java.util.Calendar;
-
-@Audited
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Slf4j
+@Builder
 @Entity(name = "Cliente")
 @Table(name = "cliente", uniqueConstraints = {
         @UniqueConstraint(columnNames = {

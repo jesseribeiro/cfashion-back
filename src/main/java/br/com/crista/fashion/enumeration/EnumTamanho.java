@@ -1,14 +1,16 @@
 package br.com.crista.fashion.enumeration;
 
-import br.com.crista.fashion.dto.LabelDescricaoDTO;
-import lombok.Getter;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import br.com.crista.fashion.dto.LabelDescricaoDTO;
+
+import lombok.Getter;
+
 @Getter
 public enum EnumTamanho {
+
     EP("EP"),
     PP("PP"),
     P("P"),
@@ -31,13 +33,17 @@ public enum EnumTamanho {
     ML80("80ML"),
     ML100("100ML");
 
-    private String label;
+    private final String label;
 
-    EnumTamanho(String label){
+    EnumTamanho(String label) {
+
         this.label = label;
     }
 
-    public static List<LabelDescricaoDTO> getLabels(){
-        return Arrays.stream(values()).map(tamanho -> new LabelDescricaoDTO(tamanho.name(), tamanho.getLabel())).collect(Collectors.toList());
+    public static List<LabelDescricaoDTO> getLabels() {
+
+        return Arrays.stream(values())
+                .map(tamanho -> new LabelDescricaoDTO(tamanho.name(), tamanho.getLabel()))
+                .collect(Collectors.toList());
     }
 }

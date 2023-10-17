@@ -1,11 +1,12 @@
 package br.com.crista.fashion.utils;
 
-import javax.swing.text.MaskFormatter;
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+
 import java.text.Normalizer;
 import java.text.ParseException;
 
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
+import javax.swing.text.MaskFormatter;
 
 public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
@@ -77,27 +78,5 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
             throw new RuntimeException("Erro ao inserir mascara no CPF: Tamanho inválido");
         }
-    }
-
-    public static String extraiDDDTelefone(String telResidencial) {
-
-        if (isNull(telResidencial) || telResidencial.isEmpty()) {
-
-            return telResidencial;
-        }
-
-        String saida = telResidencial.replaceAll("\\D+","");
-        return saida.substring(0, 2);
-    }
-
-    public static String extraiTelefoneSemDDD(String telResidencial) {
-
-        if (isNull(telResidencial) || telResidencial.isEmpty()) {
-
-            return telResidencial;
-        }
-
-        String saida = telResidencial.replaceAll("\\D+","");
-        return saida.substring(2);
     }
 }

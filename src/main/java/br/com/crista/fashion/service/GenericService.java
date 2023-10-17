@@ -1,24 +1,27 @@
 package br.com.crista.fashion.service;
 
-import br.com.crista.fashion.bean.GenericBean;
-import br.com.crista.fashion.bean.RoleBean;
-import br.com.crista.fashion.bean.UsuarioBean;
-import br.com.crista.fashion.enumeration.EnumRole;
-import br.com.crista.fashion.security.jwt.JwtProvider;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
+import static java.util.Objects.nonNull;
 
-import javax.persistence.EntityNotFoundException;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static java.util.Objects.nonNull;
+import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
+
+import br.com.crista.fashion.bean.GenericBean;
+import br.com.crista.fashion.bean.RoleBean;
+import br.com.crista.fashion.bean.UsuarioBean;
+import br.com.crista.fashion.enumeration.EnumRole;
+import br.com.crista.fashion.security.jwt.JwtProvider;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Getter
@@ -148,7 +151,7 @@ public class GenericService<T extends GenericBean, DAO extends CrudRepository<T,
 
             for (RoleBean roleUsuario : usuarioLogado.getRoles()) {
 
-                for(EnumRole rolePermissao : rolesPermitida) {
+                for (EnumRole rolePermissao : rolesPermitida) {
 
                     if (rolePermissao.name().equalsIgnoreCase(roleUsuario.getNome().name())) {
 

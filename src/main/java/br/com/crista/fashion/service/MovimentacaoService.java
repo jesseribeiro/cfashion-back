@@ -1,21 +1,24 @@
 package br.com.crista.fashion.service;
 
-import br.com.crista.fashion.bean.MovimentacaoBean;
-import br.com.crista.fashion.dto.MovimentacaoDTO;
-import br.com.crista.fashion.dto.PaginationFilterDTO;
-import br.com.crista.fashion.enumeration.EnumMovimentacao;
-import br.com.crista.fashion.repository.MovimentacaoRepository;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import br.com.crista.fashion.bean.MovimentacaoBean;
+import br.com.crista.fashion.dto.MovimentacaoDTO;
+import br.com.crista.fashion.dto.PaginationFilterDTO;
+import br.com.crista.fashion.enumeration.EnumMovimentacao;
+import br.com.crista.fashion.repository.MovimentacaoRepository;
 
-@Slf4j
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MovimentacaoService extends GenericService<MovimentacaoBean, MovimentacaoRepository> {
 
     public List<MovimentacaoBean> findAll() {
@@ -45,12 +48,14 @@ public class MovimentacaoService extends GenericService<MovimentacaoBean, Movime
         movimentacaoBean.setValor(dto.getValor());
         movimentacaoBean.setDescricao(dto.getDescricao());
         movimentacaoBean.setDataLancamento(dto.getDataLancamento());
+
         save(movimentacaoBean);
     }
 
     public void delete(Long id) {
 
         MovimentacaoBean movimentacaoBean = getById(id);
+
         delete(movimentacaoBean);
     }
 

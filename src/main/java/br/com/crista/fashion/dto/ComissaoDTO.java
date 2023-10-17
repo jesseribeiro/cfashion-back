@@ -1,19 +1,23 @@
 package br.com.crista.fashion.dto;
 
-import br.com.crista.fashion.bean.ComissaoBean;
-import br.com.crista.fashion.json.MoneyDeserializerJson;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.*;
+import static java.util.Objects.nonNull;
 
 import java.math.BigDecimal;
 
-import static java.util.Objects.nonNull;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-@Getter
+import br.com.crista.fashion.bean.ComissaoBean;
+import br.com.crista.fashion.json.MoneyDeserializerJson;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class ComissaoDTO extends GenericDTO<ComissaoBean> {
 
     @JsonDeserialize(converter = MoneyDeserializerJson.class)

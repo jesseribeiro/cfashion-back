@@ -1,23 +1,26 @@
 package br.com.crista.fashion.controller;
 
-import br.com.crista.fashion.bean.EstadoBean;
-import br.com.crista.fashion.service.EstadoService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import br.com.crista.fashion.bean.EstadoBean;
+import br.com.crista.fashion.service.EstadoService;
 
-@PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR', 'COMERCIAL', 'NEGOCIADOR', 'PROPRIETARIO', 'CREDIARISTA')")
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping(path = "/v1/estado", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EstadoController {
 
-    @Autowired
+    private final @NonNull
     EstadoService estadoService;
 
     @GetMapping

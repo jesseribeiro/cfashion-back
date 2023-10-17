@@ -1,13 +1,19 @@
 package br.com.crista.fashion.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.math.BigDecimal;
 import java.util.List;
 
-@Getter
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class VenderDTO {
 
     private Long lojaId;

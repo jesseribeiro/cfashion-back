@@ -1,17 +1,20 @@
 package br.com.crista.fashion.dto;
 
-import br.com.crista.fashion.bean.UsuarioBean;
-import br.com.crista.fashion.enumeration.EnumRole;
-import lombok.*;
+import static java.util.Objects.nonNull;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.util.Objects.nonNull;
+import br.com.crista.fashion.bean.UsuarioBean;
+import br.com.crista.fashion.enumeration.EnumRole;
 
-@Builder
-@Getter
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class UsuarioDTO extends GenericDTO<UsuarioBean> {

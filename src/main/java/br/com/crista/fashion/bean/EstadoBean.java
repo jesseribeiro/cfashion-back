@@ -1,16 +1,18 @@
 package br.com.crista.fashion.bean;
 
+import javax.persistence.Entity;
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity (name = "Estado")
 public class EstadoBean extends GenericBean {
 

@@ -2,11 +2,11 @@ package br.com.crista.fashion.dto;
 
 import lombok.*;
 
-@Builder
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class EnderecoDTO {
 
     private String logradouro;

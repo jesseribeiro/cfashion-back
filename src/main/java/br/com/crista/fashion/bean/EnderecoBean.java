@@ -1,12 +1,18 @@
 package br.com.crista.fashion.bean;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.persistence.Embeddable;
 
-@Getter
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Embeddable
 public class EnderecoBean {
 

@@ -2,8 +2,8 @@ package br.com.crista.fashion.dto;
 
 import lombok.*;
 
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

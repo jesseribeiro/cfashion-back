@@ -3,11 +3,11 @@ package br.com.crista.fashion.dto;
 import br.com.crista.fashion.bean.UsuarioBean;
 import lombok.*;
 
-@Builder
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class UsuarioRoleDTO {
 
     private Long id;

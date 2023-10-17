@@ -1,15 +1,23 @@
 package br.com.crista.fashion.report.listaclientes;
 
+import java.io.FileNotFoundException;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+
 import br.com.crista.fashion.dto.ClienteDTO;
 import br.com.crista.fashion.dto.FiltroRelatorioDTO;
 import br.com.crista.fashion.report.RelatorioBasePDF;
 import br.com.crista.fashion.utils.StringUtils;
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-
-import java.io.FileNotFoundException;
-import java.util.List;
 
 public class ListaClientesPDF extends RelatorioBasePDF {
 
@@ -28,21 +36,21 @@ public class ListaClientesPDF extends RelatorioBasePDF {
     }
 
     public String print() throws DocumentException {
-
         open();
+
         PdfPTable table = new PdfPTable(titles.length);
         table.setWidthPercentage(100);
         table.setWidths(columnWidths);
 
-        Integer total = 0;
-        Integer clientes = 0;
+        AtomicReference<Integer> total = new AtomicReference<>(0);
+        AtomicReference<Integer> clientes = new AtomicReference<>(0);
 
-        for (ClienteDTO dto : dados) {
+        dados.forEach(clienteDTO -> {
 
-            addCell(table, dto);
-            total += dto.getQtd().intValue();
-            clientes++;
-        }
+            addCell(table, clienteDTO);
+            total.updateAndGet(v -> v + clienteDTO.getQtd().intValue());
+            clientes.getAndSet(clientes.get() + 1);
+        });
 
         printNovaLinha(table,titles.length);
 
@@ -74,7 +82,6 @@ public class ListaClientesPDF extends RelatorioBasePDF {
             }
 
             document.add(table);
-
         } catch (DocumentException e) {
 
             e.printStackTrace();

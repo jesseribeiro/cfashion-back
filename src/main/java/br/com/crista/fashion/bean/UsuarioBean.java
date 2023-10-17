@@ -1,26 +1,38 @@
 package br.com.crista.fashion.bean;
 
-import br.com.crista.fashion.enumeration.EnumRole;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.envers.Audited;
-import org.hibernate.envers.NotAudited;
-import org.json.simple.JSONObject;
+import static java.util.Objects.isNull;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Objects.isNull;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
-@Audited
-@AllArgsConstructor
-@Getter
+import org.hibernate.envers.NotAudited;
+import org.json.simple.JSONObject;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import br.com.crista.fashion.enumeration.EnumRole;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
 @Setter
+@Getter
+@AllArgsConstructor
+@Builder
 @Entity( name = "Usuario")
 @Table(name = "usuario", uniqueConstraints = {
         @UniqueConstraint(columnNames = {

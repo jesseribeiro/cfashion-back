@@ -1,5 +1,18 @@
 package br.com.crista.fashion.service;
 
+import static java.util.Objects.nonNull;
+
+import java.util.Calendar;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import br.com.crista.fashion.bean.ClienteBean;
 import br.com.crista.fashion.bean.LojaBean;
 import br.com.crista.fashion.bean.ParcelaBean;
@@ -9,31 +22,21 @@ import br.com.crista.fashion.enumeration.EnumStatus;
 import br.com.crista.fashion.repository.ParcelaRepository;
 import br.com.crista.fashion.repository.impl.ParcelaRepositoryImpl;
 import br.com.crista.fashion.utils.StringUtils;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Calendar;
-import java.util.List;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
-import static java.util.Objects.nonNull;
-
-@Slf4j
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ParcelaService extends GenericService<ParcelaBean, ParcelaRepository> {
 
-    @Autowired
+    private final @NonNull
     ParcelaRepositoryImpl parcelaRepository;
 
-    @Autowired
+    private final @NonNull
     LojaService lojaService;
 
-    @Autowired
+    private final @NonNull
     ClienteService clienteService;
 
     public Page<ParcelaDTO> pagination(PaginationFilterDTO<ParcelaDTO> paginationFilter) {
@@ -80,6 +83,7 @@ public class ParcelaService extends GenericService<ParcelaBean, ParcelaRepositor
 
         ParcelaBean parcela = getRepository().findById(parcelaId).get();
         parcela.setStatus(EnumStatus.CANCELADA);
+
         update(parcela);
     }
 
@@ -88,6 +92,7 @@ public class ParcelaService extends GenericService<ParcelaBean, ParcelaRepositor
 
         ParcelaBean parcela = getRepository().findById(parcelaId).get();
         parcela.setStatus(EnumStatus.PAGA);
+
         update(parcela);
     }
 
@@ -99,6 +104,7 @@ public class ParcelaService extends GenericService<ParcelaBean, ParcelaRepositor
 
                 bean.setDataPagto(Calendar.getInstance());
                 bean.setStatus(EnumStatus.PAGA);
+
                 update(bean);
             }
         }
@@ -109,6 +115,7 @@ public class ParcelaService extends GenericService<ParcelaBean, ParcelaRepositor
         for (ParcelaBean bean : parcelas) {
 
             bean.setStatus(EnumStatus.CANCELADA);
+
             update(bean);
         }
     }

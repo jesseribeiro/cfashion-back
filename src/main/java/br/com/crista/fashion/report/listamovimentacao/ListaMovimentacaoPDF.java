@@ -1,17 +1,24 @@
 package br.com.crista.fashion.report.listamovimentacao;
 
+import java.io.FileNotFoundException;
+import java.util.List;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+
 import br.com.crista.fashion.dto.FiltroRelatorioDTO;
 import br.com.crista.fashion.dto.MovimentacaoDTO;
 import br.com.crista.fashion.enumeration.EnumMovimentacao;
 import br.com.crista.fashion.report.RelatorioBasePDF;
 import br.com.crista.fashion.utils.DateUtils;
 import br.com.crista.fashion.utils.MathUtils;
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-
-import java.io.FileNotFoundException;
-import java.util.List;
 
 public class ListaMovimentacaoPDF extends RelatorioBasePDF {
 
@@ -32,15 +39,12 @@ public class ListaMovimentacaoPDF extends RelatorioBasePDF {
     public String print() throws DocumentException {
 
         open();
+
         PdfPTable table = new PdfPTable(titles.length);
         table.setWidthPercentage(100);
         table.setWidths(columnWidths);
 
-
-        for (MovimentacaoDTO dto : dados) {
-
-            addCell(table, dto);
-        }
+        dados.forEach(movimentacaoDTO -> addCell(table, movimentacaoDTO));
 
         printNovaLinha(table,titles.length);
 
