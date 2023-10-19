@@ -1,25 +1,6 @@
 package br.com.crista.fashion.service;
 
-import static java.util.Objects.nonNull;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.Calendar;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import br.com.crista.fashion.bean.ClienteBean;
-import br.com.crista.fashion.bean.LojaBean;
-import br.com.crista.fashion.bean.ParcelaBean;
-import br.com.crista.fashion.bean.ProdutoBean;
-import br.com.crista.fashion.bean.VendaBean;
+import br.com.crista.fashion.bean.*;
 import br.com.crista.fashion.dto.CalcularVendaDTO;
 import br.com.crista.fashion.dto.PaginationFilterDTO;
 import br.com.crista.fashion.dto.VendaDTO;
@@ -29,9 +10,22 @@ import br.com.crista.fashion.repository.VendaRepository;
 import br.com.crista.fashion.repository.impl.VendaRepositoryImpl;
 import br.com.crista.fashion.utils.DateUtils;
 import br.com.crista.fashion.utils.StringUtils;
-
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Calendar;
+
+import static java.util.Objects.nonNull;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -118,7 +112,6 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
         venda.setFretePagar(nonNull(dto.getFretePagar()) ? dto.getFretePagar() : BigDecimal.ZERO);
         venda.setDescontos(dto.getDesconto());
         venda.setQtdParcela(dto.getQtdParcela());
-        venda.setDataVenda(dto.getDataVenda());
 
         if (nonNull(dto.getComissao())) {
 
@@ -128,7 +121,7 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
         venda.setValorTotal(valor);
         save(venda);
 
-        Calendar dataVencimento = dto.getDataVenda();
+        Calendar dataVencimento = (Calendar) dto.getDataVenda().clone();
 
         calculaParcelas(dto, cliente, marca, produto, venda, dataVencimento);
 
@@ -155,6 +148,8 @@ public class VendaService extends GenericService<VendaBean, VendaRepository> {
                 parcela.setDataVencimento(DateUtils.proximoMes(dataVencimento, x));
 
             } else {
+
+                dataVencimento = (Calendar) dataVencimento.clone();
 
                 dataVencimento.add(Calendar.DATE, 1);
                 Integer dia = Integer.parseInt(DateUtils.getDia(dataVencimento));
