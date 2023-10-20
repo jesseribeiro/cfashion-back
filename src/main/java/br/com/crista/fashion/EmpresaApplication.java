@@ -1,15 +1,14 @@
 package br.com.crista.fashion;
 
-import br.com.crista.fashion.service.ComissaoService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.io.IOException;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import java.io.IOException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *
@@ -28,9 +27,6 @@ import java.io.IOException;
 @EnableFeignClients
 @EnableScheduling
 public class EmpresaApplication implements CommandLineRunner {
-
-	@Autowired
-	ComissaoService comissaoService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(EmpresaApplication.class, args);

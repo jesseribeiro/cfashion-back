@@ -55,7 +55,7 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
             header.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 
             // add image
-            Image logo = Image.getInstance(HeaderFooterPageEvent.class.getResource("/logo.png"));
+            Image logo = Image.getInstance(HeaderFooterPageEvent.class.getResource("/logo.jpeg"));
             PdfPCell cellImage = new PdfPCell();
             cellImage.setPaddingTop(7);
             cellImage.setBorder(Rectangle.NO_BORDER);

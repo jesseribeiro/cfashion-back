@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>br.com.crista</groupId>
 	<artifactId>cfashion</artifactId>
-	<version>00.00.01</version>
+	<version>1.1.2</version>
 	<name>cfashion</name>
 	<description>Demo project for Spring Boot</description>
 
